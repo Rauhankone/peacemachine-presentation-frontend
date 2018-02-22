@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^5.0.0",
+    "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "watson-speech": "^0.34.1"
   },
   "scripts": {
     "start": "react-scripts start",
