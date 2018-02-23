@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-import sttService from '../services/stt-service';
+import sttService, { outputFinal } from '../services/stt-service';
 
 export default class InputView extends React.Component {
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       isRecording: false,
       stream: null,
@@ -16,13 +16,40 @@ export default class InputView extends React.Component {
   }
 
   componentWillMount = () => {
-    let stream = sttService('.live-text');
+
   }
 
   handleClick = () => {
-    this.setState(prevState => ({
-      isRecording: !prevState.isRecording
-    }));
+    let stream;
+    if (this.state.isRecording && this.state.stream) {
+      this.state.stream.stop();
+      this.setState({
+        isRecording: false,
+        stream: null
+      });
+    } else {
+      sttService('.live-text')
+        .then((res) => {
+          stream = res;
+          stream.on('data', (data) => {
+            this.handleStreamInput(outputFinal(data));
+          });
+        })
+        .then((res) => {
+          this.setState(prevState => ({
+            isRecording: true,
+            stream
+          }));
+        });
+    }
+  }
+
+  handleStreamInput = (data) => {
+    if (data) {
+      this.setState(prevState => ({
+        sttResult: prevState.sttResult + data.transcript
+      }));
+    }
   }
 
   render() {
