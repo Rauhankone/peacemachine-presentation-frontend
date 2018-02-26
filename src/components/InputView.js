@@ -11,12 +11,11 @@ export default class InputView extends React.Component {
     this.state = {
       isRecording: false,
       stream: null,
-      sttResult: 'It\'s a start... '
+      sttResultArr: []
     }
   }
 
   componentWillMount = () => {
-
   }
 
   handleClick = () => {
@@ -40,15 +39,16 @@ export default class InputView extends React.Component {
             isRecording: true,
             stream
           }));
-        });
+        }).catch((err) => console.log(err));
     }
   }
 
   handleStreamInput = (data) => {
     if (data) {
       this.setState(prevState => ({
-        sttResult: prevState.sttResult + data.transcript
+        sttResultArr: prevState.sttResultArr.concat(data)
       }));
+      console.log(this.state.sttResultArr);
     }
   }
 
@@ -56,12 +56,18 @@ export default class InputView extends React.Component {
     return (
       <div className="input-view">
         <div className="voice-controls">
-          <button onClick={this.handleClick}>
+          <button className={"recordBtn " + (this.state.isRecording ? 'isRecording' : '')} onClick={this.handleClick}>
             {this.state.isRecording ? 'Stop speech transcription' : 'Start speech transcription'}
           </button>
         </div>
+        <div className="recording-info-container">
+          <p>{this.state.isRecording ? 'Watson is now transcribing your speech, try using your microphone' : ''}</p>
+        </div>
         <div className="live-text-container">
-          <p className="live-text">{this.state.sttResult}</p>
+          <p className="live-text">{this.state.sttResultArr.map((resultObj, i) => {
+            let styleObj = { color: `rgba(0, 0, 0, ${resultObj.confidence})` };
+            return <span style={styleObj} key={i}>{resultObj.transcript}</span>;
+          })}</p>
         </div>
       </div>
     )

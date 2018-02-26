@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
+import LiveTextView from './PresentationSubviews/LiveTextView';
+import WordZoomView from './PresentationSubviews/WordZoomView';
+import WordCloudView from './PresentationSubviews/WordCloudView';
+import SentimentView from './PresentationSubviews/SentimentView';
 
 class Circles extends React.Component {
   constructor(props) {
@@ -39,19 +43,26 @@ class Circles extends React.Component {
 
   render() {
     return <svg ref={node => (this.node = node)} width={500} height={500} />;
-  }
-}
+
+// export default class PresentationView extends React.Component {
+//   render() {
+//     return (
+//       <div className="presentation-view">
+//         <div>Nothing here yet!</div>
+//         <div>
+//           <Circles data={[32, 64, 128]} />
+//         </div>
+//         <div>Nothing here yet!</div>
+//       </div>
+//     );
+//   }
+// }
 
 export default class PresentationView extends React.Component {
+
   render() {
     return (
-      <div className="presentation-view">
-        <div>Nothing here yet!</div>
-        <div>
-          <Circles data={[32, 64, 128]} />
-        </div>
-        <div>Nothing here yet!</div>
-      </div>
-    );
+      <div className="presentation-view"><LiveTextView /></div>
+    )
   }
 }
