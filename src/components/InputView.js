@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
+import socket from '../socket.config.js';
 import sttService, { outputFinal } from '../services/stt-service';
 
 export default class InputView extends React.Component {
@@ -48,6 +49,7 @@ export default class InputView extends React.Component {
       this.setState(prevState => ({
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
+      socket.emit('bar', data);
       console.log(this.state.sttResultArr);
     }
   }

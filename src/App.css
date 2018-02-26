@@ -26,3 +26,64 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+*:focus {
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #eeeef0;
+}
+
+body .input-view {
+  padding: auto;
+}
+
+.input-view .voice-controls {
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
+
+.input-view .voice-controls .recordBtn {
+  background: #eef;
+  border: 2px solid #aad;
+  border-radius: 3px;
+  font-size: 21px;
+  height: 65px;
+  width: 295px;
+}
+
+.input-view .voice-controls .recordBtn.isRecording {
+  background: #f88; 
+}
+
+.input-view .voice-controls .recordBtn:hover {
+  cursor: pointer;
+}
+
+/* Recording info container */
+.input-view .recording-info-container {
+  height: 15px;
+  margin-bottom: 3px;
+}
+
+.input-view .recording-info-container {
+  font-size: 15px;
+}
+
+/* Live text container */
+.input-view .live-text-container {
+  background: white;
+  border: 1px solid #aad;
+  margin: auto;
+  min-height: 300px;
+  padding: 3px 15px;
+  width: 600px;
+}
+
+.input-view .live-text-container {
+  text-align: left;
+}
