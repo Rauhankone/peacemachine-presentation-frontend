@@ -4,10 +4,12 @@ import watsonSpeech from 'watson-speech';
 import path from 'path';
 
 console.log(__dirname);
+console.log('env is');
+console.log(process.env);
 
 // TODO: use process.env for SERVER_HOST and SERVER_PORT, but somehow process.env isn't loading properly
-// const axios = Axios.create({ baseURL: `${process.env.SERVER_HOST}:${process.env.SERVER_PORT}` });
-const axios = Axios.create({ baseURL: 'http://localhost:8080' });
+const axios = Axios.create({ baseURL: `${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}` });
+//const axios = Axios.create({ baseURL: 'http://localhost:8080' });
 let token = '';
 
 export default (recFile) => {
@@ -30,7 +32,7 @@ export default (recFile) => {
         })
         resolve(stt);
       }).catch((e) => {
-        reject('Unabled to aquire token for Watson speech-to-text service (invalid credentials, maybe?)');
+        reject('Unable to aquire token for Watson speech-to-text service (invalid credentials, maybe?)');
         console.log(e);
       });
   });
