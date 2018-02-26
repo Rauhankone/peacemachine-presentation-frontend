@@ -5,8 +5,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "d3": "^4.13.0",
+    "keyword-extractor": "0.0.15",
     "moment": "^2.20.1",
     "react": "^16.2.0",
+    "react-d3-cloud": "^0.6.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
