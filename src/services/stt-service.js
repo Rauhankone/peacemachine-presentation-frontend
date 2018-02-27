@@ -1,7 +1,6 @@
 import Axios from 'axios';
 import watsonSpeech from 'watson-speech';
 
-// TODO: use process.env for SERVER_HOST and SERVER_PORT, but somehow process.env isn't loading properly
 const axios = Axios.create({ baseURL: `${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}` });
 let token = '';
 
