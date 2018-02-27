@@ -31,6 +31,7 @@ export default class InputView extends React.Component {
     } else {
       sttService('.live-text')
         .then((res) => {
+          socket.emit('recording', { recording: true });
           stream = res;
           stream.on('data', (data) => {
             this.handleStreamInput(outputFinal(data));
@@ -51,7 +52,7 @@ export default class InputView extends React.Component {
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
       if (this.socket) {
-        socket.emit('bar', data);
+        socket.emit('sttData', data);
       } else {
         console.log('Socket connection not available!');
       }
