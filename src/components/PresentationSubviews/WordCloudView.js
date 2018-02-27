@@ -392,4 +392,8 @@ let data = keywords
   .sort((a, b) => a.value - b.value)
   .slice(-60);
 
-export default props => <WordCloud data={data} width={1600} height={900} />;
+export default props => (
+  <div className="word-cloud-container">
+    <WordCloud data={data} width={1600} height={900} />
+  </div>
+);
