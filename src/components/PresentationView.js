@@ -18,18 +18,36 @@ export default class PresentationView extends React.Component {
       socket.on('channelUpdated', data => {
         console.log(data);
         this.setState((prevState, props) => ({
-          liveTextData: [...prevState.liveTextData, data]
+          liveTextData: [data, ...prevState.liveTextData]
         }));
         console.log(this.state.liveTextData);
       });
     }
   }
 
+  componentDidMount() {
+    // this.timer = setInterval(() => {
+    //   this.setState((prevState, props) => ({
+    //     liveTextData: [
+    //       {
+    //         confidence: 1.0,
+    //         id: 'fddfsgfd',
+    //         transcript: `foobar ${Math.random() * 10000} ${Math.random() *
+    //           10000} ${Math.random() * 10000} ${Math.random() *
+    //           10000}${Math.random() * 10000}`
+    //       },
+    //       ...prevState.liveTextData
+    //     ]
+    //   }));
+    // }, 3000);
+  }
   render() {
     return (
       <div className="presentation-view">
         <LiveTextView data={this.state.liveTextData} />
-        <WordCloudView />
+        {
+          //<WordCloudView />
+        }
       </div>
     );
   }

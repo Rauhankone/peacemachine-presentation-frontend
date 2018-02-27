@@ -1,0 +1,21 @@
+.live-text-view {
+    background-color: red;
+    width: 100%;
+}
+
+.live-text-view .col {
+    background-color: blue;
+    width: calc(100% / 3);
+    float: left;
+}
+
+.live-text-view .col .sentence {
+    background-color: white;
+    width: calc(100% / 3);
+    height: 80px;
+    text-align: left;
+    font-family: sans-serif;
+    font-size: 20px;
+    position: fixed;
+    top: 0px;
+}
