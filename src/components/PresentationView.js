@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import LiveTextView from './PresentationSubviews/LiveTextView';
 import WordZoomView from './PresentationSubviews/WordZoomView';
 import WordCloudView from './PresentationSubviews/WordCloudView';
@@ -20,8 +18,10 @@ export default class PresentationView extends React.Component {
 
   render() {
     return (
-      <div className="presentation-view"><LiveTextView /></div>
-    )
+      <div className="presentation-view">
+        <LiveTextView />
+        <WordCloudView />
+      </div>
+    );
   }
-
-};
+}
