@@ -50,7 +50,7 @@ export default class InputView extends React.Component {
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
       if (this.socket) {
-        socket.emit('sttData', data);
+        socket.emit('channelData', data);
       } else {
         console.log('Socket connection not available!');
       }
