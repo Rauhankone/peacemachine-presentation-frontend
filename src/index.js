@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 import io from 'socket.io-client';
 
-// const socket = io.connect('192.168.20.60:8080');
+// const socket = io.connect(`${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`);
 // socket.on('foo', data => {
 //  console.log(data);
 //  socket.emit('bar', { my: 'data' });
@@ -15,7 +15,7 @@ import io from 'socket.io-client';
 
 ReactDOM.render((
   <BrowserRouter>
-    <App />
+    <App props/>
   </BrowserRouter>
 ), document.getElementById('root'));
 registerServiceWorker();
