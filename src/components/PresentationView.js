@@ -9,11 +9,18 @@ import { socket } from '../socket.config';
 export default class PresentationView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      liveTextData: []
+    };
     this.socket = socket;
     if (this.socket) {
-      socket.emit('connected', { viewName: 'presentation' }); // View identification on server
+      socket.emit('connected', { viewName: 'presentation' });
       socket.on('channelUpdated', data => {
         console.log(data);
+        this.setState((prevState, props) => ({
+          liveTextData: [...prevState.liveTextData, data]
+        }));
+        console.log(this.state.liveTextData);
       });
     }
   }
@@ -21,7 +28,7 @@ export default class PresentationView extends React.Component {
   render() {
     return (
       <div className="presentation-view">
-        <LiveTextView />
+        <LiveTextView data={this.state.liveTextData} />
         <WordCloudView />
       </div>
     );
