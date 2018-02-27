@@ -364,9 +364,7 @@ let json = JSON.parse(
 `
 );
 
-console.log(json.sentences_tone);
 let fullText = json.sentences_tone.map(w => w.text).join(` `);
-console.log(fullText);
 let words = fullText.match(/[a-z]+/gi).map(w => w.toLowerCase());
 let keywords = KeywordExtractor.extract(fullText, {
   language: 'english',
