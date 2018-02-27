@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
+import  './styles/DirectorView.css';
+
 import Input from './components/InputView';
 import Director from './components/DirectorView';
 import Presentation from './components/PresentationView';
