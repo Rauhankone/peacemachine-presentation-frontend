@@ -1,10 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-export default (props) => {
-
-  return (
-    <div>LiveTextView</div>
-  )
-
-}
+export default props => {
+  return <div>LiveTextView</div>;
+};

@@ -1,10 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-export default (props) => {
-
-  return (
-    <div>SentimentView</div>
-  )
-
-}
+export default props => {
+  return <div>SentimentView</div>;
+};
