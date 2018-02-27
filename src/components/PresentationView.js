@@ -12,6 +12,9 @@ export default class PresentationView extends React.Component {
     this.socket = socket;
     if (this.socket) {
       socket.emit('connected', { viewName: 'presentation' }); // View identification on server
+      socket.on('channelUpdated', data => {
+        console.log(data);
+      });
     }
   }
 
