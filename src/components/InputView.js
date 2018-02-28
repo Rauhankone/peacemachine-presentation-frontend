@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { socket } from '../socket.config';
+import { initSocket } from '../socket.config';
 import sttService, { outputFinal } from '../services/stt-service';
 
 export default class InputView extends React.Component {
@@ -12,14 +12,13 @@ export default class InputView extends React.Component {
       stream: null,
       sttResultArr: []
     };
-    this.socket = socket;
+    this.socket = initSocket('input');
     if (this.socket) {
-      socket.emit('connected', { viewName: 'input' }); // View identification on server
-      socket.on('channelUpdated', (data) => {
+      this.socket.emit('connected', { viewName: 'input' }); // View identification on server
+      this.socket.on('channelUpdated', data => {
         console.log('channelUpdated: ');
         console.log(data);
-
-      })
+      });
     }
   }
 
@@ -34,7 +33,7 @@ export default class InputView extends React.Component {
     } else {
       sttService('.live-text')
         .then(res => {
-          socket.emit('recording', { recording: true });
+          this.socket.emit('recording', { recording: true });
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
@@ -57,7 +56,10 @@ export default class InputView extends React.Component {
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
       if (this.socket) {
-        socket.emit('channelData', { ...data, fullTranscript: this.fullTranscript });
+        this.socket.emit('channelData', {
+          ...data,
+          fullTranscript: this.fullTranscript
+        });
       } else {
         console.log('Socket connection not available!');
       }

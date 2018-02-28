@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { socket } from '../socket.config';
+import { initSocket } from '../socket.config';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
     super(props);
-    this.socket = socket;
+    this.socket = initSocket('director');
     if (this.socket) {
-      socket.emit('connected', { viewName: 'director' }); // View identification on server
+      this.socket.emit('connected', { viewName: 'director' }); // View identification on server
     }
   }
 
