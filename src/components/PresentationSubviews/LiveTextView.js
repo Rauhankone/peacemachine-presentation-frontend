@@ -3,9 +3,6 @@ import * as d3 from 'd3';
 import './LiveTextView.css';
 
 class LiveTextView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.createLiveTextView();

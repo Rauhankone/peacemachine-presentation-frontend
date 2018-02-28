@@ -15,7 +15,7 @@ export default class InputView extends React.Component {
     initSocket('input');
     emitEvent('channelCreated');
     subscribeToEvent('channelUpdated', data => {
-      console.log('channelUdated');
+      console.log('channelUpdated');
       console.log(data);
     })
   }
@@ -31,7 +31,7 @@ export default class InputView extends React.Component {
     } else {
       sttService('.live-text')
         .then(res => {
-          this.socket.emit('recording', { recording: true });
+          emitEvent('channelRecording');
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
@@ -53,15 +53,10 @@ export default class InputView extends React.Component {
       this.setState(prevState => ({
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
-      if (this.socket) {
-        this.socket.emit('channelData', {
-          ...data,
-          fullTranscript: this.fullTranscript
-        });
-      } else {
-        console.log('Socket connection not available!');
-      }
-      console.log(this.state.sttResultArr);
+      emitEvent('channelData', {
+        ...data,
+        fullTranscript: this.fullTranscript
+      });
     }
   };
 

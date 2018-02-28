@@ -1,5 +1,5 @@
 import React from 'react';
-import { initSocket, emitEvent, subscribeToEvent } from '../socket.config';
+import { initSocket, subscribeToEvent } from '../socket.config';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
@@ -10,11 +10,9 @@ export default class DirectorView extends React.Component {
     }
     initSocket('director');
     subscribeToEvent('channelInitialized', (data) => {
-      this.setState(prevState => {
-        return {
-          channels: prevState.channels.concat(data)
-        }
-      });
+      this.setState(prevState => ({
+        channels: prevState.channels.concat(data)
+      }));
     });
   }
 
