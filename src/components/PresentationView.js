@@ -12,10 +12,10 @@ export default class PresentationView extends React.Component {
     this.state = {
       liveTextData: []
     };
-    this.socket = socket;
+    this.socket = initSocket('input');
     if (this.socket) {
-      socket.emit('connected', { viewName: 'presentation' });
-      socket.on('channelUpdated', data => {
+      this.socket.emit('connected', { viewName: 'presentation' });
+      this.socket.on('channelUpdated', data => {
         console.log(data);
         this.setState((prevState, props) => ({
           liveTextData: [data, ...prevState.liveTextData]
