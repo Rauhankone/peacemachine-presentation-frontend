@@ -35,7 +35,7 @@ export default class DirectorView extends React.Component {
           <div className="grid-item grid-header">
             <h1>Director View</h1>
           </div>
-          <div className="grid-item grid-leftSide subgrid">
+          <div className="grid-item grid-leftSide subgrid-left">
             <div className="grid-sub-item stage-view">
               <p>Current stage is:</p>
               <h3>{this.state.stage}</h3>
@@ -46,8 +46,12 @@ export default class DirectorView extends React.Component {
             <div className="grid-sub-item word-cloud-select btn" onClick={this.handleWordCloudClick}>Word Cloud</div>
             <div className="grid-sub-item zoom-tool-select btn" onClick={this.handleZoomToolClick}>Zoom Tool</div>
           </div>
-          <div className="grid-item grid-rightSide">
-            <div className="zoom-tool"></div>
+          <div className="grid-item grid-rightSide subgrid-right">
+            <div className="grid-sub-item connected-list">
+              <p>Connection 1</p>
+              <p>Connection 2</p>
+            </div>
+            <div className="grid-sub-item zoom-tool"></div>
           </div>
         </div>
       </div>

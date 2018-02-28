@@ -30,7 +30,7 @@
   grid-row-start: 2;
   grid-row-end: auto;
 }
-.subgrid {
+.subgrid-left {
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 3fr 1fr 1fr 1fr 1fr 1fr;
@@ -70,11 +70,24 @@
   grid-row-start: 2;
   grid-row-end: auto;
 }
+.subgrid-right {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 2fr 5fr;
+  grid-gap: 5px;
+}
+
+/* List of connected clients on the right */
+.connected-list {
+  background: white;
+  padding: 5px;
+  text-align: left;
+}
+.connected-list p {
+  margin: 0px;
+}
 
 /* Word zoom tool on the right */
 .zoom-tool {
   background: white;
-  border: 2px solid #ccc;
-  height: 100%;
-  width: 100%;
 }
