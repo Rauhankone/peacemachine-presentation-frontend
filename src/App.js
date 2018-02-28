@@ -6,14 +6,8 @@ import Input from './components/InputView';
 import Director from './components/DirectorView';
 import Presentation from './components/PresentationView';
 
-import { initSocket } from './socket.config';
-
 class App extends Component {
-  constructor() {
-    super();
-    initSocket();
-  }
-
+  
   render() {
     return (
       <div className="App">

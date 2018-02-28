@@ -14,22 +14,3 @@ export const initSocket = (viewName, moreProps) => {
     query: { viewName, ...moreProps }
   });
 };
-
-// let socket;
-// const initSocket = (viewName) => (socket = io.connect(socketConnectionUrl, {
-//   query: {
-//     viewName
-//   }
-// }))
-
-// export {
-//   socket, initSocket
-// }
-
-// let socket;
-// const initSocket = () =>
-//   (socket = io.connect(
-//     `${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
-//   ));
-
-// export { socket, initSocket };

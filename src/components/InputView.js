@@ -12,9 +12,12 @@ export default class InputView extends React.Component {
       stream: null,
       sttResultArr: []
     };
+  }
+
+  componentWillMount() {
     this.socket = initSocket('input');
     if (this.socket) {
-      this.socket.emit('connected', { viewName: 'input' }); // View identification on server
+      this.socket.emit('channelCreated'); // View identification on server
       this.socket.on('channelUpdated', data => {
         console.log('channelUpdated: ');
         console.log(data);

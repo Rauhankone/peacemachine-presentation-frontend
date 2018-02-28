@@ -12,6 +12,9 @@ export default class PresentationView extends React.Component {
     this.state = {
       liveTextData: []
     };
+  }
+
+  componentWillMount() {
     this.socket = initSocket('presentation');
     if (this.socket) {
       this.socket.emit('connected', { viewName: 'presentation' });
