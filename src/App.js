@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
 
+import  './styles/DirectorView.css';
+
 import Input from './components/InputView';
 import Director from './components/DirectorView';
 import Presentation from './components/PresentationView';
