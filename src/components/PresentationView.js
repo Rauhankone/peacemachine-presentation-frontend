@@ -4,7 +4,7 @@ import WordCloudView from './PresentationSubviews/WordCloudView';
 // import WordZoomView from './PresentationSubviews/WordZoomView';
 // import SentimentView from './PresentationSubviews/SentimentView';
 
-import { socket } from '../socket.config';
+import { initSocket } from '../socket.config';
 
 export default class PresentationView extends React.Component {
   constructor(props) {
