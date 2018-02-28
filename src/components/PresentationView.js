@@ -4,7 +4,7 @@ import WordCloudView from './PresentationSubviews/WordCloudView';
 // import WordZoomView from './PresentationSubviews/WordZoomView';
 // import SentimentView from './PresentationSubviews/SentimentView';
 
-import { initSocket } from '../socket.config';
+import { initSocket, emitEvent, subscribeToEvent } from '../socket.config';
 
 export default class PresentationView extends React.Component {
   constructor(props) {
@@ -12,17 +12,13 @@ export default class PresentationView extends React.Component {
     this.state = {
       liveTextData: []
     };
-    this.socket = initSocket('input');
-    if (this.socket) {
-      this.socket.emit('connected', { viewName: 'presentation' });
-      this.socket.on('channelUpdated', data => {
-        console.log(data);
-        this.setState((prevState, props) => ({
-          liveTextData: [data, ...prevState.liveTextData]
-        }));
-        console.log(this.state.liveTextData);
+    initSocket('presentation');
+    subscribeToEvent('channelUpdated', (data) => {
+      console.log(data);
+      this.setState((prevState, props) => {
+        liveTextData: [...prevState.liveTextData, data];
       });
-    }
+    });
   }
 
   componentDidMount() {
