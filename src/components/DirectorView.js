@@ -1,25 +1,21 @@
 import React from 'react';
-import { initSocket } from '../socket.config';
+import { initSocket, emitEvent, subscribeToEvent } from '../socket.config';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      channels: [],
       stage: 'Sentiment analysis'
     }
-  }
-
-  componentWillMount() {
-    this.socket = initSocket('input');
-    if (this.socket) {
-      this.socket.on('channelInitialized', data => {
-        console.log(data);
+    initSocket('director');
+    subscribeToEvent('channelInitialized', (data) => {
+      this.setState(prevState => {
+        return {
+          channels: prevState.channels.concat(data)
+        }
       });
-      this.socket.on('channelUpdated', data => {
-        console.log('channelUpdated: ');
-        console.log(data);
-      });
-    }
+    });
   }
 
   // TODO: Create dem handlers
@@ -31,7 +27,7 @@ export default class DirectorView extends React.Component {
   }
   handleWordCloudClick = (e) => {
   }
-  handleZoomToolClick = (e) => { 
+  handleZoomToolClick = (e) => {
   }
 
   render() {
@@ -54,8 +50,9 @@ export default class DirectorView extends React.Component {
           </div>
           <div className="grid-item grid-rightSide subgrid-right">
             <div className="grid-sub-item connected-list">
-              <p>Connection 1</p>
-              <p>Connection 2</p>
+              {this.state.channels.map((ch) => (
+                <p key={ch.id}>{ch.id}</p>
+              ))}
             </div>
             <div className="grid-sub-item zoom-tool"></div>
           </div>
