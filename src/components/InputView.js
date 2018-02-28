@@ -6,6 +6,7 @@ import sttService, { outputFinal } from '../services/stt-service';
 export default class InputView extends React.Component {
   constructor(props) {
     super(props);
+    this.fullTranscript = '';
     this.state = {
       isRecording: false,
       stream: null,
@@ -14,6 +15,11 @@ export default class InputView extends React.Component {
     this.socket = socket;
     if (this.socket) {
       socket.emit('connected', { viewName: 'input' }); // View identification on server
+      socket.on('channelUpdated', (data) => {
+        console.log('channelUpdated: ');
+        console.log(data);
+
+      })
     }
   }
 
@@ -46,11 +52,12 @@ export default class InputView extends React.Component {
 
   handleStreamInput = data => {
     if (data) {
+      this.fullTranscript += data.transcript;
       this.setState(prevState => ({
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
       if (this.socket) {
-        socket.emit('channelData', data);
+        socket.emit('channelData', { ...data, fullTranscript: this.fullTranscript });
       } else {
         console.log('Socket connection not available!');
       }
