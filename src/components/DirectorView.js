@@ -1,5 +1,5 @@
 import React from 'react';
-import { initSocket, subscribeToEvent } from '../socket.config';
+import socketService from '../services/socket-service';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
@@ -8,8 +8,8 @@ export default class DirectorView extends React.Component {
       channels: [],
       stage: 'Sentiment analysis'
     }
-    initSocket('director');
-    subscribeToEvent('channelInitialized', (data) => {
+    socketService.initSocket('director');
+    socketService.subscribeToEvent('channelInitialized', (data) => {
       this.setState(prevState => ({
         channels: prevState.channels.concat(data)
       }));

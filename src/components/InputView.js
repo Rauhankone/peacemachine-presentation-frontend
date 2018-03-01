@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { initSocket, emitEvent, subscribeToEvent } from '../socket.config';
+import socketService from '../services/socket-service';
 import sttService, { outputFinal } from '../services/stt-service';
 
 export default class InputView extends React.Component {
@@ -12,9 +12,9 @@ export default class InputView extends React.Component {
       stream: null,
       sttResultArr: []
     };
-    initSocket('input');
-    emitEvent('channelCreated');
-    subscribeToEvent('channelUpdated', data => {
+    socketService.initSocket('input');
+    socketService.emitEvent('channelCreated');
+    socketService.subscribeToEvent('channelUpdated', data => {
       console.log('channelUpdated');
       console.log(data);
     })
@@ -31,7 +31,7 @@ export default class InputView extends React.Component {
     } else {
       sttService('.live-text')
         .then(res => {
-          emitEvent('channelRecording');
+          socketService.emitEvent('channelRecording');
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
@@ -53,7 +53,7 @@ export default class InputView extends React.Component {
       this.setState(prevState => ({
         sttResultArr: prevState.sttResultArr.concat(data)
       }));
-      emitEvent('channelData', {
+      socketService.emitEvent('channelData', {
         ...data,
         fullTranscript: this.fullTranscript
       });

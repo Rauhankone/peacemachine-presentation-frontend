@@ -4,7 +4,7 @@ import WordCloudView from './PresentationSubviews/WordCloudView';
 // import WordZoomView from './PresentationSubviews/WordZoomView';
 // import SentimentView from './PresentationSubviews/SentimentView';
 
-import { initSocket, subscribeToEvent } from '../socket.config';
+import socketService from '../services/socket-service';
 
 export default class PresentationView extends React.Component {
   constructor(props) {
@@ -12,8 +12,8 @@ export default class PresentationView extends React.Component {
     this.state = {
       liveTextData: []
     };
-    initSocket('presentation');
-    subscribeToEvent('channelUpdated', (data) => {
+    socketService.initSocket('presentation');
+    socketService.subscribeToEvent('channelUpdated', (data) => {
       console.log(data);
       this.setState((prevState, props) => {
         liveTextData: [...prevState.liveTextData, data];
