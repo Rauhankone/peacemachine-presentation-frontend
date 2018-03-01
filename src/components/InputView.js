@@ -69,18 +69,18 @@ export default class InputView extends React.Component {
       <div className="input-view">
         <div className="input-view-content">
           <div className="voice-controls">
+            <FontAwesomeIcon
+              icon={['far', 'microphone']}
+              className="rec-icon"
+              size="lg"
+              style={{ color: this.state.isRecording ? '#ee5253' : '#DADADA' }}
+            />
             <button
               className={
                 'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
               }
               onClick={this.handleClick}
             >
-              {!this.state.isRecording ? (
-                <FontAwesomeIcon
-                  icon={['far', 'microphone']}
-                  className="rec-icon"
-                />
-              ) : null}
               {this.state.isRecording
                 ? 'Stop Speech Transcription'
                 : 'Start Speech Transcription'}
@@ -89,8 +89,15 @@ export default class InputView extends React.Component {
           <div className="live-text-container">
             {this.state.isRecording && (
               <div className="recording-info">
-                Watson is now transcribing your speech from the selected audio
-                source
+                <FontAwesomeIcon
+                  icon={['far', 'info-circle']}
+                  size="lg"
+                  style={{ margin: '0 1rem 0 .5rem' }}
+                />
+                <span>
+                  Watson is now transcribing your speech from the selected audio
+                  source
+                </span>
               </div>
             )}
             <p className="live-text">
