@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { initSocket } from '../socket.config';
+import { initSocket, emitEvent, subscribeToEvent } from '../socket.config';
 import sttService, { outputFinal } from '../services/stt-service';
 
 export default class InputView extends React.Component {
@@ -12,17 +12,12 @@ export default class InputView extends React.Component {
       stream: null,
       sttResultArr: []
     };
-  }
-
-  componentWillMount() {
-    this.socket = initSocket('input');
-    if (this.socket) {
-      this.socket.emit('channelCreated'); // View identification on server
-      this.socket.on('channelUpdated', data => {
-        console.log('channelUpdated: ');
-        console.log(data);
-      });
-    }
+    initSocket('input');
+    emitEvent('channelCreated');
+    subscribeToEvent('channelUpdated', data => {
+      console.log('channelUdated');
+      console.log(data);
+    })
   }
 
   handleClick = () => {

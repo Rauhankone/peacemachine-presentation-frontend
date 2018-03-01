@@ -1,15 +1,9 @@
 import React from 'react';
 import * as d3 from 'd3';
 import './LiveTextView.css';
+import LiveTextCol from './LiveTextCol';
 
 class LiveTextView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      channelCols: []
-    };
-  }
-
   componentDidMount() {
     this.createLiveTextView();
   }
@@ -23,9 +17,7 @@ class LiveTextView extends React.Component {
   render() {
     return (
       <div className="live-text-view" ref={elem => (this.elem = elem)}>
-        <div className="col">moi</div>
-        <div className="col">moi</div>
-        <div className="col">moi</div>
+        {this.props.channels.map(channel => <LiveTextCol channel={channel} />)}
       </div>
     );
   }
