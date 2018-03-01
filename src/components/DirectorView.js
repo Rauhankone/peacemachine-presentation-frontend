@@ -14,6 +14,17 @@ export default class DirectorView extends React.Component {
         channels: prevState.channels.concat(data)
       }));
     });
+    socketService.subscribeToEvent('channelDisconnected', (data) => {
+      this.setState(prevState => {
+        let i = prevState.channels.findIndex((el) => el.id === data.id);
+        if (i > -1) {
+          prevState.channels.splice(i, 1);
+        }
+        return {
+          channels: prevState.channels
+        }
+      })
+    })
   }
 
   // TODO: Create dem handlers
