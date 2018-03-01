@@ -1,66 +1,33 @@
-.App {}
-
-*:focus {
-  outline: none;
+html {
+  font-size: 18px !important;
+  overflow-y: auto !important;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background: #eeeef0;
+  background-color: #fafafa;
 }
 
-body .input-view {
-  padding: auto;
+.App {
+  line-height: 1.3;
 }
 
-.input-view .voice-controls {
-  margin-top: 50px;
-  margin-bottom: 0px;
-}
-
-.input-view .voice-controls .recordBtn {
-  background: #eef;
-  border: 2px solid #aad;
+button {
+  background-color: #3f5365;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
   border-radius: 3px;
-  font-size: 21px;
-  height: 65px;
-  width: 295px;
 }
 
-.input-view .voice-controls .recordBtn.isRecording {
-  background: #f88;
+button:hover {
+  background-color: #526c83;
 }
 
-.input-view .voice-controls .recordBtn:hover {
-  cursor: pointer;
+button:active {
+  background-color: black;
+  transform: translateY(1px);
 }
 
-
-/* Recording info container */
-
-.input-view .recording-info-container {
-  height: 15px;
-  margin-bottom: 3px;
-}
-
-.input-view .recording-info-container {
-  font-size: 15px;
-}
-
-
-/* Live text container */
-
-.input-view .live-text-container {
-  background: white;
-  border: 1px solid #aad;
-  margin: auto;
-  min-height: 300px;
-  padding: 3px 15px;
-  width: 600px;
-}
-
-.input-view .live-text-container {
-  text-align: left;
+button:disabled {
+  opacity: 0.4;
 }

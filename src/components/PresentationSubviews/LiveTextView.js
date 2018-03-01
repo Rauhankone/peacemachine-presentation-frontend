@@ -1,6 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
-import './LiveTextView.css';
+import '../../styles/LiveTextView.css';
 import LiveTextCol from './LiveTextCol';
 
 class LiveTextView extends React.Component {

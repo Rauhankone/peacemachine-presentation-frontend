@@ -1,5 +1,5 @@
 import React from 'react';
-import './LiveTextView.css';
+import '../../styles/LiveTextView.css';
 
 export default class LiveTextCol extends React.Component {
   render() {

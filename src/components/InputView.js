@@ -1,7 +1,11 @@
 import React from 'react';
 
+import '../styles/InputView.css';
+
 import socketService from '../services/socket-service';
 import sttService, { outputFinal } from '../services/stt-service';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 export default class InputView extends React.Component {
   constructor(props) {
@@ -17,13 +21,14 @@ export default class InputView extends React.Component {
     socketService.subscribeToEvent('channelUpdated', data => {
       console.log('channelUpdated');
       console.log(data);
-    })
+    });
   }
 
   handleClick = () => {
     let stream;
     if (this.state.isRecording && this.state.stream) {
       this.state.stream.stop();
+
       this.setState({
         isRecording: false,
         stream: null
@@ -36,12 +41,11 @@ export default class InputView extends React.Component {
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
           });
-        })
-        .then(res => {
           this.setState(prevState => ({
             isRecording: true,
             stream
           }));
+          stream.on('message', event => console.log(event));
         })
         .catch(err => console.log(err));
     }
@@ -63,38 +67,45 @@ export default class InputView extends React.Component {
   render() {
     return (
       <div className="input-view">
-        <div className="voice-controls">
-          <button
-            className={
-              'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
-            }
-            onClick={this.handleClick}
-          >
-            {this.state.isRecording
-              ? 'Stop speech transcription'
-              : 'Start speech transcription'}
-          </button>
-        </div>
-        <div className="recording-info-container">
-          <p>
-            {this.state.isRecording
-              ? 'Watson is now transcribing your speech, try using your microphone'
-              : ''}
-          </p>
-        </div>
-        <div className="live-text-container">
-          <p className="live-text">
-            {this.state.sttResultArr.map((resultObj, i) => {
-              let styleObj = {
-                color: `rgba(0, 0, 0, ${resultObj.confidence})`
-              };
-              return (
-                <span style={styleObj} key={i}>
-                  {resultObj.transcript}
-                </span>
-              );
-            })}
-          </p>
+        <div className="input-view-content">
+          <div className="voice-controls">
+            <button
+              className={
+                'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
+              }
+              onClick={this.handleClick}
+            >
+              {!this.state.isRecording ? (
+                <FontAwesomeIcon
+                  icon={['far', 'microphone']}
+                  className="rec-icon"
+                />
+              ) : null}
+              {this.state.isRecording
+                ? 'Stop Speech Transcription'
+                : 'Start Speech Transcription'}
+            </button>
+          </div>
+          <div className="live-text-container">
+            {this.state.isRecording && (
+              <div className="recording-info">
+                Watson is now transcribing your speech from the selected audio
+                source
+              </div>
+            )}
+            <p className="live-text">
+              {this.state.sttResultArr.map((resultObj, i) => {
+                let styleObj = {
+                  color: `rgba(0, 0, 0, ${resultObj.confidence})`
+                };
+                return (
+                  <span style={styleObj} key={i}>
+                    {resultObj.transcript}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
         </div>
       </div>
     );
