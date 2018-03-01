@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+.App {}
 
 *:focus {
   outline: none;
@@ -32,14 +30,16 @@ body .input-view {
 }
 
 .input-view .voice-controls .recordBtn.isRecording {
-  background: #f88; 
+  background: #f88;
 }
 
 .input-view .voice-controls .recordBtn:hover {
   cursor: pointer;
 }
 
+
 /* Recording info container */
+
 .input-view .recording-info-container {
   height: 15px;
   margin-bottom: 3px;
@@ -49,7 +49,9 @@ body .input-view {
   font-size: 15px;
 }
 
+
 /* Live text container */
+
 .input-view .live-text-container {
   background: white;
   border: 1px solid #aad;

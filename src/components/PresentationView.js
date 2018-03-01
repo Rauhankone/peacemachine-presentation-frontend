@@ -9,41 +9,47 @@ import socketService from '../services/socket-service';
 export default class PresentationView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      liveTextData: []
-    };
     socketService.initSocket('presentation');
     socketService.subscribeToEvent('channelUpdated', (data) => {
       console.log(data);
-      this.setState((prevState, props) => {
-        liveTextData: [...prevState.liveTextData, data];
-      });
+      this.createChannel(data);
     });
   }
 
-  componentDidMount() {
-    // this.timer = setInterval(() => {
-    //   this.setState((prevState, props) => ({
-    //     liveTextData: [
-    //       {
-    //         confidence: 1.0,
-    //         id: 'fddfsgfd',
-    //         transcript: `foobar ${Math.random() * 10000} ${Math.random() *
-    //           10000} ${Math.random() * 10000} ${Math.random() *
-    //           10000}${Math.random() * 10000}`
-    //       },
-    //       ...prevState.liveTextData
-    //     ]
-    //   }));
-    // }, 3000);
-  }
+  state = {
+    channels: []
+  };
+
+  createChannel = newChannel => {
+    this.setState((prevState, props) => {
+      const channelExist = prevState.channels
+        .map(channel => channel.id)
+        .filter(channelId => newChannel.id === channelId)
+        .some(value => value);
+
+      const maxChannels = 3;
+
+      console.log('channelExist', channelExist);
+
+      if (!channelExist) {
+        return this.state.channels.length < maxChannels
+          ? {
+              channels: [...prevState.channels, newChannel]
+            }
+          : {
+              channels: [newChannel, ...prevState.channels.slice(0, 2)]
+            };
+      } else {
+        return console.error(`channel already exists in state`);
+      }
+    });
+  };
+
   render() {
     return (
       <div className="presentation-view">
-        <LiveTextView data={this.state.liveTextData} />
-        {
-          //<WordCloudView />
-        }
+        <LiveTextView channels={this.state.channels} />
+        {/* {<WordCloudView />} */}
       </div>
     );
   }

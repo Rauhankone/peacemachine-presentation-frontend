@@ -1,9 +1,9 @@
 import React from 'react';
 import * as d3 from 'd3';
 import './LiveTextView.css';
+import LiveTextCol from './LiveTextCol';
 
 class LiveTextView extends React.Component {
-
   componentDidMount() {
     this.createLiveTextView();
   }
@@ -12,36 +12,12 @@ class LiveTextView extends React.Component {
     this.createLiveTextView();
   }
 
-  createLiveTextView() {
-    const elem = this.elem;
-
-    let update = d3
-      .select(elem)
-      .select('.col')
-      .selectAll('.sentence')
-      .data(this.props.data);
-
-    update.exit().remove();
-
-    update
-      .enter()
-      .insert('div', ':first-child')
-      .attr('class', 'sentence')
-      .style('top', 0)
-      .text(d => d.transcript);
-
-    update
-      .transition()
-      .duration(500)
-      .style('top', (_, i) => `${(i + 1) * 90}px`);
-  }
+  createLiveTextView() {}
 
   render() {
     return (
       <div className="live-text-view" ref={elem => (this.elem = elem)}>
-        <div className="col" />
-        <div className="col" />
-        <div className="col" />
+        {this.props.channels.map(channel => <LiveTextCol channel={channel} />)}
       </div>
     );
   }
