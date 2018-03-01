@@ -10,7 +10,7 @@ export default class PresentationView extends React.Component {
   constructor(props) {
     super(props);
     socketService.initSocket('presentation');
-    socketService.subscribeToEvent('channelUpdated', (data) => {
+    socketService.subscribeToEvent('channelInitialized', (data) => {
       console.log(data);
       this.createChannel(data);
     });
