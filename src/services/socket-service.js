@@ -15,11 +15,10 @@ export default {
     socket = io.connect(socketConnectionUrl, {
       query: { viewName, ...moreProps }
     });
-    socket.on('connect_error', () => console.log('Websocket connection failed!'));
+    socket.on('connect_error', () => console.error('Websocket connection failed!'));
     socket.on('connect', () => console.log('Websocket connection successfully established!'));
   },
   /**
-   * 
    * @param {string} event name of the event to emit 
    * @param {object} payload optional payload inside an object
    */
