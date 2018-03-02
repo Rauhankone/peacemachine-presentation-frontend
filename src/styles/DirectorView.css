@@ -192,6 +192,10 @@
   left: -24px;
 }
 
+.loop-select {
+  margin: 1.5rem 0;
+}
+
 /* Right-hand side of the grid */
 
 .grid-rightSide {
@@ -221,7 +225,13 @@
 /* connected channels */
 
 .connected-list {
-  background: white;
+  background-color: white;
+  border: 1px solid #dadada;
+  border-top-color: rgb(230, 230, 230);
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.3);
+  height: 240px;
+  overflow-y: scroll;
+  border-radius: 3px;
 }
 
 .connected-list li {
