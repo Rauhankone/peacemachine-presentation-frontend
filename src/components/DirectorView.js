@@ -15,24 +15,14 @@ export default class DirectorView extends React.Component {
 
   state = {
     channels: [],
-    stages: [
-      {
-        name: 'live text'
-      },
-      {
-        name: 'sentiment analysis'
-      },
-      {
-        name: 'word cloud'
-      },
-      {
-        name: 'zoom tool'
-      },
-      {
-        name: 'loop'
-      }
+    slides: [
+      'live text',
+      'sentiment analysis',
+      'word cloud',
+      'zoom tool',
+      'loop'
     ],
-    activeStageIndex: 0
+    activeSlide: 'live text'
   };
 
   directorSocket = () => {
@@ -62,8 +52,10 @@ export default class DirectorView extends React.Component {
   // handleWordCloudClick = e => {};
   // handleZoomToolClick = e => {};
 
-  handleControlClick = stageName => event => {
-    console.log(stageName);
+  handleControlClick = slide => event => {
+    this.setState({ activeSlide: slide });
+
+    socketService.emitEvent('changeSlide', { slideName: slide });
   };
 
   render() {
@@ -72,18 +64,22 @@ export default class DirectorView extends React.Component {
         <div className="director-view-main-grid">
           <div className="grid-item grid-leftSide subgrid-left">
             <div className="grid-sub-item stage-view">
-              <p>Current stage is:</p>
-              <h3>
-                {capitalize(
-                  this.state.stages[this.state.activeStageIndex].name
-                )}
-              </h3>
+              <p>Current slide is:</p>
+              <h3>{capitalize(this.state.activeSlide)}</h3>
             </div>
             <ul className="grid-sub-item controls">
-              {this.state.stages.map(stage => (
-                <li className={`${slugify(stage.name)}-select control`}>
-                  <button onClick={this.handleControlClick(stage.name)} />
-                  <span>{capitalize(stage.name)}</span>
+              {this.state.slides.map(slide => (
+                <li className={`${slugify(slide)}-select control`} key={slide}>
+                  <label className="control-radio">
+                    <input
+                      type="radio"
+                      value={slide}
+                      checked={this.state.activeSlide === slide}
+                      onChange={this.handleControlClick(slide)}
+                    />
+                    <i />
+                    <span className="stage-name">{capitalize(slide)}</span>
+                  </label>
                 </li>
               ))}
             </ul>

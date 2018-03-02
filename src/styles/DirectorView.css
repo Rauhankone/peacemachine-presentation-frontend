@@ -13,6 +13,7 @@
   justify-self: stretch;
 }
 
+
 /* Header */
 
 .grid-header {
@@ -26,6 +27,7 @@
   margin-top: 45px;
 }
 
+
 /* Left-hand side panel and subgrid */
 
 .grid-leftSide {
@@ -36,9 +38,10 @@
 .subgrid-left {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 3fr;
   grid-gap: 1rem;
 }
+
 
 /* Left hans side buttons */
 
@@ -46,18 +49,91 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  position: relative;
 }
 
-.controls .btn {
-  background-color: rgb(250, 250, 250);
-  border: 1px solid #dadada;
-  display: inline-block;
+.controls:after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #414288;
+  z-index: -1;
+}
+
+.controls .control-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  height: 2rem;
+  margin: 0.5rem 0;
+}
+
+.control-radio input {
+  position: absolute;
+  opacity: 0;
+  /* visibility: hidden; */
+  cursor: pointer;
+}
+
+.control-radio i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 2rem;
+  box-shadow: inset 0 0 0 2px #414288, 0 0 0 2px RGBA(250, 250, 250, 1);
+  background-color: RGBA(250, 250, 250, 1);
+  border-radius: 3px;
+}
+
+.control-radio input:checked~i {
+  background-color: #414288;
+  animation: checked 0.15s cubic-bezier(0, 0, 0.57, 1.72) forwards;
+  box-shadow: inset 0 0 0 2px #414288;
+}
+
+@keyframes checked {
+  from {
+    transform: scale(1, 0.6);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+.control-radio i:after {
+  content: '';
+  position: absolute;
+  display: none;
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  height: 0.85rem;
+  width: 0.45rem;
+  transform: rotate(45deg);
+  top: 0.5rem;
+  left: 0.8em;
+}
+
+.control-radio input:checked~i:after {
+  display: block;
+}
+
+.control-radio span {
+  margin-left: 2.5rem;
+  font-weight: bold;
 }
 
 .grid-sub-item.btn:hover {
   background: #ccd;
   cursor: pointer;
 }
+
 
 /* Stage view */
 
@@ -75,6 +151,7 @@
   margin-top: 60px;
 }
 
+
 /* Right-hand side of the grid */
 
 .grid-rightSide {
@@ -89,6 +166,7 @@
   grid-gap: 1rem;
 }
 
+
 /* List of connected clients on the right */
 
 .connected-list {
@@ -100,6 +178,7 @@
 .connected-list p {
   margin: 0px;
 }
+
 
 /* Word zoom tool on the right */
 
