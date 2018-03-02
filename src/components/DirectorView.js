@@ -16,13 +16,7 @@ export default class DirectorView extends React.Component {
 
   state = {
     channels: [],
-    slides: [
-      'live text',
-      'sentiment analysis',
-      'word cloud',
-      'zoom tool',
-      'loop'
-    ],
+    slides: [],
     activeSlide: 'live text',
     appointedChannels: []
   };
@@ -46,19 +40,24 @@ export default class DirectorView extends React.Component {
       });
     });
 
-    socketService.subscribeToEvent('directorViewInit', (data) => {
+    socketService.subscribeToEvent('directorInit', data => {
       console.log(data);
       this.setState(prevState => {
-        let appointedChannels = data.filter((el) => el.candidate).map((el) => el.id);
+        let appointedChannels = data.channels
+          .filter(el => el.candidate)
+          .map(el => el.id);
+
         return {
-          channels: data,
+          slides: data.slides.allSlides,
+          activeSlide: data.slides.activeSlide,
+          channels: data.channels,
           appointedChannels
-        }
+        };
       });
     });
   };
 
-  handleControlClick = slide => event => {
+  handleSlideClick = slide => event => {
     this.setState({ activeSlide: slide });
 
     socketService.emitEvent('changeSlide', { slideName: slide });
@@ -68,11 +67,11 @@ export default class DirectorView extends React.Component {
     this.setState(({ appointedChannels }) => {
       return !appointedChannels.includes(channel)
         ? {
-          appointedChannels: [...appointedChannels, channel]
-        }
+            appointedChannels: [...appointedChannels, channel]
+          }
         : {
-          appointedChannels: [...appointedChannels.filter(c => c !== channel)]
-        };
+            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
+          };
     });
 
     socketService.emitEvent('channelCandidacyChanged', {
@@ -89,7 +88,11 @@ export default class DirectorView extends React.Component {
             <div className="grid-sub-item stage-view">
               <div className="bubble">
                 <span>Current Slide</span>
-                <h3>{capitalize(this.state.activeSlide)}</h3>
+                <h3>
+                  {this.state.activeSlide
+                    ? capitalize(this.state.activeSlide)
+                    : '...'}
+                </h3>
               </div>
             </div>
             <ul className="grid-sub-item controls">
@@ -98,16 +101,19 @@ export default class DirectorView extends React.Component {
                 Slides
               </h3>
               {this.state.slides.map(slide => (
-                <li className={`${slugify(slide)}-select control`} key={slide}>
+                <li
+                  className={`${slugify(slide.name)}-select control`}
+                  key={slide.name}
+                >
                   <label className="control-radio">
                     <input
                       type="radio"
-                      value={slide}
-                      checked={this.state.activeSlide === slide}
-                      onChange={this.handleControlClick(slide)}
+                      value={slide.name}
+                      checked={this.state.activeSlide === slide.name}
+                      onChange={this.handleSlideClick(slide.name)}
                     />
                     <i />
-                    <span className="stage-name">{capitalize(slide)}</span>
+                    <span className="stage-name">{capitalize(slide.name)}</span>
                   </label>
                 </li>
               ))}
