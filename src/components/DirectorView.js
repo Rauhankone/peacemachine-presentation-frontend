@@ -64,23 +64,22 @@ export default class DirectorView extends React.Component {
   };
 
   handleChannelClick = channel => event => {
-    const isMaxCandidates =
-      this.state.appointedChannels >= this.state.maxCandidateChannels;
+      this.setState(({ appointedChannels }) => {
+        return !appointedChannels.includes(channel) && appointedChannels.length < 3
+          ? {
+              appointedChannels: [...appointedChannels, channel]
+            }
+          : {
+              appointedChannels: [
+                ...appointedChannels.filter(c => c !== channel)
+              ]
+            };
+      });
 
-    this.setState(({ appointedChannels }) => {
-      return !appointedChannels.includes(channel)
-        ? {
-            appointedChannels: [...appointedChannels, channel]
-          }
-        : {
-            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
-          };
-    });
-
-    socketService.emitEvent('channelCandidacyChanged', {
-      id: channel,
-      candidate: !this.state.appointedChannels.includes(channel)
-    });
+      socketService.emitEvent('channelCandidacyChanged', {
+        id: channel,
+        candidate: !this.state.appointedChannels.includes(channel)
+      });
   };
 
   render() {

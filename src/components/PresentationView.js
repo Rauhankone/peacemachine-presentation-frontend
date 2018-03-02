@@ -15,14 +15,11 @@ export default class PresentationView extends React.Component {
 
   state = {
     channels: [],
+    appointedChannels: [],
     activeSlide: 'live text'
   };
 
   presentationSocketSetup() {
-    socketService.subscribeToEvent('channelInitialized', (data) => {
-      console.log(data);
-      this.createChannel(data);
-    });
     socketService.subscribeToEvent('channelUpdated', (data) => {
       this.setState(prevState => {
         const id = prevState.channels.findIndex((ch) => ch.id === data.id);
@@ -35,35 +32,18 @@ export default class PresentationView extends React.Component {
     socketService.subscribeToEvent('slideUpdated', (data) => {
       this.setState({ activeSlide: data.slideName });
     });
+    socketService.subscribeToEvent('channelCandidacyUpdated', (data) => {
+      this.setState(prevState => {
+        let channels = prevState.channels.length < 3 && data.candidate ?
+          [...prevState.channels, data] :
+          prevState.channels.filter((ch) => ch.id !== data.id);
+          return { channels };
+      });
+    });
     socketService.subscribeToEvent('initStoreProps', (data) => {
-      this.setState({channels: data.channels, activeSlide: data.slides.activeSlide});
+      this.setState({ channels: data.channels, activeSlide: data.slides.activeSlide });
     });
   }
-
-  createChannel = newChannel => {
-    this.setState((prevState, props) => {
-      const channelExist = prevState.channels
-        .map(channel => channel.id)
-        .filter(channelId => newChannel.id === channelId)
-        .some(value => value);
-
-      const maxChannels = 3;
-
-      console.log('channelExist', channelExist);
-
-      if (!channelExist) {
-        return this.state.channels.length < maxChannels
-          ? {
-            channels: [...prevState.channels, newChannel]
-          }
-          : {
-            channels: [newChannel, ...prevState.channels.slice(0, 2)]
-          };
-      } else {
-        return console.error(`channel already exists in state`);
-      }
-    });
-  };
 
   renderSubviewComponent() {
     const slideViews = {
