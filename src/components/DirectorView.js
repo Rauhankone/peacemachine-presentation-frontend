@@ -70,6 +70,11 @@ export default class DirectorView extends React.Component {
             appointedChannels: [...appointedChannels.filter(c => c !== channel)]
           };
     });
+
+    socketService.emitEvent('channelCandidacyChanged', {
+      id: channel,
+      candidate: !this.state.appointedChannels.includes(channel)
+    });
   };
 
   render() {
