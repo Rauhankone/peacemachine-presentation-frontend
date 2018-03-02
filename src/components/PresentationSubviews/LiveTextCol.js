@@ -6,6 +6,7 @@ export default class LiveTextCol extends React.Component {
     return (
       <div className="live-text-col">
         <p>{this.props.channel.id}</p>
+        <p>{this.props.channel.fullTranscript}</p>
       </div>
     );
   }

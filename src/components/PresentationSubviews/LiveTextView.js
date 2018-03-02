@@ -4,15 +4,11 @@ import '../../styles/LiveTextView.css';
 import LiveTextCol from './LiveTextCol';
 
 class LiveTextView extends React.Component {
-  componentDidMount() {
-    this.createLiveTextView();
-  }
 
   componentDidUpdate() {
-    this.createLiveTextView();
+    console.log('LiveTextView props:');
+    console.log(this.props);
   }
-
-  createLiveTextView() {}
 
   render() {
     return (
