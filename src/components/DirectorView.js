@@ -65,24 +65,23 @@ export default class DirectorView extends React.Component {
   };
 
   handleChannelClick = channel => event => {
-    if (this.state.appointedChannels.length < 3) {
-      this.setState(({ appointedChannels }) => {
-        return !appointedChannels.includes(channel)
-          ? {
-              appointedChannels: [...appointedChannels, channel]
-            }
-          : {
-              appointedChannels: [
-                ...appointedChannels.filter(c => c !== channel)
-              ]
-            };
-      });
+    const isMaxCandidates =
+      this.state.appointedChannels >= this.state.maxCandidateChannels;
 
-      socketService.emitEvent('channelCandidacyChanged', {
-        id: channel,
-        candidate: !this.state.appointedChannels.includes(channel)
-      });
-    }
+    this.setState(({ appointedChannels }) => {
+      return !appointedChannels.includes(channel)
+        ? {
+            appointedChannels: [...appointedChannels, channel]
+          }
+        : {
+            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
+          };
+    });
+
+    socketService.emitEvent('channelCandidacyChanged', {
+      id: channel,
+      candidate: !this.state.appointedChannels.includes(channel)
+    });
   };
 
   render() {
@@ -127,7 +126,16 @@ export default class DirectorView extends React.Component {
           <div className="grid-item grid-rightSide main subgrid-right">
             <ul className="grid-sub-item connected-list">
               {this.state.channels.map(channel => (
-                <li key={channel.id}>
+                <li
+                  key={channel.id}
+                  style={{
+                    background: this.state.appointedChannels.includes(
+                      channel.id
+                    )
+                      ? 'rgba(59, 153, 252, .15)'
+                      : null
+                  }}
+                >
                   <div className="channel-control">
                     <label>
                       <input
