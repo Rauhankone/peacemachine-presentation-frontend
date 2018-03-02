@@ -45,6 +45,17 @@ export default class DirectorView extends React.Component {
         };
       });
     });
+
+    socketService.subscribeToEvent('directorViewInit', (data) => {
+      console.log(data);
+      this.setState(prevState => {
+        let appointedChannels = data.filter((el) => el.candidate).map((el) => el.id);
+        return {
+          channels: data,
+          appointedChannels
+        }
+      });
+    });
   };
 
   // TODO: Create dem handlers
@@ -64,11 +75,11 @@ export default class DirectorView extends React.Component {
     this.setState(({ appointedChannels }) => {
       return !appointedChannels.includes(channel)
         ? {
-            appointedChannels: [...appointedChannels, channel]
-          }
+          appointedChannels: [...appointedChannels, channel]
+        }
         : {
-            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
-          };
+          appointedChannels: [...appointedChannels.filter(c => c !== channel)]
+        };
     });
 
     socketService.emitEvent('channelCandidacyChanged', {
