@@ -17,8 +17,9 @@ export default class DirectorView extends React.Component {
   state = {
     channels: [],
     slides: [],
-    activeSlide: 'live text',
-    appointedChannels: []
+    activeSlide: null,
+    appointedChannels: [],
+    maxCandidateChannels: 3
   };
 
   directorSocket = () => {
@@ -64,20 +65,24 @@ export default class DirectorView extends React.Component {
   };
 
   handleChannelClick = channel => event => {
-    this.setState(({ appointedChannels }) => {
-      return !appointedChannels.includes(channel)
-        ? {
-            appointedChannels: [...appointedChannels, channel]
-          }
-        : {
-            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
-          };
-    });
+    if (this.state.appointedChannels.length < 3) {
+      this.setState(({ appointedChannels }) => {
+        return !appointedChannels.includes(channel)
+          ? {
+              appointedChannels: [...appointedChannels, channel]
+            }
+          : {
+              appointedChannels: [
+                ...appointedChannels.filter(c => c !== channel)
+              ]
+            };
+      });
 
-    socketService.emitEvent('channelCandidacyChanged', {
-      id: channel,
-      candidate: !this.state.appointedChannels.includes(channel)
-    });
+      socketService.emitEvent('channelCandidacyChanged', {
+        id: channel,
+        candidate: !this.state.appointedChannels.includes(channel)
+      });
+    }
   };
 
   render() {
