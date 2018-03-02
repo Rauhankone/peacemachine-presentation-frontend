@@ -45,14 +45,18 @@ export default class DirectorView extends React.Component {
         };
       });
     });
-  };
 
-  // TODO: Create dem handlers
-  // handleLoopClick = e => {};
-  // handeLiveTextClic = e => {};
-  // handleSentimentClick = e => {};
-  // handleWordCloudClick = e => {};
-  // handleZoomToolClick = e => {};
+    socketService.subscribeToEvent('directorViewInit', (data) => {
+      console.log(data);
+      this.setState(prevState => {
+        let appointedChannels = data.filter((el) => el.candidate).map((el) => el.id);
+        return {
+          channels: data,
+          appointedChannels
+        }
+      });
+    });
+  };
 
   handleControlClick = slide => event => {
     this.setState({ activeSlide: slide });
@@ -64,11 +68,11 @@ export default class DirectorView extends React.Component {
     this.setState(({ appointedChannels }) => {
       return !appointedChannels.includes(channel)
         ? {
-            appointedChannels: [...appointedChannels, channel]
-          }
+          appointedChannels: [...appointedChannels, channel]
+        }
         : {
-            appointedChannels: [...appointedChannels.filter(c => c !== channel)]
-          };
+          appointedChannels: [...appointedChannels.filter(c => c !== channel)]
+        };
     });
 
     socketService.emitEvent('channelCandidacyChanged', {
