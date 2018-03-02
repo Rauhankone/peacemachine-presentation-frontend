@@ -35,6 +35,9 @@ export default class PresentationView extends React.Component {
     socketService.subscribeToEvent('slideUpdated', (data) => {
       this.setState({ activeSlide: data.slideName });
     });
+    socketService.subscribeToEvent('initStoreProps', (data) => {
+      this.setState({channels: data.channels, activeSlide: data.slides.activeSlide});
+    });
   }
 
   createChannel = newChannel => {
