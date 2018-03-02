@@ -1,20 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import 'nanoreset';
 import './index.css';
-import App from './App';
+import './App.css';
+
 import registerServiceWorker from './registerServiceWorker';
+import Router from './components/Router';
 
-// const socket = io.connect(`${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`);
-// socket.on('foo', data => {
-//  console.log(data);
-//  socket.emit('bar', { my: 'data' });
-// });
+import fontawesome from '@fortawesome/fontawesome';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faRegular from '@fortawesome/fontawesome-pro-regular';
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App props />
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+fontawesome.library.add(faRegular);
+
+ReactDOM.render(<Router />, document.getElementById('root'));
 registerServiceWorker();

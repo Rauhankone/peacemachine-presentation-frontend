@@ -1,47 +1,21 @@
 import React from 'react';
-
-import { slugify, capitalize } from '../utils';
-
 import socketService from '../services/socket-service';
-import '../styles/DirectorView.css';
+
+import '../styles/_DirectorView.css';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      channels: [],
+      stage: 'Sentiment analysis'
+    };
     socketService.initSocket('director');
-
-    this.directorSocket();
-  }
-
-  state = {
-    channels: [],
-    stages: [
-      {
-        name: 'live text'
-      },
-      {
-        name: 'sentiment analysis'
-      },
-      {
-        name: 'word cloud'
-      },
-      {
-        name: 'zoom tool'
-      },
-      {
-        name: 'loop'
-      }
-    ],
-    activeStageIndex: 0
-  };
-
-  directorSocket = () => {
     socketService.subscribeToEvent('channelInitialized', data => {
       this.setState(prevState => ({
         channels: prevState.channels.concat(data)
       }));
     });
-
     socketService.subscribeToEvent('channelDisconnected', data => {
       this.setState(prevState => {
         let i = prevState.channels.findIndex(el => el.id === data.id);
@@ -53,40 +27,57 @@ export default class DirectorView extends React.Component {
         };
       });
     });
-  };
+  }
 
   // TODO: Create dem handlers
-  // handleLoopClick = e => {};
-  // handeLiveTextClic = e => {};
-  // handleSentimentClick = e => {};
-  // handleWordCloudClick = e => {};
-  // handleZoomToolClick = e => {};
-
-  handleControlClick = stageName => event => {
-    console.log(stageName);
-  };
+  handleLoopClick = e => {};
+  handeLiveTextClic = e => {};
+  handleSentimentClick = e => {};
+  handleWordCloudClick = e => {};
+  handleZoomToolClick = e => {};
 
   render() {
     return (
       <div className="director-view">
         <div className="director-view-main-grid">
+          <div className="grid-item grid-header">
+            <h1>Director View</h1>
+          </div>
           <div className="grid-item grid-leftSide subgrid-left">
             <div className="grid-sub-item stage-view">
               <p>Current stage is:</p>
-              <h3>
-                {capitalize(
-                  this.state.stages[this.state.activeStageIndex].name
-                )}
-              </h3>
+              <h3>{this.state.stage}</h3>
             </div>
-            <ul className="grid-sub-item controls">
-              {this.state.stages.map(stage => (
-                <li className={`${slugify(stage.name)}-select control`}>
-                  <button onClick={this.handleControlClick(stage.name)} />
-                  <span>{capitalize(stage.name)}</span>
-                </li>
-              ))}
-            </ul>
+            <div
+              className="grid-sub-item loop-select btn"
+              onClick={this.handleLoopClick}
+            >
+              Loop
+            </div>
+            <div
+              className="grid-sub-item live-text-select btn"
+              onClick={this.handleLiveTextClick}
+            >
+              Live Text
+            </div>
+            <div
+              className="grid-sub-item sentiment-select btn"
+              onClick={this.handleSentimentClick}
+            >
+              Sentiment
+            </div>
+            <div
+              className="grid-sub-item word-cloud-select btn"
+              onClick={this.handleWordCloudClick}
+            >
+              Word Cloud
+            </div>
+            <div
+              className="grid-sub-item zoom-tool-select btn"
+              onClick={this.handleZoomToolClick}
+            >
+              Zoom Tool
+            </div>
           </div>
           <div className="grid-item grid-rightSide subgrid-right">
             <div className="grid-sub-item connected-list">
