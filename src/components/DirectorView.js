@@ -58,13 +58,6 @@ export default class DirectorView extends React.Component {
     });
   };
 
-  // TODO: Create dem handlers
-  // handleLoopClick = e => {};
-  // handeLiveTextClic = e => {};
-  // handleSentimentClick = e => {};
-  // handleWordCloudClick = e => {};
-  // handleZoomToolClick = e => {};
-
   handleControlClick = slide => event => {
     this.setState({ activeSlide: slide });
 
