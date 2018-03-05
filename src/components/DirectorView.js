@@ -41,7 +41,7 @@ export default class DirectorView extends React.Component {
       });
     });
 
-    socketService.subscribeToEvent('directorInit', data => {
+    socketService.subscribeToEvent('initStoreProps', data => {
       console.log(data);
       this.setState(prevState => {
         let appointedChannels = data.channels
