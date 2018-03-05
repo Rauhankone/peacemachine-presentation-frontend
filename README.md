@@ -6,7 +6,9 @@ This application handles all frontend functionality of the Peace Machine Presena
 
 ```
 $ yarn start
-```
+```  
+  
+**Milestone: Cajun**
 
 # Create-react-app stuff --- TO BE REMOVED
 
