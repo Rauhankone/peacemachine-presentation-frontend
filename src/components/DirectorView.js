@@ -55,6 +55,21 @@ export default class DirectorView extends React.Component {
         };
       });
     });
+
+    socketService.subscribeToEvent('channelCandidacyUpdated', data => {
+      console.log('channelCandidacyUpdated', data);
+      this.setState(({ appointedChannels }) => {
+        return !appointedChannels.includes(data.id)
+          ? {
+              appointedChannels: [...appointedChannels, data.id]
+            }
+          : {
+              appointedChannels: [
+                ...appointedChannels.filter(c => c !== data.id)
+              ]
+            };
+      });
+    });
   };
 
   handleSlideClick = slide => event => {
@@ -65,22 +80,10 @@ export default class DirectorView extends React.Component {
 
   handleChannelClick = channel => event => {
     console.log(this.state.appointedChannels);
-      this.setState(({ appointedChannels }) => {
-        return !appointedChannels.includes(channel) && appointedChannels.length < 3
-          ? {
-              appointedChannels: [...appointedChannels, channel]
-            }
-          : {
-              appointedChannels: [
-                ...appointedChannels.filter(c => c !== channel)
-              ]
-            };
-      });
-
-      socketService.emitEvent('channelCandidacyChanged', {
-        id: channel,
-        candidate: !this.state.appointedChannels.includes(channel)
-      });
+    socketService.emitEvent('channelCandidacyChanged', {
+      id: channel,
+      candidate: !this.state.appointedChannels.includes(channel)
+    });
   };
 
   render() {
