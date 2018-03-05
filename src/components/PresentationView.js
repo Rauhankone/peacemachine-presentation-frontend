@@ -15,7 +15,6 @@ export default class PresentationView extends React.Component {
 
   state = {
     channels: [],
-    appointedChannels: [],
     activeSlide: 'live text'
   };
 
@@ -41,7 +40,10 @@ export default class PresentationView extends React.Component {
       });
     });
     socketService.subscribeToEvent('initStoreProps', (data) => {
-      this.setState({ channels: data.channels, activeSlide: data.slides.activeSlide });
+      let appointedChannels = data.channels.filter((ch) => {
+        return ch.candidate;
+      });
+      this.setState({ channels: appointedChannels, activeSlide: data.slides.activeSlide });
     });
   }
 
