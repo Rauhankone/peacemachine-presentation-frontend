@@ -1,0 +1,105 @@
+.input-view {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.input-view-content {
+  flex-basis: 720px;
+  max-width: 90vw;
+  /* padding-bottom: 3rem; */
+}
+
+.voice-controls {
+  background-color: rgb(250, 250, 250);
+  border: 1px solid #dadada;
+  border-bottom-width: 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.channel-id {
+  flex: 1;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.channel-id h3 {
+  font-weight: bold;
+  font-size: 0.7rem;
+}
+
+.channel-id span {
+  font-size: 0.7rem;
+  font-family: monospace;
+}
+
+.voice-controls button {
+  padding: 0.4rem 0.8rem;
+}
+
+.voice-controls button.isRecording {
+  background-color: #ee5253;
+}
+
+.live-text-container {
+  background-color: white;
+  border: 1px solid #dadada;
+  border-top-color: rgb(230, 230, 230);
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.3);
+  height: 400px;
+  max-height: 80vh;
+  overflow-y: scroll;
+  border-radius: 3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: 1rem;
+}
+
+.rec-icon {
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
+
+.recording-info {
+  background-color: rgb(250, 250, 250);
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 3px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: rgb(100, 100, 100);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  animation: rec-info 0.3s ease-out;
+}
+
+@keyframes rec-info {
+  from {
+    transform: translateY(-4rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.recording-info span {
+  flex: 1;
+}
+
+.not-candidate {
+  color: gray;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+}

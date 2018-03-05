@@ -1,28 +1,33 @@
+html {
+  font-size: 18px !important;
+  overflow-y: auto !important;
+}
+
+body {
+  background-color: #fafafa;
+}
+
 .App {
-  text-align: center;
+  line-height: 1.3;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+button {
+  background-color: #3f5365;
   color: white;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 3px;
 }
 
-.App-title {
-  font-size: 1.5em;
+button:hover {
+  background-color: #526c83;
 }
 
-.App-intro {
-  font-size: large;
+button:active {
+  background-color: black;
+  transform: translateY(1px);
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+button:disabled {
+  opacity: 0.4;
 }

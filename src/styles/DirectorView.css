@@ -1,0 +1,275 @@
+.director-view-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 0% 90% 20%;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  margin: 0 1rem;
+  height: 100vh;
+}
+
+.grid-item {
+  align-self: stretch;
+  justify-self: stretch;
+}
+
+/* Header */
+
+.grid-header {
+  grid-column-start: 1;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: auto;
+}
+
+.grid-header h1 {
+  margin-top: 45px;
+}
+
+/* Left-hand side panel and subgrid */
+
+.grid-leftSide {
+  grid-row-start: 2;
+  grid-row-end: auto;
+}
+
+.subgrid-left {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr 3fr;
+  grid-gap: 0rem;
+}
+
+/* Left hans side buttons */
+
+.controls,
+.stage-view {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  align-items: baseline;
+}
+
+.controls {
+  padding-top: 2rem;
+  min-width: 300px;
+}
+
+.all-slides-title {
+  margin-left: 1.5rem;
+  color: black;
+  font-weight: bold;
+  display: inline-block;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.all-slides-title .icon {
+  margin-right: 0.4rem;
+}
+
+.controls:after,
+.stage-view:after {
+  content: '';
+  position: absolute;
+  left: 0.7rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #414288;
+  z-index: -1;
+}
+
+.controls .control-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  height: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.control-radio input {
+  position: absolute;
+  opacity: 0;
+  /* visibility: hidden; */
+  cursor: pointer;
+}
+
+.control-radio i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  box-shadow: inset 0 0 0 2px #414288, 0 0 0 4px RGBA(250, 250, 250, 1);
+  background-color: RGBA(250, 250, 250, 1);
+  border-radius: 50%;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+
+.control-radio input:checked ~ i {
+  animation: checked 0.2s cubic-bezier(0, 0, 0.57, 1.72) forwards;
+  box-shadow: inset 0 0 0 1.5rem #414288;
+}
+
+@keyframes checked {
+  0% {
+    transform: scale(1, 2);
+  }
+  50% {
+    border-radius: 3px;
+  }
+  100% {
+    transform: scale(1, 1);
+    border-radius: 3px;
+  }
+}
+
+.control-radio i:after {
+  content: '';
+  position: absolute;
+  display: none;
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  height: 0.85rem;
+  width: 0.45rem;
+  transform: rotate(45deg);
+  top: 0.25rem;
+  left: 0.55em;
+}
+
+.control-radio input:checked ~ i:after {
+  animation: checkedIcon 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+  display: block;
+}
+
+@keyframes checkedIcon {
+  from {
+    transform: rotate(45deg) translate(-3rem, -3rem) scale(2, 1);
+  }
+  to {
+    transform: rotate(45deg) translate(0rem);
+  }
+}
+
+.control-radio span {
+  margin-left: 2rem;
+  font-weight: 500;
+  transform-origin: left;
+  font-size: 0.8rem;
+  color: #414288;
+}
+
+.grid-sub-item.btn:hover {
+  background: #ccd;
+  cursor: pointer;
+}
+
+/* Stage view */
+
+.grid-sub-item.stage-view {
+  padding-left: 2rem;
+  display: block;
+}
+
+.stage-view h3 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.stage-view .bubble span {
+  font-size: 0.8rem;
+}
+
+.stage-view .bubble {
+  background-color: RGBA(65, 66, 136, 1);
+  color: white;
+  display: inline-block;
+  position: relative;
+  border-radius: 3px;
+  padding: 1rem;
+  line-height: 1.3;
+  min-width: 80%;
+}
+
+.stage-view .bubble:before {
+  content: '';
+  position: absolute;
+  top: calc(50% - 12px);
+  border: 12px solid transparent;
+  border-right-color: RGBA(65, 66, 136, 1);
+  left: -24px;
+}
+
+.loop-select {
+  margin: 1.5rem 0;
+}
+
+/* Right-hand side of the grid */
+
+.grid-rightSide {
+  grid-row-start: 2;
+  grid-row-end: auto;
+}
+
+.subgrid-right {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 2fr 5fr;
+  grid-gap: 1rem;
+}
+
+/* List of connected clients on the right */
+
+.connected-list p {
+  margin: 0px;
+}
+
+/* Word zoom tool on the right */
+
+.zoom-tool {
+  background: white;
+}
+
+/* connected channels */
+
+.connected-list {
+  background-color: white;
+  border: 1px solid #dadada;
+  border-top-color: rgb(230, 230, 230);
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.3);
+  height: 240px;
+  overflow-y: scroll;
+  border-radius: 3px;
+}
+
+.connected-list li {
+  padding: 0 0rem;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.connected-list li .channel-id {
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  font-family: monospace;
+}
+
+.connected-list li .channel-control {
+  box-shadow: 1px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 1rem;
+  font-size: 1rem;
+}
+
+.connected-list li .channel-control input {
+}

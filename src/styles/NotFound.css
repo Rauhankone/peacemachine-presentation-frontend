@@ -1,0 +1,33 @@
+.notFound {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -4rem;
+}
+
+.notFound h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 4rem;
+}
+
+.notFound span {
+  margin-right: 0.5ex;
+}
+
+.notFound h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.go-to ul li {
+  display: inline;
+  padding-right: 1rem;
+}
+
+.go-to ul li:last-of-type {
+  padding: 0;
+}

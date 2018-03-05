@@ -3,9 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-pro-regular": "^5.0.7",
+    "@fortawesome/react-fontawesome": "^0.0.17",
+    "axios": "^0.18.0",
+    "d3": "^4.13.0",
+    "keyword-extractor": "0.0.15",
+    "moment": "^2.20.1",
+    "nanoreset": "^1.2.0",
     "react": "^16.2.0",
+    "react-d3-cloud": "^0.6.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-faux-dom": "^4.1.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "tachyons": "4.9.1",
+    "watson-speech": "^0.34.1"
   },
   "scripts": {
     "start": "react-scripts start",

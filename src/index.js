@@ -1,8 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'nanoreset';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import './App.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import registerServiceWorker from './registerServiceWorker';
+import Router from './components/Router';
+
+import fontawesome from '@fortawesome/fontawesome';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faRegular from '@fortawesome/fontawesome-pro-regular';
+
+fontawesome.library.add(faRegular);
+
+ReactDOM.render(<Router />, document.getElementById('root'));
 registerServiceWorker();
