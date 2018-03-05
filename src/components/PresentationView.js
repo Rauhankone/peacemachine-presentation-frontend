@@ -39,6 +39,13 @@ export default class PresentationView extends React.Component {
           return { channels };
       });
     });
+    socketService.subscribeToEvent('channelDisconnected', (data) => {
+      console.log('Channel disconnected!');
+      console.log(data);
+      this.setState((prevState) => ({
+        channels: prevState.channels.filter((ch) => ch.id !== data.id)
+      }));
+    });
     socketService.subscribeToEvent('initStoreProps', (data) => {
       let appointedChannels = data.channels.filter((ch) => {
         return ch.candidate;

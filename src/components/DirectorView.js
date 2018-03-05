@@ -64,6 +64,7 @@ export default class DirectorView extends React.Component {
   };
 
   handleChannelClick = channel => event => {
+    console.log(this.state.appointedChannels);
       this.setState(({ appointedChannels }) => {
         return !appointedChannels.includes(channel) && appointedChannels.length < 3
           ? {
