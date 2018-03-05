@@ -7,8 +7,9 @@
 }
 
 .input-view-content {
-  flex-basis: 480px;
-  padding-bottom: 3rem;
+  flex-basis: 720px;
+  max-width: 90vw;
+  /* padding-bottom: 3rem; */
 }
 
 .voice-controls {
@@ -21,6 +22,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.channel-id {
+  flex: 1;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.channel-id h3 {
+  font-weight: bold;
+  font-size: 0.7rem;
+}
+
+.channel-id span {
+  font-size: 0.7rem;
+  font-family: monospace;
 }
 
 .voice-controls button {
@@ -37,6 +53,7 @@
   border-top-color: rgb(230, 230, 230);
   box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.3);
   height: 400px;
+  max-height: 80vh;
   overflow-y: scroll;
   border-radius: 3px;
   border-top-left-radius: 0;
@@ -46,6 +63,7 @@
 
 .rec-icon {
   margin-left: 0.5rem;
+  margin-right: 1rem;
 }
 
 .recording-info {

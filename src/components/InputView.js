@@ -14,15 +14,27 @@ export default class InputView extends React.Component {
     this.state = {
       isRecording: false,
       stream: null,
-      sttResultArr: []
+      sttResultArr: [],
+      id: '...'
     };
+    this.inputSocket();
+  }
+
+  inputSocket = () => {
     socketService.initSocket('input');
+
     socketService.emitEvent('channelCreated');
+
+    socketService.subscribeToEvent('initStoreProps', ({ id }) => {
+      // console.log(data);
+      this.setState({ id });
+    });
+
     socketService.subscribeToEvent('channelUpdated', data => {
       console.log('channelUpdated');
       console.log(data);
     });
-  }
+  };
 
   handleClick = () => {
     let stream;
@@ -75,6 +87,10 @@ export default class InputView extends React.Component {
               size="lg"
               style={{ color: this.state.isRecording ? '#ee5253' : '#DADADA' }}
             />
+            <div className="channel-id">
+              <h3>Channel ID</h3>
+              <span>{this.state.id}</span>
+            </div>
             <button
               className={
                 'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
