@@ -15,24 +15,31 @@ export default class InputView extends React.Component {
       isRecording: false,
       stream: null,
       sttResultArr: [],
-      id: '...'
+      channel: {},
+      candidate: false
     };
     this.inputSocket();
   }
 
   inputSocket = () => {
+    console.log(socketService.initSocket);
     socketService.initSocket('input');
 
     socketService.emitEvent('channelCreated');
 
     socketService.subscribeToEvent('initStoreProps', ({ id }) => {
-      // console.log(data);
-      this.setState({ id });
+      this.setState({ channel: { id } });
     });
 
     socketService.subscribeToEvent('channelUpdated', data => {
       console.log('channelUpdated');
       console.log(data);
+    });
+
+    socketService.subscribeToEvent('channelCandidacyUpdated', data => {
+      if (data.id === this.state.channel.id) {
+        this.setState({ candidate: data.candidate });
+      }
     });
   };
 
@@ -89,18 +96,22 @@ export default class InputView extends React.Component {
             />
             <div className="channel-id">
               <h3>Channel ID</h3>
-              <span>{this.state.id}</span>
+              <span>{this.state.channel.id}</span>
             </div>
-            <button
-              className={
-                'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
-              }
-              onClick={this.handleClick}
-            >
-              {this.state.isRecording
-                ? 'Stop Speech Transcription'
-                : 'Start Speech Transcription'}
-            </button>
+            {this.state.candidate ? (
+              <button
+                className={
+                  'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
+                }
+                onClick={this.handleClick}
+              >
+                {this.state.isRecording
+                  ? 'Stop Speech Transcription'
+                  : 'Start Speech Transcription'}
+              </button>
+            ) : (
+              <span className="not-candidate">Start Speech Transcription</span>
+            )}
           </div>
           <div className="live-text-container">
             {this.state.isRecording && (

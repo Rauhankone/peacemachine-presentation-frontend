@@ -96,3 +96,10 @@
 .recording-info span {
   flex: 1;
 }
+
+.not-candidate {
+  color: gray;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+}
