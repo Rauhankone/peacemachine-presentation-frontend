@@ -48,6 +48,8 @@ export default class InputView extends React.Component {
     if (this.state.isRecording && this.state.stream) {
       this.state.stream.stop();
 
+      socketService.emitEvent('channelRecordingState', { recording: false });
+
       this.setState({
         isRecording: false,
         stream: null
@@ -55,7 +57,7 @@ export default class InputView extends React.Component {
     } else {
       sttService('.live-text')
         .then(res => {
-          socketService.emitEvent('channelRecording');
+          socketService.emitEvent('channelRecordingState', { recording: true });
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));

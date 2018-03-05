@@ -43,9 +43,9 @@ export default class DirectorView extends React.Component {
 
     socketService.subscribeToEvent('initStoreProps', data => {
       this.setState(prevState => {
-        let appointedChannels = data.channels
-          .filter(el => el.candidate)
-          .map(el => el.id);
+        let appointedChannels = data.channels.filter(el => el.candidate);
+
+        console.log(data.channels);
 
         return {
           slides: data.slides.allSlides,
@@ -68,6 +68,20 @@ export default class DirectorView extends React.Component {
                 ...appointedChannels.filter(c => c !== data.id)
               ]
             };
+      });
+    });
+
+    socketService.subscribeToEvent('channelRecordingChange', data => {
+      console.log('channelRecordingChange');
+      this.setState(prevState => {
+        const i = prevState.channels.findIndex(el => el.id === data.id);
+
+        console.log('i', i);
+
+        prevState.channels[i].recording = data.recording;
+        return {
+          channels: [...prevState.channels]
+        };
       });
     });
   };
@@ -148,6 +162,14 @@ export default class DirectorView extends React.Component {
                         onChange={this.handleChannelClick(channel.id)}
                       />
                     </label>
+                    <span
+                      className="channel-recording-state"
+                      style={{
+                        color: channel.recording ? '#3897FC' : '#dadada'
+                      }}
+                    >
+                      {channel.recording ? 'recording' : 'idle'}
+                    </span>
                   </div>
                   <span className="channel-id">{channel.id}</span>
                 </li>
