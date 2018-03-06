@@ -11,3 +11,7 @@
   padding: 1rem;
   box-shadow: 0 0 0 1px black;
 }
+
+.sentence-span {
+  display: inline-block;
+}
