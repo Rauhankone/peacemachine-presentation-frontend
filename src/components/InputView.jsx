@@ -16,7 +16,10 @@ export default class InputView extends React.Component {
       stream: null,
       sttResultArr: [],
       channel: {},
-      candidate: false
+      candidate: false,
+      analyzedSentences: [],
+      hoveringOnSentence: false,
+      activeSentenceIndex: null
     };
     this.inputSocket();
   }
@@ -41,6 +44,12 @@ export default class InputView extends React.Component {
         this.setState({ candidate: data.candidate });
       }
     });
+
+    socketService.subscribeToEvent('toneAnalyzeComplete', data => {
+      console.log(data);
+      this.setState({ analyzedSentences: data.analyzeObject.sentences_tone });
+      console.log(this.state.analyzedSentences);
+    })
   };
 
   handleClick = () => {
@@ -85,6 +94,80 @@ export default class InputView extends React.Component {
     }
   };
 
+  handleSentenceMouseHover = (e) => {
+    let i = Number.parseInt(e.target.getAttribute('index'));
+    this.toggleSentenceHoverState(i);
+    if (this.state.analyzedSentences) console.log(this.state.analyzedSentences[i]);
+  }
+
+  toggleSentenceHoverState = (index) => {
+    this.setState(prevState => ({
+      hoveringOnSentence: !prevState.hoveringOnSentence,
+      activeSentenceIndex: !prevState.hoveringOnSentence ? index : null
+    }));
+  }
+
+  stringifyToneScore = (score) => {
+    return score > 0.9 ? 'very high' :
+           score > 0.7 ? 'high' :
+           score > 0.4 ? 'average' :
+           score > 0.15 ? 'low' :
+           score > 0 ? 'very low' :
+           score === 0 ? 'not available' : '';
+  }
+
+  buildAnalyzedSentenceToolTip = (index) => {
+    if (!this.state.analyzedSentences ||  !this.state.analyzedSentences[index]) {
+      return;
+    }
+    let tone_categories = this.state.analyzedSentences[index].tone_categories;
+
+    let styleObj = {
+      position: 'absolute',
+      padding: '25px',
+      background: '#333',
+      color: '#ddf',
+      top: '25px',
+      left: '15px',
+      'min-width': '400px',
+      'z-index': 9999
+    }
+    let subHeadings = {
+      'font-weight': 'bold'
+    }
+    let subGroups = {
+      padding: '10px'
+    }
+
+    return (
+      <div style={styleObj}>
+        <p style={subHeadings}>Emotion tone</p>
+        <div style={subGroups}>
+          <p>Anger: {this.stringifyToneScore(tone_categories[0].tones[0].score)}</p>
+          <p>Disgust: {this.stringifyToneScore(tone_categories[0].tones[1].score)}</p>
+          <p>Fear: {this.stringifyToneScore(tone_categories[0].tones[2].score)}</p>
+          <p>Joy: {this.stringifyToneScore(tone_categories[0].tones[3].score)}</p>
+          <p>Sadness: {this.stringifyToneScore(tone_categories[0].tones[4].score)}</p>
+        </div>
+        <p style={subHeadings}>Language tone</p>
+        <div style={subGroups}>
+          <p>Analytical: {this.stringifyToneScore(tone_categories[1].tones[0].score)}</p>
+          <p>Confident: {this.stringifyToneScore(tone_categories[1].tones[1].score)}</p>
+          <p>Tentative: {this.stringifyToneScore(tone_categories[1].tones[2].score)}</p>
+        </div>
+        <p style={subHeadings}>Social tone</p>
+        <div style={subGroups}>
+          <p>Openness: {this.stringifyToneScore(tone_categories[2].tones[0].score)}</p>
+          <p>Conscientiousness: {this.stringifyToneScore(tone_categories[2].tones[1].score)}</p>
+          <p>Extraversion: {this.stringifyToneScore(tone_categories[2].tones[2].score)}</p>
+          <p>Agreeableness: {this.stringifyToneScore(tone_categories[2].tones[3].score)}</p>
+          <p>Emotional range: {this.stringifyToneScore(tone_categories[2].tones[4].score)}</p>
+        </div>
+      </div>
+    )
+
+  }
+
   render() {
     return (
       <div className="input-view">
@@ -112,8 +195,8 @@ export default class InputView extends React.Component {
                   : 'Start Speech Transcription'}
               </button>
             ) : (
-              <span className="not-candidate">Start Speech Transcription</span>
-            )}
+                <span className="not-candidate">Start Speech Transcription</span>
+              )}
           </div>
           <div className="live-text-container">
             {this.state.isRecording && (
@@ -135,8 +218,19 @@ export default class InputView extends React.Component {
                   color: `rgba(0, 0, 0, ${resultObj.confidence})`
                 };
                 return (
-                  <span style={styleObj} key={i}>
+                  <span
+                    style={styleObj}
+                    className="live-text-sentence"
+                    key={i}
+                    index={i}
+                    onMouseEnter={this.handleSentenceMouseHover}
+                    onMouseLeave={this.handleSentenceMouseHover}
+                  >
                     {resultObj.transcript}
+                    {console.log(i, JSON.stringify(this.state.activeSentenceIndex))}
+                    {this.state.activeSentenceIndex === i &&
+                      this.buildAnalyzedSentenceToolTip(i)
+                    }
                   </span>
                 );
               })}
