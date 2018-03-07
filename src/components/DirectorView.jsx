@@ -76,13 +76,23 @@ export default class DirectorView extends React.Component {
       this.setState(prevState => {
         const i = prevState.channels.findIndex(el => el.id === data.id);
 
-        console.log('i', i);
-
         prevState.channels[i].recording = data.recording;
         return {
           channels: [...prevState.channels]
         };
       });
+    });
+  };
+
+  setTranscriptClientPosition = (id, x, y) => {
+    this.setState(prevState => {
+      const i = prevState.mess.findIndex(el => el.id === id);
+
+      prevState.mess[i].clientPosition = { x, y };
+
+      return {
+        mess: [...prevState.mess]
+      };
     });
   };
 

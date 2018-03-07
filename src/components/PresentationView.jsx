@@ -1,8 +1,11 @@
 import React from 'react';
-import LiveTextView from './PresentationSubviews/LiveTextView';
-import WordCloudView from './PresentationSubviews/WordCloudView';
-import WordZoomView from './PresentationSubviews/WordZoomView';
-import SentimentView from './PresentationSubviews/SentimentView';
+
+import ActiveSlideHeader from './PresentationView/ActiveSlideHeader';
+
+import LiveTextView from './PresentationView/LiveTextView';
+import WordCloudView from './PresentationView/WordCloudView';
+import WordZoomView from './PresentationView/WordZoomView';
+import SentimentView from './PresentationView/SentimentView';
 
 import socketService from '../services/socket-service';
 
@@ -14,60 +17,90 @@ export default class PresentationView extends React.Component {
   }
 
   state = {
-    channels: [],
+    channels: [
+      {
+        id: '',
+        confidence: 0,
+        transcript: '',
+        fullTranscript: ''
+      }
+      /*...*/
+    ],
+    mess: [],
     activeSlide: 'live text'
   };
 
   presentationSocketSetup() {
-    socketService.subscribeToEvent('channelUpdated', (data) => {
+    socketService.subscribeToEvent('channelUpdated', data => {
       this.setState(prevState => {
-        const id = prevState.channels.findIndex((ch) => ch.id === data.id);
+        const id = prevState.channels.findIndex(ch => ch.id === data.id);
         if (prevState.channels[id]) prevState.channels[id] = data;
         return {
-          channels: prevState.channels
+          channels: prevState.channels,
+          mess: [
+            ...prevState.mess,
+            {
+              id: data.id,
+              confidence: data.confidence,
+              transcript: data.transcript,
+              timestamp: Date.now()
+            }
+          ]
         };
       });
     });
-    socketService.subscribeToEvent('slideUpdated', (data) => {
+
+    socketService.subscribeToEvent('slideUpdated', data => {
       this.setState({ activeSlide: data.slideName });
     });
-    socketService.subscribeToEvent('channelCandidacyUpdated', (data) => {
+
+    socketService.subscribeToEvent('channelCandidacyUpdated', data => {
       this.setState(prevState => {
-        let channels = prevState.channels.length < 3 && data.candidate ?
-          [...prevState.channels, data] :
-          prevState.channels.filter((ch) => ch.id !== data.id);
-          return { channels };
+        let channels =
+          prevState.channels.length < 3 && data.candidate
+            ? [...prevState.channels, data]
+            : prevState.channels.filter(ch => ch.id !== data.id);
+        return { channels };
       });
     });
-    socketService.subscribeToEvent('channelDisconnected', (data) => {
+
+    socketService.subscribeToEvent('channelDisconnected', data => {
       console.log('Channel disconnected!');
       console.log(data);
-      this.setState((prevState) => ({
-        channels: prevState.channels.filter((ch) => ch.id !== data.id)
+      this.setState(prevState => ({
+        channels: prevState.channels.filter(ch => ch.id !== data.id)
       }));
     });
-    socketService.subscribeToEvent('initStoreProps', (data) => {
-      let appointedChannels = data.channels.filter((ch) => {
+
+    socketService.subscribeToEvent('initStoreProps', data => {
+      let appointedChannels = data.channels.filter(ch => {
         return ch.candidate;
       });
-      this.setState({ channels: appointedChannels, activeSlide: data.slides.activeSlide });
+      this.setState({
+        channels: appointedChannels,
+        activeSlide: data.slides.activeSlide
+      });
+    });
+
+    socketService.subscribeToEvent('channelUpdated', data => {
+      console.log(data);
     });
   }
 
   renderSubviewComponent() {
     const slideViews = {
-      'live text': <LiveTextView channels={this.state.channels} />,
+      'live text': <LiveTextView mess={this.state.mess} />,
       'sentiment analysis': <SentimentView />,
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoomView />
-    }
+    };
     return slideViews[this.state.activeSlide];
   }
 
   render() {
     return (
       <div className="presentation-view">
-        <p>{this.state.activeSlide}</p>
+        <ActiveSlideHeader slideName={this.state.activeSlide} />
         {this.renderSubviewComponent()}
       </div>
     );

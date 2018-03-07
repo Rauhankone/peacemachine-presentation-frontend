@@ -1,8 +1,14 @@
+body {
+  overflow: hidden;
+}
+
 .live-text-view {
-  margin-top: 3rem;
+  padding-top: 5rem;
   width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: row;
+  background-color: #292d3e;
 }
 
 .live-text-view .live-text-col {
@@ -12,7 +18,15 @@
   box-shadow: 0 0 0 1px black;
 }
 
+.sentences-container {
+  width: 680px;
+  margin: 0 auto;
+}
+
 .sentence-span {
+  color: #eeffff;
+  font-weight: bold;
   display: inline-block;
-  transform-origin: bottom;
+  line-height: 1.4;
+  /* transform-origin: bottom; */
 }
