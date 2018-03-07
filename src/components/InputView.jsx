@@ -7,6 +7,8 @@ import sttService, { outputFinal } from '../services/stt-service';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+import { generateFakeChannelData } from '../utils';
+
 export default class InputView extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +51,7 @@ export default class InputView extends React.Component {
       console.log(data);
       this.setState({ analyzedSentences: data.analyzeObject.sentences_tone });
       console.log(this.state.analyzedSentences);
-    })
+    });
   };
 
   handleClick = () => {
@@ -94,30 +96,34 @@ export default class InputView extends React.Component {
     }
   };
 
-  handleSentenceMouseHover = (e) => {
+  handleSentenceMouseHover = e => {
     let i = Number.parseInt(e.target.getAttribute('index'));
     this.toggleSentenceHoverState(i);
-    if (this.state.analyzedSentences) console.log(this.state.analyzedSentences[i]);
-  }
+    if (this.state.analyzedSentences)
+      console.log(this.state.analyzedSentences[i]);
+  };
 
-  toggleSentenceHoverState = (index) => {
+  toggleSentenceHoverState = index => {
     this.setState(prevState => ({
       hoveringOnSentence: !prevState.hoveringOnSentence,
       activeSentenceIndex: !prevState.hoveringOnSentence ? index : null
     }));
-  }
+  };
 
-  stringifyToneScore = (score) => {
-    return score > 0.9 ? 'very high' :
-           score > 0.7 ? 'high' :
-           score > 0.4 ? 'average' :
-           score > 0.15 ? 'low' :
-           score > 0 ? 'very low' :
-           score === 0 ? 'not available' : '';
-  }
+  stringifyToneScore = score => {
+    return score > 0.9
+      ? 'very high'
+      : score > 0.7
+        ? 'high'
+        : score > 0.4
+          ? 'average'
+          : score > 0.15
+            ? 'low'
+            : score > 0 ? 'very low' : score === 0 ? 'not available' : '';
+  };
 
-  buildAnalyzedSentenceToolTip = (index) => {
-    if (!this.state.analyzedSentences ||  !this.state.analyzedSentences[index]) {
+  buildAnalyzedSentenceToolTip = index => {
+    if (!this.state.analyzedSentences || !this.state.analyzedSentences[index]) {
       return;
     }
     let tone_categories = this.state.analyzedSentences[index].tone_categories;
@@ -131,42 +137,92 @@ export default class InputView extends React.Component {
       left: '15px',
       'min-width': '400px',
       'z-index': 9999
-    }
+    };
     let subHeadings = {
       'font-weight': 'bold'
-    }
+    };
     let subGroups = {
       padding: '10px'
-    }
+    };
 
     return (
       <div style={styleObj}>
         <p style={subHeadings}>Emotion tone</p>
         <div style={subGroups}>
-          <p>Anger: {this.stringifyToneScore(tone_categories[0].tones[0].score)}</p>
-          <p>Disgust: {this.stringifyToneScore(tone_categories[0].tones[1].score)}</p>
-          <p>Fear: {this.stringifyToneScore(tone_categories[0].tones[2].score)}</p>
-          <p>Joy: {this.stringifyToneScore(tone_categories[0].tones[3].score)}</p>
-          <p>Sadness: {this.stringifyToneScore(tone_categories[0].tones[4].score)}</p>
+          <p>
+            Anger: {this.stringifyToneScore(tone_categories[0].tones[0].score)}
+          </p>
+          <p>
+            Disgust:{' '}
+            {this.stringifyToneScore(tone_categories[0].tones[1].score)}
+          </p>
+          <p>
+            Fear: {this.stringifyToneScore(tone_categories[0].tones[2].score)}
+          </p>
+          <p>
+            Joy: {this.stringifyToneScore(tone_categories[0].tones[3].score)}
+          </p>
+          <p>
+            Sadness:{' '}
+            {this.stringifyToneScore(tone_categories[0].tones[4].score)}
+          </p>
         </div>
         <p style={subHeadings}>Language tone</p>
         <div style={subGroups}>
-          <p>Analytical: {this.stringifyToneScore(tone_categories[1].tones[0].score)}</p>
-          <p>Confident: {this.stringifyToneScore(tone_categories[1].tones[1].score)}</p>
-          <p>Tentative: {this.stringifyToneScore(tone_categories[1].tones[2].score)}</p>
+          <p>
+            Analytical:{' '}
+            {this.stringifyToneScore(tone_categories[1].tones[0].score)}
+          </p>
+          <p>
+            Confident:{' '}
+            {this.stringifyToneScore(tone_categories[1].tones[1].score)}
+          </p>
+          <p>
+            Tentative:{' '}
+            {this.stringifyToneScore(tone_categories[1].tones[2].score)}
+          </p>
         </div>
         <p style={subHeadings}>Social tone</p>
         <div style={subGroups}>
-          <p>Openness: {this.stringifyToneScore(tone_categories[2].tones[0].score)}</p>
-          <p>Conscientiousness: {this.stringifyToneScore(tone_categories[2].tones[1].score)}</p>
-          <p>Extraversion: {this.stringifyToneScore(tone_categories[2].tones[2].score)}</p>
-          <p>Agreeableness: {this.stringifyToneScore(tone_categories[2].tones[3].score)}</p>
-          <p>Emotional range: {this.stringifyToneScore(tone_categories[2].tones[4].score)}</p>
+          <p>
+            Openness:{' '}
+            {this.stringifyToneScore(tone_categories[2].tones[0].score)}
+          </p>
+          <p>
+            Conscientiousness:{' '}
+            {this.stringifyToneScore(tone_categories[2].tones[1].score)}
+          </p>
+          <p>
+            Extraversion:{' '}
+            {this.stringifyToneScore(tone_categories[2].tones[2].score)}
+          </p>
+          <p>
+            Agreeableness:{' '}
+            {this.stringifyToneScore(tone_categories[2].tones[3].score)}
+          </p>
+          <p>
+            Emotional range:{' '}
+            {this.stringifyToneScore(tone_categories[2].tones[4].score)}
+          </p>
         </div>
       </div>
-    )
+    );
+  };
 
-  }
+  genFakeChannelDataStream = e => {
+    let INTERVAL_ID = null;
+    let i = 0;
+    const fakeDataArray = generateFakeChannelData(24);
+
+    INTERVAL_ID = setInterval(() => {
+      console.log('int', i);
+      this.handleStreamInput(fakeDataArray[i]);
+      i++;
+      if (i >= fakeDataArray.length - 1) {
+        clearInterval(INTERVAL_ID);
+      }
+    }, 1000);
+  };
 
   render() {
     return (
@@ -195,8 +251,14 @@ export default class InputView extends React.Component {
                   : 'Start Speech Transcription'}
               </button>
             ) : (
-                <span className="not-candidate">Start Speech Transcription</span>
-              )}
+              <span className="not-candidate">Start Speech Transcription</span>
+            )}
+            <button
+              onClick={this.genFakeChannelDataStream}
+              style={{ marginLeft: '0.5rem', padding: '.3rem 1rem' }}
+            >
+              fake
+            </button>
           </div>
           <div className="live-text-container">
             {this.state.isRecording && (
@@ -227,10 +289,12 @@ export default class InputView extends React.Component {
                     onMouseLeave={this.handleSentenceMouseHover}
                   >
                     {resultObj.transcript}
-                    {console.log(i, JSON.stringify(this.state.activeSentenceIndex))}
+                    {console.log(
+                      i,
+                      JSON.stringify(this.state.activeSentenceIndex)
+                    )}
                     {this.state.activeSentenceIndex === i &&
-                      this.buildAnalyzedSentenceToolTip(i)
-                    }
+                      this.buildAnalyzedSentenceToolTip(i)}
                   </span>
                 );
               })}

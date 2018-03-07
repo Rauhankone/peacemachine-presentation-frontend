@@ -11,6 +11,7 @@
     "keyword-extractor": "0.0.15",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
+    "nanoid": "^1.0.2",
     "nanoreset": "^1.2.0",
     "react": "^16.2.0",
     "react-d3-cloud": "^0.6.0",

@@ -1,3 +1,6 @@
+import nanoid from 'nanoid';
+import _ from 'lodash';
+
 export const slugify = text => {
   return text
     .toString()
@@ -37,3 +40,15 @@ export const capitalize = string => {
     );
   }
 };
+
+/**
+ *
+ * @param {number} wordAmount the amount of desired words
+ */
+export const generateFakeChannelData = wordAmount =>
+  Array.from(new Array(wordAmount), (el, i) => {
+    return {
+      transcript: `${nanoid()}. `,
+      confidence: Math.random()
+    };
+  });

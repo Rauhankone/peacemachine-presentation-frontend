@@ -4,10 +4,12 @@ import ActiveSlideHeader from './PresentationView/ActiveSlideHeader';
 
 import LiveTextView from './PresentationView/LiveTextView';
 import WordCloudView from './PresentationView/WordCloudView';
-import WordZoomView from './PresentationView/WordZoomView';
 import SentimentView from './PresentationView/SentimentView';
 
+import WordZoom from './PresentationView/Overlay/WordZoom';
+
 import socketService from '../services/socket-service';
+import '../styles/Overlay.css';
 
 export default class PresentationView extends React.Component {
   constructor(props) {
@@ -87,12 +89,11 @@ export default class PresentationView extends React.Component {
     });
   }
 
-  renderSubviewComponent() {
+  renderOverlay() {
     const slideViews = {
-      'live text': <LiveTextView mess={this.state.mess} />,
       'sentiment analysis': <SentimentView />,
       'word cloud': <WordCloudView />,
-      'zoom tool': <WordZoomView />
+      'zoom tool': <WordZoom />
     };
     return slideViews[this.state.activeSlide];
   }
@@ -101,7 +102,8 @@ export default class PresentationView extends React.Component {
     return (
       <div className="presentation-view">
         <ActiveSlideHeader slideName={this.state.activeSlide} />
-        {this.renderSubviewComponent()}
+        <LiveTextView mess={this.state.mess} />
+        <div className="overlay-container">{this.renderOverlay()}</div>
       </div>
     );
   }
