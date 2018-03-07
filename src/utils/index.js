@@ -1,4 +1,4 @@
-import nanoid from 'nanoid';
+import * as Sentencer from 'sentencer';
 import _ from 'lodash';
 
 export const slugify = text => {
@@ -43,12 +43,21 @@ export const capitalize = string => {
 
 /**
  *
- * @param {number} wordAmount the amount of desired words
+ * @param {number} numOfData the amount of desired words
  */
-export const generateFakeChannelData = wordAmount =>
-  Array.from(new Array(wordAmount), (el, i) => {
+export const generateFakeChannelData = numOfData =>
+  Array.from(new Array(numOfData), (el, i) => {
     return {
-      transcript: `${nanoid()}. `,
+      transcript: Sentencer.make(
+        _.sample([
+          'Sometimes the {{ nouns }} act all {{ adjective }}.',
+          'In {{ an_adjective }} world the {{ nouns }} act all {{ adjective }}. ',
+          'I wish I had {{ an_adjective }} {{ noun }}. ',
+          "That's {{ adjective }}. ",
+          'Where did all the {{ nouns }} go. ',
+          '{{ an_adjective }} {{ noun }} jumped over the {{ adjective }} {{ noun }}. '
+        ])
+      ),
       confidence: Math.random()
     };
   });

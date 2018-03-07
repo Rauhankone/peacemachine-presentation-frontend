@@ -215,7 +215,6 @@ export default class InputView extends React.Component {
     const fakeDataArray = generateFakeChannelData(24);
 
     INTERVAL_ID = setInterval(() => {
-      console.log('int', i);
       this.handleStreamInput(fakeDataArray[i]);
       i++;
       if (i >= fakeDataArray.length - 1) {
