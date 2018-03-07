@@ -19,7 +19,6 @@ body {
 }
 
 .sentences-container {
-  width: 680px;
   margin: 0 auto;
 }
 
@@ -29,4 +28,8 @@ body {
   display: inline-block;
   line-height: 1.4;
   /* transform-origin: bottom; */
+}
+
+.sentence-letter {
+  display: inline-block;
 }

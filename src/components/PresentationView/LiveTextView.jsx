@@ -16,16 +16,14 @@ const dummySentences = [
 class LiveTextView extends React.Component {
   componentDidMount() {}
 
-  state = {
-    sentences: [...dummySentences]
-  };
-
   render() {
     return (
       <section className="live-text-view">
-        {this.props.mess.map(channel => (
-          <SentenceSpan key={channel.id} data={channel} />
-        ))}
+        <div className="sentences-container">
+          {this.props.mess.map(channel => (
+            <SentenceSpan key={channel.id} data={channel} />
+          ))}
+        </div>
         {/* <NodeGroup
           data={this.props.mess}
           keyAccessor={channel => channel.timestamp}
