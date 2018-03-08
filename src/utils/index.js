@@ -63,3 +63,15 @@ export const generateFakeChannelData = numOfData =>
       confidence: Math.random()
     };
   });
+
+export const stringifyToneScore = score => {
+  return score > 0.9
+    ? 'very high'
+    : score > 0.7
+      ? 'high'
+      : score > 0.4
+        ? 'average'
+        : score > 0.15
+          ? 'low'
+          : score > 0 ? 'very low' : score === 0 ? 'not available' : '';
+};
