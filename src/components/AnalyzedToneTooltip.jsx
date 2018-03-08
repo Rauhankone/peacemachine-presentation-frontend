@@ -1,8 +1,10 @@
 import React from 'react';
 import { stringifyToneScore } from '../utils/';
 
-export default (props) => {
+export default props => {
   const tone_categories = props.analyzeObj.tone_categories;
+
+  console.log(props.analyzeObj);
 
   let styleObj = {
     position: 'absolute',
@@ -22,23 +24,14 @@ export default (props) => {
 
   return (
     <div style={styleObj}>
+      <h3>{props.analyzeObj.text}</h3>
       <p style={subHeadings}>Emotion tone</p>
       <div style={subGroups}>
-        <p>
-          Anger: {stringifyToneScore(tone_categories[0].tones[0].score)}
-        </p>
-        <p>
-          Disgust: {stringifyToneScore(tone_categories[0].tones[1].score)}
-        </p>
-        <p>
-          Fear: {stringifyToneScore(tone_categories[0].tones[2].score)}
-        </p>
-        <p>
-          Joy: {stringifyToneScore(tone_categories[0].tones[3].score)}
-        </p>
-        <p>
-          Sadness: {stringifyToneScore(tone_categories[0].tones[4].score)}
-        </p>
+        <p>Anger: {stringifyToneScore(tone_categories[0].tones[0].score)}</p>
+        <p>Disgust: {stringifyToneScore(tone_categories[0].tones[1].score)}</p>
+        <p>Fear: {stringifyToneScore(tone_categories[0].tones[2].score)}</p>
+        <p>Joy: {stringifyToneScore(tone_categories[0].tones[3].score)}</p>
+        <p>Sadness: {stringifyToneScore(tone_categories[0].tones[4].score)}</p>
       </div>
       <p style={subHeadings}>Language tone</p>
       <div style={subGroups}>
@@ -54,11 +47,10 @@ export default (props) => {
       </div>
       <p style={subHeadings}>Social tone</p>
       <div style={subGroups}>
+        <p>Openness: {stringifyToneScore(tone_categories[2].tones[0].score)}</p>
         <p>
-          Openness: {stringifyToneScore(tone_categories[2].tones[0].score)}
-        </p>
-        <p>
-          Conscientiousness: {stringifyToneScore(tone_categories[2].tones[1].score)}
+          Conscientiousness:{' '}
+          {stringifyToneScore(tone_categories[2].tones[1].score)}
         </p>
         <p>
           Extraversion: {stringifyToneScore(tone_categories[2].tones[2].score)}
@@ -67,7 +59,8 @@ export default (props) => {
           Agreeableness: {stringifyToneScore(tone_categories[2].tones[3].score)}
         </p>
         <p>
-          Emotional range: {stringifyToneScore(tone_categories[2].tones[4].score)}
+          Emotional range:{' '}
+          {stringifyToneScore(tone_categories[2].tones[4].score)}
         </p>
       </div>
     </div>
