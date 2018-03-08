@@ -21,19 +21,13 @@ export default recFile => {
           token,
           extractResults: true
         });
-        stt.on('data', data => {
-          console.log(data);
-        });
-        stt.on('listening', () => {
-          console.log('listening');
-        });
+
         resolve(stt);
       })
       .catch(e => {
         reject(
           'Unable to aquire token for Watson speech-to-text service (invalid credentials, maybe?)'
         );
-        console.log(e);
       });
   });
 };

@@ -14,7 +14,7 @@ export default class InputView extends React.Component {
     super(props);
     this.fullTranscript = '';
     this.state = {
-      isRecording: false,
+      recording: null,
       stream: null,
       sttResultArr: [],
       channel: {},
@@ -27,7 +27,6 @@ export default class InputView extends React.Component {
   }
 
   inputSocket = () => {
-    console.log(socketService.initSocket);
     socketService.initSocket('input');
 
     socketService.emitEvent('channelCreated');
@@ -54,32 +53,55 @@ export default class InputView extends React.Component {
     });
   };
 
-  handleClick = () => {
+  handleRecClick = () => {
     let stream;
-    if (this.state.isRecording && this.state.stream) {
-      this.state.stream.stop();
+    let recState = [null, 'recording', 'finished'];
 
-      socketService.emitEvent('channelRecordingState', { recording: false });
+    switch (this.state.recording) {
+      case null:
+        sttService('.live-text').then(res => {
+          socketService.emitEvent('channelRecordingState', {
+            recording: recState[1]
+          });
 
-      this.setState({
-        isRecording: false,
-        stream: null
-      });
-    } else {
-      sttService('.live-text')
-        .then(res => {
-          socketService.emitEvent('channelRecordingState', { recording: true });
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
           });
+
           this.setState(prevState => ({
-            isRecording: true,
+            recording: recState[1],
             stream
           }));
-          stream.on('message', event => console.log(event));
-        })
-        .catch(err => console.log(err));
+        });
+        break;
+      case 'recording':
+        this.state.stream.stop();
+
+        socketService.emitEvent('channelRecordingState', {
+          recording: recState[2]
+        });
+
+        this.setState({
+          recording: recState[2]
+        });
+        break;
+      case 'finished':
+        sttService('.live-text').then(res => {
+          socketService.emitEvent('channelRecordingState', {
+            recording: recState[1]
+          });
+
+          stream = res;
+          stream.on('data', data => {
+            this.handleStreamInput(outputFinal(data));
+          });
+
+          this.setState(prevState => ({
+            recording: recState[1]
+          }));
+        });
+        break;
     }
   };
 
@@ -212,12 +234,13 @@ export default class InputView extends React.Component {
   genFakeChannelDataStream = e => {
     let INTERVAL_ID = null;
     let i = 0;
-    const fakeDataArray = generateFakeChannelData(24);
+    const fakeDataArray = generateFakeChannelData(10);
 
     INTERVAL_ID = setInterval(() => {
       this.handleStreamInput(fakeDataArray[i]);
       i++;
       if (i >= fakeDataArray.length - 1) {
+        socketService.emitEvent('channelRecordingState', { recording: false });
         clearInterval(INTERVAL_ID);
       }
     }, 1000);
@@ -232,7 +255,7 @@ export default class InputView extends React.Component {
               icon={['far', 'microphone']}
               className="rec-icon"
               size="lg"
-              style={{ color: this.state.isRecording ? '#ee5253' : '#DADADA' }}
+              style={{ color: this.state.recording ? '#ee5253' : '#DADADA' }}
             />
             <div className="channel-id">
               <h3>Channel ID</h3>
@@ -241,11 +264,11 @@ export default class InputView extends React.Component {
             {this.state.candidate ? (
               <button
                 className={
-                  'recordBtn ' + (this.state.isRecording ? 'isRecording' : '')
+                  'recordBtn ' + (this.state.recording ? 'recording' : '')
                 }
-                onClick={this.handleClick}
+                onClick={this.handleRecClick}
               >
-                {this.state.isRecording
+                {this.state.recording === 'recording'
                   ? 'Stop Speech Transcription'
                   : 'Start Speech Transcription'}
               </button>
@@ -260,7 +283,7 @@ export default class InputView extends React.Component {
             </button>
           </div>
           <div className="live-text-container">
-            {this.state.isRecording && (
+            {this.state.recording && (
               <div className="recording-info">
                 <FontAwesomeIcon
                   icon={['far', 'info-circle']}
@@ -288,10 +311,6 @@ export default class InputView extends React.Component {
                     onMouseLeave={this.handleSentenceMouseHover}
                   >
                     {resultObj.transcript}
-                    {console.log(
-                      i,
-                      JSON.stringify(this.state.activeSentenceIndex)
-                    )}
                     {this.state.activeSentenceIndex === i &&
                       this.buildAnalyzedSentenceToolTip(i)}
                   </span>

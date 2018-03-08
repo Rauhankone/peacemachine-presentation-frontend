@@ -72,7 +72,6 @@ export default class DirectorView extends React.Component {
     });
 
     socketService.subscribeToEvent('channelRecordingChange', data => {
-      console.log('channelRecordingChange');
       this.setState(prevState => {
         const i = prevState.channels.findIndex(el => el.id === data.id);
 
@@ -109,6 +108,13 @@ export default class DirectorView extends React.Component {
       candidate: !this.state.appointedChannels.includes(channel)
     });
   };
+
+  get someChannelFinished() {
+    return this.state.channels
+      .map(ch => ch.recording)
+      .filter(rec => rec === 'finished')
+      .some(v => v);
+  }
 
   render() {
     return (
@@ -158,7 +164,9 @@ export default class DirectorView extends React.Component {
                     background: this.state.appointedChannels.includes(
                       channel.id
                     )
-                      ? 'rgba(59, 153, 252, .15)'
+                      ? channel.recording === 'finished'
+                        ? 'rgba(59, 153, 252, .15)'
+                        : 'rgba(87, 170, 84, .15)'
                       : null
                   }}
                 >
@@ -175,15 +183,26 @@ export default class DirectorView extends React.Component {
                     <span
                       className="channel-recording-state"
                       style={{
-                        color: channel.recording ? '#3897FC' : '#dadada'
+                        color: channel.recording
+                          ? channel.recording === 'finished'
+                            ? '#3B99FC'
+                            : '#57AA54'
+                          : '#dadada'
                       }}
                     >
-                      {channel.recording ? 'recording' : 'idle'}
+                      {channel.recording ? channel.recording : 'idle'}
                     </span>
                   </div>
                   <span className="channel-id">{channel.id}</span>
                 </li>
               ))}
+              <div className="analyzer-controls-container">
+                <div className="analyzer-controls">
+                  <button disabled={!this.someChannelFinished}>
+                    Analyze Channels
+                  </button>
+                </div>
+              </div>
             </ul>
             <div className="grid-sub-item zoom-tool" />
           </div>
