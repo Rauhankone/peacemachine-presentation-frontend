@@ -76,22 +76,4 @@ export const stringifyToneScore = score => {
   if (score > 0.15) return 'very low';
 
   if (score >= 0) return 'N/A';
-
-  // return score > 0.9
-  //   ? 'very high'
-  //   : score > 0.8
-  //     ? 'high'
-  //     : score > 0.75
-  //       ? 'average'
-  //       : score > 0.5 ? 'low' : score > 0.15 ? 'very low' : 'not available';
-
-  // return score > 0.9
-  //   ? 'very high'
-  //   : score > 0.7
-  //     ? 'high'
-  //     : score > 0.4
-  //       ? 'average'
-  //       : score > 0.15
-  //         ? 'low'
-  //         : score > 0 ? 'very low' : score === 0 ? 'not available' : '';
 };
