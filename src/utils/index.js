@@ -65,13 +65,15 @@ export const generateFakeChannelData = numOfData =>
   });
 
 export const stringifyToneScore = score => {
-  return score > 0.9
-    ? 'very high'
-    : score > 0.7
-      ? 'high'
-      : score > 0.4
-        ? 'average'
-        : score > 0.15
-          ? 'low'
-          : score > 0 ? 'very low' : score === 0 ? 'not available' : '';
+  if (score >= 1) return 'very high';
+
+  if (score > 0.8) return 'high';
+
+  if (score > 0.75) return 'avarage';
+
+  if (score > 0.5) return 'low';
+
+  if (score > 0.15) return 'very low';
+
+  if (score >= 0) return 'N/A';
 };

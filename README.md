@@ -2,13 +2,16 @@
 
 This application handles all frontend functionality of the Peace Machine Presenation. It is dependent of peacemachine-prensentation-backend.
 
+**Milestone: Cajun**
+
 ## Setup
 
-```
-$ yarn start
-```  
-  
-**Milestone: Cajun**
+1. Set up the backend.
+2. Make a copy of `.env.example` with name: `.env`.
+3. Fill in the host and port to it.
+4. Configure Font Awesome Pro license.
+5. Run `npm install` or `yarn`.
+6. Run `npm start` or `yarn start`.
 
 # Create-react-app stuff --- TO BE REMOVED
 
@@ -1689,7 +1692,7 @@ Use the following [`launch.json`](https://code.visualstudio.com/docs/editor/debu
       "name": "Debug CRA Tests",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",      
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
       "args": [
         "test",
         "--runInBand",

@@ -134,13 +134,15 @@ export default class InputView extends React.Component {
   genFakeChannelDataStream = e => {
     let INTERVAL_ID = null;
     let i = 0;
-    const fakeDataArray = generateFakeChannelData(10);
+    const fakeDataArray = generateFakeChannelData(24);
 
     INTERVAL_ID = setInterval(() => {
       this.handleStreamInput(fakeDataArray[i]);
       i++;
       if (i >= fakeDataArray.length - 1) {
-        socketService.emitEvent('channelRecordingState', { recording: false });
+        socketService.emitEvent('channelRecordingState', {
+          recording: 'finished'
+        });
         clearInterval(INTERVAL_ID);
       }
     }, 50);
@@ -173,8 +175,8 @@ export default class InputView extends React.Component {
                   : 'Start Speech Transcription'}
               </button>
             ) : (
-                <span className="not-candidate">Start Speech Transcription</span>
-              )}
+              <span className="not-candidate">Start Speech Transcription</span>
+            )}
             <button
               onClick={this.genFakeChannelDataStream}
               style={{ marginLeft: '0.5rem', padding: '.3rem 1rem' }}
@@ -218,9 +220,13 @@ export default class InputView extends React.Component {
           </div>
         </div>
         {/* Analyzed sentence tooltip */}
-        {this.state.analyzedSentences[this.state.activeSentenceIndex] &&
+        {this.state.analyzedSentences[this.state.activeSentenceIndex] && (
           <AnalyzedToneTooltip
-            analyzeObj={this.state.analyzedSentences[this.state.activeSentenceIndex]} />}
+            analyzeObj={
+              this.state.analyzedSentences[this.state.activeSentenceIndex]
+            }
+          />
+        )}
       </div>
     );
   }
