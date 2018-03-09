@@ -7,7 +7,6 @@ export default class WordZoom extends React.Component {
   render() {
     return (
       <div className="word-zoom overlay">
-        zoooooom
         <canvas ref={wordZoom => (this.wordZoom = wordZoom)} />
       </div>
     );

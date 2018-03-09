@@ -5,21 +5,12 @@ import { NodeGroup } from 'react-move';
 import '../../styles/LiveTextView.css';
 import SentenceSpan from './SentenceSpan';
 
-const dummySentences = [
-  { transcript: 'Testing 1 2 3.', confidence: 0.5 },
-  { transcript: 'Hi.', confidence: 0.3 },
-  { transcript: 'Humor. ', confidence: 1 },
-  { transcript: 'La Li Lu Le Lo.', confidence: 1 },
-  { transcript: 'Hello darkness my old friend', confidence: 0.8 }
-];
-
 class LiveTextView extends React.Component {
   componentDidMount() {}
 
   render() {
     return (
       <section className="live-text-view">
-        <span>livetext</span>
         <div className="sentences-container">
           {this.props.mess.map(channel => (
             <SentenceSpan key={channel.id} data={channel} />

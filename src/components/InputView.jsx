@@ -120,6 +120,7 @@ export default class InputView extends React.Component {
   };
 
   handleSentenceMouseHover = e => {
+    console.log(e);
     let i = Number.parseInt(e.target.getAttribute('index'));
     this.toggleSentenceHoverState(i);
   };
@@ -210,7 +211,7 @@ export default class InputView extends React.Component {
                     key={i}
                     index={i}
                     onMouseEnter={this.handleSentenceMouseHover}
-                    onMouseLeave={this.handleSentenceMouseHover}
+                    onMouseOut={this.handleSentenceMouseHover}
                   >
                     {resultObj.transcript}
                   </span>

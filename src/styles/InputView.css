@@ -64,6 +64,7 @@
 .live-text-sentence {
   position: relative;
 }
+
 .live-text-sentence:hover {
   background: rgba(215, 215, 255, 1);
   cursor: pointer;
