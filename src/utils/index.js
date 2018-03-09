@@ -75,5 +75,5 @@ export const stringifyToneScore = score => {
 
   if (score > 0.15) return 'very low';
 
-  if (score >= 0) return 'N/A';
+  return 'N/A';
 };
