@@ -111,6 +111,10 @@ export default class DirectorView extends React.Component {
     });
   };
 
+  handleFinalizeTonesClick = () => {
+    socketService.emitEvent('mergeTonesToMess');
+  };
+
   get someChannelFinished() {
     return this.state.channels
       .map(ch => ch.recording)
@@ -200,8 +204,11 @@ export default class DirectorView extends React.Component {
               ))}
               <div className="analyzer-controls-container">
                 <div className="analyzer-controls">
-                  <button disabled={!this.someChannelFinished}>
-                    Analyze Channels
+                  <button
+                    disabled={!this.someChannelFinished}
+                    onClick={this.handleFinalizeTonesClick}
+                  >
+                    Finalize Tones
                   </button>
                 </div>
               </div>
