@@ -56,7 +56,6 @@ export const generateFakeChannelData = numOfData =>
           "That's {{ adjective }}. ",
           'Where did all the {{ nouns }} go. ',
           '{{ an_adjective }} {{ noun }} jumped over the {{ adjective }} {{ noun }}. ',
-          "Mr. and Mrs. {{ noun }} didn't quite understand the meaning behind the {{ adjective }} message. ",
           'This {{ adjective }} {{ noun }} is handy for very specific situations. '
         ])
       ),
