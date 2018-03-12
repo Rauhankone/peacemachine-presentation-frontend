@@ -80,7 +80,8 @@ export default class PresentationView extends React.Component {
       });
       this.setState({
         channels: appointedChannels,
-        activeSlide: data.slides.activeSlide
+        activeSlide: data.slides.activeSlide,
+        mess: data.mess
       });
     });
 
