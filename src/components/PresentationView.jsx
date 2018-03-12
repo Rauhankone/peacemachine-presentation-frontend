@@ -91,7 +91,7 @@ export default class PresentationView extends React.Component {
 
   renderOverlay() {
     const slideViews = {
-      'sentiment analysis': <SentimentView />,
+      'sentiment analysis': <SentimentView title="Sentiment View" data={this.state.mess} />,
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />
     };
