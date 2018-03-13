@@ -82,7 +82,7 @@ export const generateFakeChannelData = numOfData =>
           'We use {{ nouns }} with {{ an_adjective }} {{ noun }}. ',
           'The {{ nouns }} create {{ an_adjective }} {{ noun }}. ',
           'We must use {{ adjective }} {{ nouns }}. ',
-          'Turn of that {{ adjective }} racket right now. ',
+          'Turn off that {{ adjective }} racket right now. ',
           "We can't idle while the {{ nouns }} are attacking the {{ nouns }}. "
         ])
       ),
