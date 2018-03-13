@@ -7,6 +7,10 @@ import WordCloudView from './PresentationView/WordCloudView';
 import SentimentView from './PresentationView/SentimentView';
 
 import WordZoom from './PresentationView/Overlay/WordZoom';
+import TopWord from './PresentationView/Overlay/TopWord';
+
+import _ from 'lodash';
+import KeywordExtractor from 'keyword-extractor';
 
 import socketService from '../services/socket-service';
 import '../styles/Overlay.css';
@@ -29,7 +33,8 @@ export default class PresentationView extends React.Component {
       /*...*/
     ],
     mess: [],
-    activeSlide: 'live text'
+    activeSlide: 'live text',
+    topWords: null
   };
 
   presentationSocketSetup() {
@@ -85,10 +90,6 @@ export default class PresentationView extends React.Component {
       });
     });
 
-    socketService.subscribeToEvent('channelUpdated', data => {
-      console.log(data);
-    });
-
     socketService.subscribeToEvent('messFinalized', data => {
       const { mess } = data;
       this.setState((prevState, props) => {
@@ -97,7 +98,39 @@ export default class PresentationView extends React.Component {
           mess
         };
       });
+      this.setState((prevState, props) => ({
+        topWords: this.getTopWords()
+      }));
     });
+  }
+
+  getTopWords() {
+    let fullText = _.lowerCase(
+      _.join(_.map(this.state.mess, x => x.transcript), ' ')
+    );
+    const words = _.words(fullText);
+    const keywords = KeywordExtractor.extract(fullText, {
+      language: 'english',
+      remove_digits: true,
+      return_changed_case: true,
+      remove_duplicates: true
+    });
+    const freqs = _.map(keywords, kw =>
+      _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
+    );
+
+    return _.reverse(
+      _.slice(
+        _.sortBy(
+          _.map(keywords, (w, i) => ({
+            word: w,
+            freq: freqs[i]
+          })),
+          'freq'
+        ),
+        -5
+      )
+    );
   }
 
   renderOverlay() {
@@ -106,7 +139,22 @@ export default class PresentationView extends React.Component {
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       'word cloud': <WordCloudView />,
-      'zoom tool': <WordZoom />
+      'zoom tool': <WordZoom />,
+      'topword 1': this.state.topWords ? (
+        <TopWord word={this.state.topWords[0].word} />
+      ) : null,
+      'topword 2': this.state.topWords ? (
+        <TopWord word={this.state.topWords[1].word} />
+      ) : null,
+      'topword 3': this.state.topWords ? (
+        <TopWord word={this.state.topWords[2].word} />
+      ) : null,
+      'topword 4': this.state.topWords ? (
+        <TopWord word={this.state.topWords[3].word} />
+      ) : null,
+      'topword 5': this.state.topWords ? (
+        <TopWord word={this.state.topWords[4].word} />
+      ) : null
     };
     return slideViews[this.state.activeSlide];
   }
