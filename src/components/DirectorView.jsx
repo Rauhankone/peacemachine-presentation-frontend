@@ -115,10 +115,10 @@ export default class DirectorView extends React.Component {
     socketService.emitEvent('mergeTonesToMess');
   };
 
-  get someChannelFinished() {
+  get someChannelAnalyzed() {
     return this.state.channels
       .map(ch => ch.recording)
-      .filter(rec => rec === 'finished')
+      .filter(rec => rec === 'analyzed')
       .some(v => v);
   }
 
@@ -192,7 +192,9 @@ export default class DirectorView extends React.Component {
                         color: channel.recording
                           ? channel.recording === 'finished'
                             ? '#3B99FC'
-                            : '#57AA54'
+                            : channel.recording === 'analyzed'
+                              ? '#3B99FC'
+                              : '#dadada'
                           : '#dadada'
                       }}
                     >
@@ -205,7 +207,7 @@ export default class DirectorView extends React.Component {
               <div className="analyzer-controls-container">
                 <div className="analyzer-controls">
                   <button
-                    disabled={!this.someChannelFinished}
+                    disabled={!this.someChannelAnalyzed}
                     onClick={this.handleFinalizeTonesClick}
                   >
                     Finalize Tones
