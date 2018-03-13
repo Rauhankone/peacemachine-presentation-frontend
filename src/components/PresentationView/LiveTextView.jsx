@@ -16,47 +16,6 @@ class LiveTextView extends React.Component {
             <SentenceSpan key={index} data={channel} />
           ))}
         </div>
-        {/* <NodeGroup
-            data={this.props.mess}
-            keyAccessor={channel => channel.timestamp}
-            start={(data, index) => ({
-            opacity: [0]
-            })}
-            enter={(data, index) => ({
-            scaleY: [0, 1],
-            scaleX: [1.5, 1],
-            translateY: [20, 0],
-            backgroundColor: ['white', 'transparent'],
-            timing: {
-            duration: 250,
-            ease: easeExpInOut,
-            delay: 300 * index
-            }
-            })}
-            update={data => ({
-            scaleY: [0, 1],
-            scaleX: [1.5, 1],
-            translateY: [20, 0],
-            backgroundColor: ['white', 'transparent'],
-            timing: {
-            duration: 250,
-            ease: easeExpInOut
-            }
-            })}
-            >
-            {nodes => {
-            return (
-            <div className="sentences-container">
-              {nodes.map(({ key, data, state }) => {
-              console.log(key, data, state);
-              return (
-              <SentenceSpan key={key} nodeState={state} data={data} />
-              );
-              })}
-              </div>
-              );
-              }}
-              </NodeGroup> */}
       </section>
     );
   }
