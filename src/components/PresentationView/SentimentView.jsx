@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
 
 class Sentiment extends React.Component {
@@ -13,18 +12,24 @@ class Sentiment extends React.Component {
       .range([d3.hsl(300, .5, 0), d3.hsl(-240, -5, 1)])
       .interpolate(d3.interpolateCubehelix).domain(domain);
     return cubehelix(score);*/
-    return 'rgb(0,0,'+parseInt(score*255)+')';
+    return 'rgb(0,0,' + parseInt(score * 255) + ')';
   }
 
   // Expects an array of tones
   // [ { tone_id: '', score: 0.0 }, ... ]
   tonesToColor(tones) {
-    const factorTable = { anger: 0.75, joy: 0.75, fear: 0.37, disgust: 0.37, sadness: -0.25 };
+    const factorTable = {
+      anger: 0.75,
+      joy: 0.75,
+      fear: 0.37,
+      disgust: 0.37,
+      sadness: -0.25
+    };
     let filtered = tones.filter(tone => !!factorTable[tone.tone_id]);
     let sum = filtered
-        .map(tone => factorTable[tone.tone_id] * tone.score)
-        .reduce((acc, curr) => acc + curr, 0.0);
-    let avg = (filtered.length > 0) ? sum / filtered.length : 0;
+      .map(tone => factorTable[tone.tone_id] * tone.score)
+      .reduce((acc, curr) => acc + curr, 0.0);
+    let avg = filtered.length > 0 ? sum / filtered.length : 0;
     return this.scoreToCubehelix(avg, [-0.25, 0.75]);
   }
 
@@ -44,44 +49,21 @@ class Sentiment extends React.Component {
   }
 
   renderD3() {
-    var data = this.props.data;
-
-    // This will create a faux div and store its virtual DOM in state.chart
-    var faux = this.props.connectFauxDOM('div', 'chart');
-
-    var xBuffer = 1000;
-    var yBuffer = 500;
-
-    var svgDoc = d3.select(faux).append('svg');
-
-    d3.selectAll('.sentence-span')
-        .style('text-shadow', () => '0 0 5px ' + this.scoreToCubehelix(Math.random(), [0,1]))
-        ;//.style('box-shadow', () => '0 0 5px '+this.scoreToCubehelix(Math.random(), [0,1]));
-
-    svgDoc
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('viewBox', '0 0 1000 500');
-
+    d3
+      .selectAll('.sentence-span')
+      .style(
+        'text-shadow',
+        () => '0 0 5px ' + this.scoreToCubehelix(Math.random(), [0, 1])
+      ); //.style('box-shadow', () => '0 0 5px '+this.scoreToCubehelix(Math.random(), [0,1]));
   }
 
   updateD3() {
-    var data = this.props.data;
-
-    /* code below from Alan Smith except changes mentioned previously */
-
-    var xBuffer = 1000;
-    var yBuffer = 500;
-
-    // reattach to faux dom
-    var faux = this.props.connectFauxDOM('div', 'chart');
-    var svgDoc = d3.select(faux).select('svg');
-
-    d3.selectAll('.sentence-span')
-        .style('text-shadow', () => '0 0 5px ' + this.scoreToCubehelix(Math.random(), [0,1]))
-        ;//.style('box-shadow', () => '0 0 5px '+this.scoreToCubehelix(Math.random(), [0,1]));
-
-    this.props.animateFauxDOM(800);
+    d3
+      .selectAll('.sentence-span')
+      .style(
+        'text-shadow',
+        () => '0 0 5px ' + this.scoreToCubehelix(Math.random(), [0, 1])
+      ); //.style('box-shadow', () => '0 0 5px '+this.scoreToCubehelix(Math.random(), [0,1]));
   }
 }
 
@@ -96,7 +78,7 @@ Sentiment.propTypes = {
 
 function defaultData() {
   return JSON.parse(
-  `
+    `
 {
   "document_tone": {
     "tones": [
@@ -454,8 +436,7 @@ function defaultData() {
   ]
 }
 `
-);
+  );
 }
 
-const FauxSentiment = withFauxDOM(Sentiment);
-export default FauxSentiment;
+export default Sentiment;
