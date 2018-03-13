@@ -138,7 +138,7 @@ export default class InputView extends React.Component {
   genFakeChannelDataStream = e => {
     let INTERVAL_ID = null;
     let i = 0;
-    const fakeDataArray = generateFakeChannelData(6);
+    const fakeDataArray = generateFakeChannelData(16);
 
     INTERVAL_ID = setInterval(() => {
       this.handleStreamInput(fakeDataArray[i]);
@@ -149,7 +149,7 @@ export default class InputView extends React.Component {
         });
         clearInterval(INTERVAL_ID);
       }
-    }, 50);
+    }, 250);
   };
 
   render() {
