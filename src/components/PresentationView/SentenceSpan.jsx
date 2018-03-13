@@ -21,6 +21,7 @@ export default class SentenceSpan extends React.Component {
         return this.setState({ letterIndex: accIndex });
       }
 
+      this.props.onSentenceFinish();
       return clearInterval(INT_ID);
     }, 30);
   };
