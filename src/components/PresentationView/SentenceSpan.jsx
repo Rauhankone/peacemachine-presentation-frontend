@@ -1,6 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
-import { NodeGroup } from 'react-move';
 
 export default class SentenceSpan extends React.Component {
   state = {
@@ -13,9 +11,6 @@ export default class SentenceSpan extends React.Component {
   }
 
   accumulateLetters = () => {
-    let INT_ID = null;
-    let accIndex = 0;
-
     let intervalId = setInterval(() => {
       this.props.onLetterIndexIncrement();
       if (this.state.letterIndex < this.props.data.transcript.length) {
