@@ -4,7 +4,7 @@ import '../../styles/LiveTextView.css';
 
 class LiveTextView extends React.Component {
   state = {
-    sentenceIndex: 0
+    sentenceIndex: 1
   };
 
   accumulateSentenceIndex = () => {
@@ -14,10 +14,11 @@ class LiveTextView extends React.Component {
   };
 
   render() {
+    const { sentenceIndex } = this.state;
     return (
       <section className="live-text-view">
         <div className="sentences-container">
-          {this.props.mess.map((channel, index) => (
+          {this.props.mess.slice(0, sentenceIndex).map((channel, index) => (
             <SentenceSpan
               key={index}
               data={channel}

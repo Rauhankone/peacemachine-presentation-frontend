@@ -23,7 +23,7 @@ export default class SentenceSpan extends React.Component {
 
       this.props.onSentenceFinish();
       return clearInterval(INT_ID);
-    }, 30);
+    }, 16);
   };
 
   render() {
