@@ -92,13 +92,15 @@ export default class PresentationView extends React.Component {
 
     socketService.subscribeToEvent('messFinalized', data => {
       const { mess } = data;
-      console.log('dfd', { topWords: this.getTopWords() });
       this.setState((prevState, props) => {
         return {
           ...prevState,
           mess
         };
       });
+      this.setState((prevState, props) => ({
+        topWords: this.getTopWords()
+      }));
     });
   }
 
