@@ -12,8 +12,8 @@ class LiveTextView extends React.Component {
     return (
       <section className="live-text-view">
         <div className="sentences-container">
-          {this.props.mess.map(channel => (
-            <SentenceSpan key={channel.id} data={channel} />
+          {this.props.mess.map((channel, index) => (
+            <SentenceSpan key={index} data={channel} />
           ))}
         </div>
         {/* <NodeGroup

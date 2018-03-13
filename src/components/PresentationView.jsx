@@ -90,7 +90,13 @@ export default class PresentationView extends React.Component {
     });
 
     socketService.subscribeToEvent('messFinalized', data => {
-      // data.mess: [...]
+      const { mess } = data;
+      this.setState((prevState, props) => {
+        return {
+          ...prevState,
+          mess
+        };
+      });
     });
   }
 
