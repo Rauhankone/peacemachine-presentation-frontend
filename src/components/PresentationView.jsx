@@ -88,11 +88,17 @@ export default class PresentationView extends React.Component {
     socketService.subscribeToEvent('channelUpdated', data => {
       console.log(data);
     });
+
+    socketService.subscribeToEvent('messFinalized', data => {
+      // data.mess: [...]
+    });
   }
 
   renderOverlay() {
     const slideViews = {
-      'sentiment analysis': <SentimentView title="Sentiment View" data={this.state.mess} />,
+      'sentiment analysis': (
+        <SentimentView title="Sentiment View" data={this.state.mess} />
+      ),
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />
     };
