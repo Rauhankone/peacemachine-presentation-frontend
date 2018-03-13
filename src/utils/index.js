@@ -1,5 +1,6 @@
 import * as Sentencer from 'sentencer';
 import _ from 'lodash';
+import KeywordExtractor from 'keyword-extractor';
 
 export const slugify = text => {
   return text
@@ -83,7 +84,7 @@ export const generateFakeChannelData = numOfData =>
           'The {{ nouns }} create {{ an_adjective }} {{ noun }}. ',
           'We must use {{ adjective }} {{ nouns }}. ',
           'Turn of that {{ adjective }} racket right now. ',
-          "We can't idle while the {{ nouns }} are attacking the {{ nouns }}. ",
+          "We can't idle while the {{ nouns }} are attacking the {{ nouns }}. "
         ])
       ),
       confidence: Math.random()
@@ -103,3 +104,27 @@ export const stringifyToneScore = score => {
 
   return 'N/A';
 };
+
+export function extractKeywords(transcript) {
+  transcript = _.lowerCase(transcript);
+  const words = _.words(transcript);
+  const keywords = KeywordExtractor.extract(transcript, {
+    language: 'english',
+    remove_digits: true,
+    return_changed_case: true,
+    remove_duplicates: true
+  });
+  const freqs = _.map(keywords, kw =>
+    _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
+  );
+  const totalEvents = _.reduce(freqs, (total, freq) => total + freq, 0);
+  const relFreqs = _.map(freqs, f => f / totalEvents);
+  return _.sortBy(
+    _.map(keywords, (w, i) => ({
+      word: w,
+      freq: freqs[i],
+      relFreq: relFreqs[i]
+    })),
+    'freq'
+  );
+}

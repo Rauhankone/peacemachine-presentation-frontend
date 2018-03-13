@@ -11,57 +11,52 @@ class LiveTextView extends React.Component {
   render() {
     return (
       <section className="live-text-view">
-        <div
-          className="sentences-container"
-          style={{
-            fontSize: _.clamp(1000 / this.props.mess.length, 15, 60)
-          }}
-        >
+        <div className="sentences-container">
           {this.props.mess.map(channel => (
             <SentenceSpan key={channel.id} data={channel} />
           ))}
         </div>
         {/* <NodeGroup
-          data={this.props.mess}
-          keyAccessor={channel => channel.timestamp}
-          start={(data, index) => ({
+            data={this.props.mess}
+            keyAccessor={channel => channel.timestamp}
+            start={(data, index) => ({
             opacity: [0]
-          })}
-          enter={(data, index) => ({
+            })}
+            enter={(data, index) => ({
             scaleY: [0, 1],
             scaleX: [1.5, 1],
             translateY: [20, 0],
             backgroundColor: ['white', 'transparent'],
             timing: {
-              duration: 250,
-              ease: easeExpInOut,
-              delay: 300 * index
+            duration: 250,
+            ease: easeExpInOut,
+            delay: 300 * index
             }
-          })}
-          update={data => ({
+            })}
+            update={data => ({
             scaleY: [0, 1],
             scaleX: [1.5, 1],
             translateY: [20, 0],
             backgroundColor: ['white', 'transparent'],
             timing: {
-              duration: 250,
-              ease: easeExpInOut
+            duration: 250,
+            ease: easeExpInOut
             }
-          })}
-        >
-          {nodes => {
+            })}
+            >
+            {nodes => {
             return (
-              <div className="sentences-container">
-                {nodes.map(({ key, data, state }) => {
-                  console.log(key, data, state);
-                  return (
-                    <SentenceSpan key={key} nodeState={state} data={data} />
-                  );
-                })}
+            <div className="sentences-container">
+              {nodes.map(({ key, data, state }) => {
+              console.log(key, data, state);
+              return (
+              <SentenceSpan key={key} nodeState={state} data={data} />
+              );
+              })}
               </div>
-            );
-          }}
-        </NodeGroup> */}
+              );
+              }}
+              </NodeGroup> */}
       </section>
     );
   }
