@@ -1,6 +1,6 @@
 import React from 'react';
 import { easeExpInOut } from 'd3-ease';
-
+import _ from 'lodash';
 import { NodeGroup } from 'react-move';
 import '../../styles/LiveTextView.css';
 import SentenceSpan from './SentenceSpan';
@@ -11,7 +11,12 @@ class LiveTextView extends React.Component {
   render() {
     return (
       <section className="live-text-view">
-        <div className="sentences-container">
+        <div
+          className="sentences-container"
+          style={{
+            fontSize: _.clamp(1000 / this.props.mess.length, 15, 60)
+          }}
+        >
           {this.props.mess.map(channel => (
             <SentenceSpan key={channel.id} data={channel} />
           ))}
