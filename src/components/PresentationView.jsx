@@ -34,7 +34,7 @@ export default class PresentationView extends React.Component {
     ],
     mess: [],
     activeSlide: 'live text',
-    topWords: null
+    topWords: []
   };
 
   presentationSocketSetup() {
@@ -55,6 +55,7 @@ export default class PresentationView extends React.Component {
           ]
         };
       });
+      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('slideUpdated', data => {
@@ -88,6 +89,7 @@ export default class PresentationView extends React.Component {
         activeSlide: data.slides.activeSlide,
         mess: data.mess
       });
+      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('messFinalized', data => {
@@ -98,13 +100,11 @@ export default class PresentationView extends React.Component {
           mess
         };
       });
-      this.setState((prevState, props) => ({
-        topWords: this.getTopWords()
-      }));
+      this.updateTopWords();
     });
   }
 
-  getTopWords() {
+  updateTopWords() {
     let fullText = _.lowerCase(
       _.join(_.map(this.state.mess, x => x.transcript), ' ')
     );
@@ -118,8 +118,7 @@ export default class PresentationView extends React.Component {
     const freqs = _.map(keywords, kw =>
       _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
     );
-
-    return _.reverse(
+    let topWords = _.reverse(
       _.slice(
         _.sortBy(
           _.map(keywords, (w, i) => ({
@@ -131,30 +130,26 @@ export default class PresentationView extends React.Component {
         -5
       )
     );
+    this.setState((prevState, props) => ({
+      topWords: topWords
+    }));
   }
 
   renderOverlay() {
+    console.log('dfdf', this.state.topWords);
     const slideViews = {
       'sentiment analysis': (
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />,
-      'topword 1': this.state.topWords ? (
-        <TopWord word={this.state.topWords[0].word} />
-      ) : null,
-      'topword 2': this.state.topWords ? (
-        <TopWord word={this.state.topWords[1].word} />
-      ) : null,
-      'topword 3': this.state.topWords ? (
-        <TopWord word={this.state.topWords[2].word} />
-      ) : null,
-      'topword 4': this.state.topWords ? (
-        <TopWord word={this.state.topWords[3].word} />
-      ) : null,
-      'topword 5': this.state.topWords ? (
-        <TopWord word={this.state.topWords[4].word} />
-      ) : null
+      ...(this.state.topWords.length >= 5 && {
+        'topword 1': <TopWord word={this.state.topWords[0].word} />,
+        'topword 2': <TopWord word={this.state.topWords[1].word} />,
+        'topword 3': <TopWord word={this.state.topWords[2].word} />,
+        'topword 4': <TopWord word={this.state.topWords[3].word} />,
+        'topword 5': <TopWord word={this.state.topWords[4].word} />
+      })
     };
     return slideViews[this.state.activeSlide];
   }
