@@ -16,17 +16,16 @@ export default class SentenceSpan extends React.Component {
     let INT_ID = null;
     let accIndex = 0;
 
-    INT_ID = setInterval(() => {
-      if (this.props.data.transcript.length > accIndex) {
-        accIndex++;
-        return this.setState({ letterIndex: accIndex });
+    let intervalId = setInterval(() => {
+      this.props.onLetterIndexIncrement();
+      if (this.state.letterIndex < this.props.data.transcript.length) {
+        this.setState({ letterIndex: this.state.letterIndex + 1 });
       }
-
-      this.props.onSentenceFinish();
-
-      this.setState({ finished: true });
-
-      return clearInterval(INT_ID);
+      else {
+        this.props.onSentenceFinish();
+        this.setState({ finished: true });
+        clearInterval(intervalId);
+      }
     }, 1000 / 60);
   };
 
