@@ -21,14 +21,22 @@ body {
 .sentences-container {
   margin: 0 auto;
   width: auto;
+  margin: 2rem;
 }
 
 .sentence-span {
   color: #eeffff;
-  /*font-weight: bold;*/
-  /*font-size: 8pt;*/
   line-height: 1.4;
-  /* transform-origin: bottom; */
+  animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) 0s forwards;
+}
+
+@keyframes sentenceEnter {
+  from {
+    background-color: rgba(255, 255, 255, 1);
+  }
+  to {
+    background-color: rgba(255, 255, 255, 0);
+  }
 }
 
 .sentence-letter {
