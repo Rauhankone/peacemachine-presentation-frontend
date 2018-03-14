@@ -93,6 +93,8 @@ export default class InputView extends React.Component {
           });
         });
         break;
+      default:
+      // eslint wants default
     }
   };
 

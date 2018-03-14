@@ -1,6 +1,7 @@
 import * as Sentencer from 'sentencer';
 import _ from 'lodash';
 
+/* eslint-disable */
 export const slugify = text => {
   return text
     .toString()

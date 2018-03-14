@@ -12,7 +12,6 @@ export default class SentenceSpan extends React.Component {
 
   accumulateLetters = () => {
     let INT_ID = null;
-    let accIndex = 0;
 
     INT_ID = setInterval(() => {
       this.props.onLetterIndexIncrement();
