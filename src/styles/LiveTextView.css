@@ -27,7 +27,8 @@ body {
 .sentence-span {
   color: #eeffff;
   line-height: 1.4;
-  animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) 0s forwards;
+  animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) 0s
+    forwards;
 }
 
 @keyframes sentenceEnter {
@@ -40,5 +41,17 @@ body {
 }
 
 .sentence-letter {
-  display: inline-block;
+  display: block !important;
+  animation: letterEnter 3s cubic-bezier(0.165, 0.84, 0.44, 1) 0;
+}
+
+@keyframes letterEnter {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }

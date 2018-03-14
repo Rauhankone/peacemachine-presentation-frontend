@@ -49,6 +49,7 @@ class LiveTextView extends React.Component {
                 data={channel}
                 onLetterIndexIncrement={this.incrementFontDivisor}
                 onSentenceFinish={this.incrementSentenceIndex}
+                showConfidence={this.props.activeSlide === 'confidence'}
               />
             ))}
         </div>

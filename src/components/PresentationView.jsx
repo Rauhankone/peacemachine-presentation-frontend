@@ -160,7 +160,10 @@ export default class PresentationView extends React.Component {
     return (
       <div className="presentation-view">
         <ActiveSlideHeader slideName={this.state.activeSlide} />
-        <LiveTextView mess={this.state.mess} />
+        <LiveTextView
+          mess={this.state.mess}
+          activeSlide={this.state.activeSlide}
+        />
         <div className="overlay-container">{this.renderOverlay()}</div>
       </div>
     );
