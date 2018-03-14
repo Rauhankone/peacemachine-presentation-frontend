@@ -22,7 +22,8 @@ export default class InputView extends React.Component {
       candidate: false,
       analyzedSentences: [],
       hoveringOnSentence: false,
-      activeSentenceIndex: null
+      activeSentenceIndex: null,
+      canRecord: true
     };
     this.inputSocket();
   }
@@ -65,9 +66,7 @@ export default class InputView extends React.Component {
     switch (this.state.recording) {
       case null:
         sttService('.live-text').then(res => {
-          socketService.emitEvent('channelRecordingState', {
-            recording: recState[1]
-          });
+          this.changeRecordingState(recState[1]);
 
           stream = res;
           stream.on('data', data => {
@@ -75,7 +74,6 @@ export default class InputView extends React.Component {
           });
 
           this.setState(prevState => ({
-            recording: recState[1],
             stream
           }));
         });
@@ -83,28 +81,16 @@ export default class InputView extends React.Component {
       case 'recording':
         this.state.stream.stop();
 
-        socketService.emitEvent('channelRecordingState', {
-          recording: recState[2]
-        });
-
-        this.setState({
-          recording: recState[2]
-        });
+        this.changeRecordingState(recState[2]);
         break;
       case 'finished':
         sttService('.live-text').then(res => {
-          socketService.emitEvent('channelRecordingState', {
-            recording: recState[1]
-          });
+          this.changeRecordingState(recState[1]);
 
           stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
           });
-
-          this.setState(prevState => ({
-            recording: recState[1]
-          }));
         });
         break;
     }
@@ -145,14 +131,18 @@ export default class InputView extends React.Component {
       this.handleStreamInput(fakeDataArray[i]);
       i++;
       if (i >= fakeDataArray.length - 1) {
-        socketService.emitEvent('channelRecordingState', {
-          recording: 'finished'
-        });
+        this.changeRecordingState('finished');
         clearInterval(INTERVAL_ID);
       }
     }, 100);
   };
 
+  changeRecordingState = recording => {
+    socketService.emitEvent('channelRecordingState', {
+      recording
+    });
+    this.setState({ recording });
+  };
   render() {
     return (
       <div className="input-view">
@@ -162,13 +152,16 @@ export default class InputView extends React.Component {
               icon={['far', 'microphone']}
               className="rec-icon"
               size="lg"
-              style={{ color: this.state.recording ? '#ee5253' : '#DADADA' }}
+              style={{
+                color:
+                  this.state.recording === 'recording' ? '#ee5253' : '#DADADA'
+              }}
             />
             <div className="channel-id">
               <h3>Channel ID</h3>
               <span>{this.state.channel.id}</span>
             </div>
-            {this.state.candidate ? (
+            {this.state.candidate && this.state.recording !== 'finished' ? (
               <button
                 className={
                   'recordBtn ' + (this.state.recording ? 'recording' : '')
@@ -183,6 +176,11 @@ export default class InputView extends React.Component {
               <span className="not-candidate">Start Speech Transcription</span>
             )}
             <button
+              disabled={
+                this.state.candidate && this.state.recording !== 'finished'
+                  ? false
+                  : true
+              }
               onClick={this.genFakeChannelDataStream}
               style={{ marginLeft: '0.5rem', padding: '.3rem 1rem' }}
             >
@@ -190,7 +188,7 @@ export default class InputView extends React.Component {
             </button>
           </div>
           <div className="live-text-container">
-            {this.state.recording && (
+            {this.state.recording === 'recording' && (
               <div className="recording-info">
                 <FontAwesomeIcon
                   icon={['far', 'info-circle']}
