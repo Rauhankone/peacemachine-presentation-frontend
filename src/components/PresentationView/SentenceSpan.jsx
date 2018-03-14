@@ -1,6 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
-import { NodeGroup } from 'react-move';
 
 export default class SentenceSpan extends React.Component {
   state = {
