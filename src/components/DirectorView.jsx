@@ -77,7 +77,8 @@ export default class DirectorView extends React.Component {
       this.setState(prevState => {
         const i = prevState.channels.findIndex(el => el.id === data.id);
 
-        prevState.channels[i].recording = data.recording;
+        if (prevState.channels[i])
+          prevState.channels[i].recording = data.recording;
         return {
           channels: [...prevState.channels]
         };
