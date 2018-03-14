@@ -11,7 +11,8 @@ export default props => (
       left: 0,
       right: 0,
       color: '#eeffff',
-      padding: '1rem'
+      padding: '1rem',
+      opacity: 0
     }}
   >
     {capitalize(props.slideName)}

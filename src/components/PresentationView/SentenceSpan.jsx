@@ -31,6 +31,7 @@ export default class SentenceSpan extends React.Component {
   render() {
     return (
       <span
+        id={this.props.data.id}
         className={`sentence-span ${
           this.state.finished ? 'sentence-finished' : null
         }`}
