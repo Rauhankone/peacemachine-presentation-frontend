@@ -37,6 +37,10 @@ class Sentiment extends React.Component {
     return this.scoreToCubehelix(avg);
   }
 
+  extractEmotionTones(data) {
+    return data.tones.tone_categories.filter((c) => c.category_id === "emotion_tone")[0].tones;
+  }
+
   componentDidMount() {
     this.renderD3();
   }
@@ -59,12 +63,19 @@ class Sentiment extends React.Component {
   renderChanges() {
     let data = this.props.data;
 
-    d3
-      .selectAll('.sentence-span')
-      .style(
-        'color',
-        () =>  this.scoreToCubehelix(Math.random())
-      );
+
+    data
+        .map((d) => ({
+          mess_id: d.id,
+          color: (!!d.tones) ? this.tonesToColor(this.extractEmotionTones(d)) : 'rgb(100, 100, 100)'
+        }))
+        .forEach((d) => {
+          d3.select('#'+d.mess_id)
+              .style('color', (element) => {
+                console.log(d.mess_id + ': ' + d.color);
+                return d.color;
+              });
+        });
 
     this.props.animateFauxDOM(1500);
   }
@@ -77,7 +88,7 @@ Sentiment.defaultProps = {
 
 Sentiment.propTypes = {
   title: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.number).isRequired
+  data: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const FauxSentiment = withFauxDOM(Sentiment);

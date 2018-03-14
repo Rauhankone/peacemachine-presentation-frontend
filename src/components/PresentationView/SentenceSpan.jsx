@@ -28,12 +28,13 @@ export default class SentenceSpan extends React.Component {
   render() {
     return (
       <span
+        id={this.props.data.id}
         className={`sentence-span ${
           this.state.finished ? 'sentence-finished' : null
         }`}
         style={{
           // opacity: _.clamp(Math.pow(this.props.data.confidence, 5), 0.0, 1)
-          opacity: Math.pow(this.props.data.confidence, 5) // Original value transformed so that it's between 0.4-1.0
+          opacity: this.props.data.confidence * 0.6 + 0.4 // Original value transformed so that it's between 0.4-1.0
         }}
       >
         {this.props.data.transcript.substring(0, this.state.letterIndex)}
