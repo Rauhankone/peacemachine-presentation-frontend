@@ -144,7 +144,9 @@ export default class DirectorView extends React.Component {
               </h3>
               {this.state.slides.map(slide => (
                 <li
-                  className={`${slugify(slide.name)}-select control`}
+                  className={`${slugify(slide.name)}-select control ${
+                    slide.child ? 'select-child' : null
+                  }`}
                   key={slide.name}
                 >
                   <label className="control-radio">
