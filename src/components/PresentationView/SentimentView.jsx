@@ -3,15 +3,6 @@ import PropTypes from 'prop-types';
 import { withFauxDOM } from 'react-faux-dom';
 import * as d3 from 'd3';
 
-<<<<<<< HEAD
-export default class Sentiment extends React.Component {
-  scoreToCubehelix(score, domain) {
-    /*const cubehelix = d3.scaleLinear()
-      .range([d3.hsl(300, .5, 0), d3.hsl(-240, -5, 1)])
-      .interpolate(d3.interpolateCubehelix).domain(domain);
-    return cubehelix(score);*/
-    return 'rgb(0,0,' + parseInt(score * 255) + ')';
-=======
 class Sentiment extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +17,6 @@ class Sentiment extends React.Component {
     ];
     let index = Math.round(cubehelix.length * score);
     return cubehelix[index];
->>>>>>> Re-add redux-faux-dom
   }
 
   // Expects an array of tones
