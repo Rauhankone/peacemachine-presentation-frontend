@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
 export default class Sentiment extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   scoreToCubehelix(score, domain) {
     /*const cubehelix = d3.scaleLinear()
       .range([d3.hsl(300, .5, 0), d3.hsl(-240, -5, 1)])

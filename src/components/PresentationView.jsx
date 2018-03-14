@@ -136,7 +136,6 @@ export default class PresentationView extends React.Component {
   }
 
   renderOverlay() {
-    console.log('dfdf', this.state.topWords);
     const slideViews = {
       'sentiment analysis': (
         <SentimentView title="Sentiment View" data={this.state.mess} />
