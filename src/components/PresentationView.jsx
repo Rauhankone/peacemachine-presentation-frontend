@@ -120,12 +120,15 @@ export default class PresentationView extends React.Component {
     );
     let topWords = _.reverse(
       _.slice(
-        _.sortBy(
-          _.map(keywords, (w, i) => ({
-            word: w,
-            freq: freqs[i]
-          })),
-          'freq'
+        _.map(
+          _.sortBy(
+            _.map(keywords, (w, i) => ({
+              word: w,
+              freq: freqs[i]
+            })),
+            'freq'
+          ),
+          wf => wf.word
         ),
         -5
       )
@@ -143,11 +146,11 @@ export default class PresentationView extends React.Component {
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />,
       ...(this.state.topWords.length >= 5 && {
-        'topword 1': <TopWord word={this.state.topWords[0].word} />,
-        'topword 2': <TopWord word={this.state.topWords[1].word} />,
-        'topword 3': <TopWord word={this.state.topWords[2].word} />,
-        'topword 4': <TopWord word={this.state.topWords[3].word} />,
-        'topword 5': <TopWord word={this.state.topWords[4].word} />
+        'topword 1': <TopWord word={this.state.topWords[0]} />,
+        'topword 2': <TopWord word={this.state.topWords[1]} />,
+        'topword 3': <TopWord word={this.state.topWords[2]} />,
+        'topword 4': <TopWord word={this.state.topWords[3]} />,
+        'topword 5': <TopWord word={this.state.topWords[4]} />
       })
     };
     return slideViews[this.state.activeSlide];
