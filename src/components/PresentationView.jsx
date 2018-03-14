@@ -145,13 +145,14 @@ export default class PresentationView extends React.Component {
       ),
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />,
-      ...(this.state.topWords.length >= 5 && {
-        'topword 1': <TopWord word={this.state.topWords[0]} />,
-        'topword 2': <TopWord word={this.state.topWords[1]} />,
-        'topword 3': <TopWord word={this.state.topWords[2]} />,
-        'topword 4': <TopWord word={this.state.topWords[3]} />,
-        'topword 5': <TopWord word={this.state.topWords[4]} />
-      })
+      ...Object.assign(
+        {},
+        ..._.map(this.state.topWords, (word, index) => ({
+          [`topword ${index + 1}`]: (
+            <TopWord word={this.state.topWords[index]} />
+          )
+        }))
+      )
     };
     return slideViews[this.state.activeSlide];
   }
