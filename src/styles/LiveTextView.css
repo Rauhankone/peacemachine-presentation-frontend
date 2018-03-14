@@ -1,14 +1,40 @@
+/*
+
+  Colors in palette:
+
+  rgb(0,0,0)
+  rgb(19,13,34)
+  rgb(44,24,64)
+  rgb(72,34,89)
+
+  rgb(103,44,106)
+  rgb(133,56,117)
+  rgb(161,69,123)
+  rgb(183,85,126)
+
+  rgb(202,103,129)
+  rgb(214,125,131)
+  rgb(223,148,138)
+  rgb(228,172,149)
+
+  rgb(231,196,166)
+  rgb(236,219,191)
+  rgb(242,238,220)
+  rgb(255,255,255)
+
+*/
+
 body {
   overflow: hidden;
 }
 
 .live-text-view {
-  padding-top: 5rem;
+  padding: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
-  background-color: #292d3e;
+  background-color: rgb(19,13,34);
 }
 
 .live-text-view .live-text-col {
@@ -19,9 +45,8 @@ body {
 }
 
 .sentences-container {
-  margin: 0 auto;
+  margin: 0.5rem;
   width: auto;
-  margin: 2rem;
 }
 
 .sentence-span {
@@ -41,17 +66,5 @@ body {
 }
 
 .sentence-letter {
-  display: block !important;
-  animation: letterEnter 3s cubic-bezier(0.165, 0.84, 0.44, 1) 0;
-}
-
-@keyframes letterEnter {
-  from {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0px);
-    opacity: 1;
-  }
+  display: inline-block;
 }
