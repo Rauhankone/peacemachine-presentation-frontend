@@ -1,5 +1,6 @@
 import React from 'react';
 import SentenceSpan from './SentenceSpan';
+import _ from 'lodash';
 import '../../styles/LiveTextView.css';
 
 class LiveTextView extends React.Component {
@@ -32,6 +33,10 @@ class LiveTextView extends React.Component {
   render() {
     const { fontDivisor, sentenceIndex } = this.state;
     const fontSizePixels = LiveTextView.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
+    const color = () => {
+      const alpha = _.clamp(Math.pow(this.props.me.confidence, 5), 0.0, 1);
+      return [255, 255, 255, alpha];
+    };
     return (
       <section className="live-text-view">
         <div
@@ -45,11 +50,10 @@ class LiveTextView extends React.Component {
             .slice(0, sentenceIndex)
             .map((channel, index) => (
               <SentenceSpan
-                key={index}
                 data={channel}
                 onLetterIndexIncrement={this.incrementFontDivisor}
                 onSentenceFinish={this.incrementSentenceIndex}
-                showConfidence={this.props.activeSlide === 'confidence'}
+                color={color}
               />
             ))}
         </div>

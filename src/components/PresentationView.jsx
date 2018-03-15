@@ -2,7 +2,7 @@ import React from 'react';
 
 import ActiveSlideHeader from './PresentationView/ActiveSlideHeader';
 
-import LiveTextView from './PresentationView/LiveTextView';
+import LiveTextView from './PresentationView/NeoLiveTextView';
 import WordCloudView from './PresentationView/WordCloudView';
 import SentimentView from './PresentationView/SentimentView';
 
@@ -144,7 +144,6 @@ export default class PresentationView extends React.Component {
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       'word cloud': <WordCloudView />,
-      'zoom tool': <WordZoom />,
       ...Object.assign(
         {},
         ..._.map(this.state.topWords, (word, index) => ({
@@ -158,13 +157,12 @@ export default class PresentationView extends React.Component {
   }
 
   render() {
+    const transcripts = _.map(this.state.mess, x => x.transcript);
+    const colorizer = index => [255, 105, 255, 1.0];
     return (
       <div className="presentation-view">
         <ActiveSlideHeader slideName={this.state.activeSlide} />
-        <LiveTextView
-          mess={this.state.mess}
-          activeSlide={this.state.activeSlide}
-        />
+        <LiveTextView transcripts={transcripts} colorizer={colorizer} />
         <div className="overlay-container">{this.renderOverlay()}</div>
       </div>
     );

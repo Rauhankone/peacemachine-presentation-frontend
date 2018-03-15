@@ -2,13 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 
 export default class SentenceSpan extends React.Component {
-
   static OPACITY_TRANSITION_SECONDS = 1;
 
   state = {
     letterIndex: 0,
-    finished: false,
-    confidence: _.clamp(Math.pow(this.props.data.confidence, 5), 0.0, 1)
+    finished: false
+    //    confidence: _.clamp(Math.pow(this.props.data.confidence, 5), 0.0, 1)
   };
 
   componentDidMount() {
@@ -29,6 +28,7 @@ export default class SentenceSpan extends React.Component {
   };
 
   render() {
+    const color = this.props.color();
     return (
       <span
         id={this.props.data.id}
@@ -37,7 +37,9 @@ export default class SentenceSpan extends React.Component {
         }`}
         style={{
           transition: `opacity ${SentenceSpan.OPACITY_TRANSITION_SECONDS}s`,
-          opacity: this.props.showConfidence ? this.state.confidence : 1
+          ...(this.props.color && {
+            color: `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`
+          })
         }}
       >
         {this.props.data.transcript.substring(0, this.state.letterIndex)}
