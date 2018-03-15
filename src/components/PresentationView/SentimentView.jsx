@@ -62,17 +62,15 @@ class Sentiment extends React.Component {
 
   renderChanges() {
     let data = this.props.data;
-
-
+    
     data
         .map((d) => ({
           mess_id: d.id,
-          color: (!!d.tones) ? this.tonesToColor(this.extractEmotionTones(d)) : 'rgb(100, 100, 100)'
+          color: (!!d.tones) ? this.tonesToColor(this.extractEmotionTones(d)) : 'rgb(255, 100, 100)'
         }))
         .forEach((d) => {
           d3.select('#'+d.mess_id)
               .style('color', (element) => {
-                console.log(d.mess_id + ': ' + d.color);
                 return d.color;
               });
         });
