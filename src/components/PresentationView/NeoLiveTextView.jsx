@@ -13,7 +13,6 @@ class LiveTextView extends React.Component {
       fontDivisor: 1,
       curChars: 0
     };
-    this.maxChars = 0;
   }
 
   incrementFontDivisor() {
@@ -25,14 +24,18 @@ class LiveTextView extends React.Component {
   }
 
   isTextOverflowing() {
-    const { clientHeight, scrollHeight } = this.sentencesContainerElement;
+    const { clientHeight, scrollHeight } = this.elem;
     return clientHeight < scrollHeight;
   }
 
   accumulateLetters() {
     setInterval(() => {
-      if (this.state.curChars < this.maxChars) this.state.curChars++;
-    }, 1000 / 60);
+      if (this.state.curChars < _.sumBy(this.props.sentences, 'length'))
+        this.setState(prevState => ({
+          curChars: prevState.curChars + 1
+        }));
+      this.incrementFontDivisor();
+    }, 10);
   }
 
   componentDidMount() {
@@ -41,7 +44,6 @@ class LiveTextView extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.maxChars = _.sumBy(this.props.transcripts, 'length');
     this.updateD3();
   }
 
@@ -49,7 +51,7 @@ class LiveTextView extends React.Component {
     const update = d3
       .select(this.elem)
       .selectAll('span')
-      .data(this.props.transcripts);
+      .data(this.props.sentences);
     update.exit().remove();
     update
       .enter()
@@ -57,20 +59,21 @@ class LiveTextView extends React.Component {
       .attr('class', 'sentence-span')
       .merge(update)
       .text((d, i) => {
-        const datumMaxChars = _.sumBy(
-          _.slice(this.props.transcripts, 0, i + 1),
+        const untilDatumMaxChars = _.sumBy(
+          _.slice(this.props.sentences, 0, i + 1),
           'length'
         );
-        if (this.state.curChars < datumMaxChars) return '';
-        const end = Math.min(d.length, this.maxChars - datumMaxChars);
+        if (this.state.curChars + d.length < untilDatumMaxChars) return '';
+        if (untilDatumMaxChars < this.state.curChars) return d;
+        const end = Math.min(
+          d.length,
+          this.state.curChars - untilDatumMaxChars + d.length
+        );
         return d.substring(0, end);
       })
-      .style('color', (d, i) => `rgba(${this.props.colorizer(i).join()})`);
-    // .transition()
-    // .duration(500)
-
-    // const { fontDivisor, sentenceIndex } = this.state;
-    // const fontSizePixels = LiveTextView.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
+      .style('color', (d, i) => `rgba(${this.props.colorizer((d, i)).join()})`)
+      .transition()
+      .duration(500);
   }
 
   render() {
@@ -78,26 +81,14 @@ class LiveTextView extends React.Component {
     const fontSizePixels = LiveTextView.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
     return (
       <section className="live-text-view">
-        <div className="sentences-container" ref={elem => (this.elem = elem)} />
+        <div
+          className="sentences-container"
+          ref={elem => (this.elem = elem)}
+          style={{ fontSize: `${fontSizePixels}px` }}
+        />
       </section>
     );
   }
 }
-//style={{ fontSize: `${fontSizePixels}px` }}
+
 export default LiveTextView;
-
-//           style={{ fontSize: `${fontSizePixels}px` }}
-// ref={element => {
-//   this.sentencesContainerElement = element;
-// }}
-
-//           {this.props.mess
-//   .slice(0, sentenceIndex)
-//   .map((channel, index) => (
-//     <SentenceSpan
-//       data={channel}
-//       onCharIndexIncrement={this.incrementFontDivisor}
-//       onSentenceFinish={this.incrementSentenceIndex}
-//       color={color}
-//     />
-//     ))}

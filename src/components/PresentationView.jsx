@@ -140,7 +140,7 @@ export default class PresentationView extends React.Component {
 
   renderOverlay() {
     const slideViews = {
-      'intensity': (
+      intensity: (
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       'word cloud': <WordCloudView />,
@@ -157,12 +157,12 @@ export default class PresentationView extends React.Component {
   }
 
   render() {
-    const transcripts = _.map(this.state.mess, x => x.transcript);
-    const colorizer = index => [255, 105, 255, 1.0];
+    const sentences = _.map(this.state.mess, x => x.transcript);
+    const colorizer = (sentence, index) => [255, 105, 255, 1.0];
     return (
       <div className="presentation-view">
         <ActiveSlideHeader slideName={this.state.activeSlide} />
-        <LiveTextView transcripts={transcripts} colorizer={colorizer} />
+        <LiveTextView sentences={sentences} colorizer={colorizer} />
         <div className="overlay-container">{this.renderOverlay()}</div>
       </div>
     );
