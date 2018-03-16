@@ -16,6 +16,20 @@ import socketService from '../services/socket-service';
 import '../styles/Overlay.css';
 
 export default class PresentationView extends React.Component {
+
+  static loopSlides = [
+    'live text',
+    'confidence',
+    'intensity',
+    'topword 1',
+    'topword 2',
+    'topword 3',
+    'topword 4',
+    'topword 5'
+  ];
+
+  static loopSlideTransitionMilliseconds = 5000;
+
   constructor(props) {
     super(props);
     socketService.initSocket('presentation');
@@ -34,7 +48,42 @@ export default class PresentationView extends React.Component {
     ],
     mess: [],
     activeSlide: 'live text',
+    loopSlideIndex: 0,
     topWords: []
+  };
+
+  get visibleSlide() {
+    if (this.state.activeSlide === 'loop') {
+      return PresentationView.loopSlides[this.state.loopSlideIndex];
+    }
+    else {
+      return this.state.activeSlide;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.activeSlide !== prevState.activeSlide) {
+      if (this.state.activeSlide === 'loop') {
+        this.moveToNextLoopSlideIntervalId = setInterval(
+          this.moveToNextLoopSlide,
+          PresentationView.loopSlideTransitionMilliseconds
+        );
+      }
+      else {
+        clearInterval(this.moveToNextLoopSlideIntervalId);
+      }
+    }
+  }
+
+  moveToNextLoopSlide = () => {
+    this.setState(prevState => {
+      let { loopSlideIndex } = prevState;
+      loopSlideIndex++;
+      if (PresentationView.loopSlides.length <= loopSlideIndex) {
+        loopSlideIndex = 0;
+      }
+      return { loopSlideIndex };
+    });
   };
 
   presentationSocketSetup() {
@@ -59,7 +108,10 @@ export default class PresentationView extends React.Component {
     });
 
     socketService.subscribeToEvent('slideUpdated', data => {
-      this.setState({ activeSlide: data.slideName });
+      this.setState({
+        activeSlide: data.slideName,
+        loopSlideIndex: 0
+      });
     });
 
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {
@@ -87,6 +139,7 @@ export default class PresentationView extends React.Component {
       this.setState({
         channels: appointedChannels,
         activeSlide: data.slides.activeSlide,
+        loopSlideIndex: 0,
         mess: data.mess
       });
       this.updateTopWords();
@@ -140,7 +193,7 @@ export default class PresentationView extends React.Component {
 
   getTopWord() {
     let topWordRegex = /topword ([0-9]{1})/;
-    let parts = topWordRegex.exec(this.state.activeSlide);
+    let parts = topWordRegex.exec(this.visibleSlide);
     if (!!parts) {
       let index = parseInt(parts[1]) - 1;
       if (this.state.topWords.length > index) {
@@ -166,16 +219,17 @@ export default class PresentationView extends React.Component {
         }))
       )
     };
-    return slideViews[this.state.activeSlide];
+    return slideViews[this.visibleSlide];
   }
+
 
   render() {
     return (
       <div className="presentation-view">
-        <ActiveSlideHeader slideName={this.state.activeSlide} />
+        <ActiveSlideHeader slideName={this.visibleSlide} />
         <LiveTextView
           mess={this.state.mess}
-          activeSlide={this.state.activeSlide}
+          activeSlide={this.visibleSlide}
           topWord={this.getTopWord()}
         />
         <div className="overlay-container">{this.renderOverlay()}</div>
