@@ -49,11 +49,15 @@ body {
   width: auto;
 }
 
+.sentence-span-wrapper {
+
+}
+
 .sentence-span {
   color: #eeffff;
-  line-height: 1.4;
-  animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) 0s
-    forwards;
+  line-height: 1.2;
+  animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) forwards;
+  filter: blur(0);
 }
 
 @keyframes sentenceEnter {
