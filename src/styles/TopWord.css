@@ -8,8 +8,8 @@
     left: 50%;
     transform: translate(-50%,-50%);
 
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(20, 20, 20, 0.3);
     text-shadow: 0 0 5px rgba(0, 0, 0);
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
 }

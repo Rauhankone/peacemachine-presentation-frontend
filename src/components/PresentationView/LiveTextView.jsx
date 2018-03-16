@@ -50,7 +50,9 @@ class LiveTextView extends React.Component {
                 onLetterIndexIncrement={this.incrementFontDivisor}
                 onSentenceFinish={this.incrementSentenceIndex}
                 showConfidence={this.props.activeSlide === 'confidence' || this.props.activeSlide === 'intensity'}
-                showIntensity={this.props.activeSlide === 'intensity'}
+                showIntensity={this.props.activeSlide === 'intensity' || this.props.activeSlide.includes('topword')}
+                searchTopWord={this.props.activeSlide.includes('topword')}
+                topWord={this.props.topWord}
               />
             ))}
         </div>

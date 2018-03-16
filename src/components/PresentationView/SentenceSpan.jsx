@@ -9,8 +9,7 @@ export default class SentenceSpan extends React.Component {
 
   state = {
     letterIndex: 0,
-    finished: false,
-    confidence: _.clamp(Math.pow(this.props.data.confidence, 5), 0.0, 1)
+    finished: false
   };
 
   componentDidMount() {
@@ -31,7 +30,17 @@ export default class SentenceSpan extends React.Component {
   };
 
   getBackgroundColor(data) {
-    return (!!data.tones) ? tonesToColor(extractEmotionTones(this.props.data)) : 'rgb(100,100,100)';
+    return (!!data.tones) ? tonesToColor(extractEmotionTones(data)) : 'rgb(100,100,100)';
+  }
+
+  getOpacity() {
+    let opacity = 1;
+    if (this.props.showConfidence) {
+      opacity = _.clamp(Math.pow(this.props.data.confidence, 5), 0.0, 1);
+    } else if (this.props.searchTopWord) {
+      opacity = this.props.data.transcript.includes(this.props.topWord) ? 1 : 0.1;
+    }
+    return opacity;
   }
 
   render() {
@@ -40,7 +49,7 @@ export default class SentenceSpan extends React.Component {
         className='sentence-span-wrapper'
         style={{
           transition: `opacity ${SentenceSpan.OPACITY_TRANSITION_SECONDS}s, background ${SentenceSpan.BACKGROUND_TRANSITION_SECONDS}s`,
-          opacity: this.props.showConfidence ? this.state.confidence : 1,
+          opacity: this.getOpacity(),
           background: this.props.showIntensity ? this.getBackgroundColor(this.props.data) : 'none'
         }}
         >

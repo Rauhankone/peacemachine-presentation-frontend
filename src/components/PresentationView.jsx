@@ -138,6 +138,18 @@ export default class PresentationView extends React.Component {
     }));
   }
 
+  getTopWord() {
+    let topWordRegex = /topword ([0-9]{1})/;
+    let parts = topWordRegex.exec(this.state.activeSlide);
+    if (!!parts) {
+      let index = parseInt(parts[1]) - 1;
+      if (this.state.topWords.length > index) {
+        return this.state.topWords[index];
+      }
+    }
+    return '';
+  }
+
   renderOverlay() {
     const slideViews = {
       'intensity': (
@@ -164,6 +176,7 @@ export default class PresentationView extends React.Component {
         <LiveTextView
           mess={this.state.mess}
           activeSlide={this.state.activeSlide}
+          topWord={this.getTopWord()}
         />
         <div className="overlay-container">{this.renderOverlay()}</div>
       </div>
