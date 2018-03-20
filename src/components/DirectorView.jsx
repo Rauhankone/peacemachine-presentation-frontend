@@ -211,7 +211,7 @@ export default class DirectorView extends React.Component {
                 <div className="analyzer-controls">
                   <button
                     disabled={!this.someChannelAnalyzed}
-                    onClick={this.handleFinalizeTonesClick()}
+                    onClick={this.handleFinalizeTonesClick}
                   >
                     Finalize Tones
                   </button>
