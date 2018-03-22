@@ -76,7 +76,7 @@ export default class InputView extends React.Component {
     let recState = [null, 'recording', 'finished'];
 
     switch (this.state.recording) {
-      case null:
+      case 'ready':
         useMediaStream(this.state.mediaStream).then(stream => {
           this.setState({ stream });
           this.changeRecordingState(recState[1]);
