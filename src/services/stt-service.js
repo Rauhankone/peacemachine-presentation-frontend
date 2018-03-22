@@ -6,31 +6,6 @@ const axios = Axios.create({
     process.env.REACT_APP_SERVER_PORT
   }`
 });
-let token = '';
-
-export default recFile => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject('Request timed out');
-    }, 5000);
-    axios
-      .get('/token')
-      .then(res => {
-        token = res.data.token;
-        let stt = watsonSpeech.SpeechToText.recognizeMicrophone({
-          token,
-          extractResults: true
-        });
-
-        resolve(stt);
-      })
-      .catch(e => {
-        reject(
-          'Unable to aquire token for Watson speech-to-text service (invalid credentials, maybe?)'
-        );
-      });
-  });
-};
 
 export const useMediaStream = mediaStream => {
   return new Promise(async (resolve, reject) => {
@@ -47,7 +22,6 @@ export const useMediaStream = mediaStream => {
         })
       );
     } catch (error) {
-      console.log('something went wrong');
       reject(error);
     }
   });

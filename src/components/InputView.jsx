@@ -4,10 +4,7 @@ import AnalyzedToneTooltip from './AnalyzedToneTooltip';
 import '../styles/InputView.css';
 
 import socketService from '../services/socket-service';
-import sttService, {
-  outputFinal,
-  useMediaStream
-} from '../services/stt-service';
+import { outputFinal, useMediaStream } from '../services/stt-service';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
@@ -106,16 +103,6 @@ export default class InputView extends React.Component {
         this.state.stream.stop();
 
         this.changeRecordingState(recState[2]);
-        break;
-      case 'finished':
-        sttService('.live-text').then(res => {
-          this.changeRecordingState(recState[1]);
-
-          stream = res;
-          stream.on('data', data => {
-            this.handleStreamInput(outputFinal(data));
-          });
-        });
         break;
       default:
       // eslint wants default
