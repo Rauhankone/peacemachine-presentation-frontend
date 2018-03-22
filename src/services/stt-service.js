@@ -32,6 +32,27 @@ export default recFile => {
   });
 };
 
+export const useMediaStream = mediaStream => {
+  return new Promise(async (resolve, reject) => {
+    if (!mediaStream) return reject(new Error('No mediaStream provided!'));
+
+    try {
+      const { data: { token } } = await axios.get('/token');
+
+      resolve(
+        watsonSpeech.SpeechToText.recognizeMicrophone({
+          token,
+          mediaStream,
+          extractResults: true
+        })
+      );
+    } catch (error) {
+      console.log('something went wrong');
+      reject(error);
+    }
+  });
+};
+
 export const outputFinal = data => {
   if (data.final) {
     return {

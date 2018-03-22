@@ -4,7 +4,10 @@ import AnalyzedToneTooltip from './AnalyzedToneTooltip';
 import '../styles/InputView.css';
 
 import socketService from '../services/socket-service';
-import sttService, { outputFinal } from '../services/stt-service';
+import sttService, {
+  outputFinal,
+  useMediaStream
+} from '../services/stt-service';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
@@ -23,9 +26,11 @@ export default class InputView extends React.Component {
       analyzedSentences: [],
       hoveringOnSentence: false,
       activeSentenceIndex: null,
-      canRecord: true
+      canRecord: true,
+      mediaStream: null
     };
     this.inputSocket();
+    this.initUserMedia();
   }
 
   inputSocket = () => {
@@ -59,25 +64,44 @@ export default class InputView extends React.Component {
     });
   };
 
+  initUserMedia = () => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then(mediaStream => {
+        this.changeRecordingState('ready');
+        this.setState({ mediaStream });
+      })
+      .catch(console.error);
+  };
+
   handleRecClick = () => {
     let stream;
     let recState = [null, 'recording', 'finished'];
 
     switch (this.state.recording) {
       case null:
-        sttService('.live-text').then(res => {
+        useMediaStream(this.state.mediaStream).then(stream => {
+          this.setState({ stream });
           this.changeRecordingState(recState[1]);
 
-          stream = res;
           stream.on('data', data => {
             this.handleStreamInput(outputFinal(data));
           });
-
-          this.setState(prevState => ({
-            stream
-          }));
         });
         break;
+      // sttService('.live-text').then(res => {
+      //   this.changeRecordingState(recState[1]);
+
+      //   stream = res;
+      //   stream.on('data', data => {
+      //     this.handleStreamInput(outputFinal(data));
+      //   });
+
+      //   this.setState(prevState => ({
+      //     stream
+      //   }));
+      // });
+      // break;
       case 'recording':
         this.state.stream.stop();
 
