@@ -174,7 +174,9 @@ export default class InputView extends React.Component {
               <h3>Channel ID</h3>
               <span>{this.state.channel.id}</span>
             </div>
-            {this.state.candidate && this.state.recording !== 'finished' ? (
+            {this.state.candidate &&
+            this.state.recording !== 'finished' &&
+            this.state.mediaStream ? (
               <button
                 className={
                   'recordBtn ' + (this.state.recording ? 'recording' : '')
