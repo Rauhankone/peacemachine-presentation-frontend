@@ -41,7 +41,7 @@ class LiveTextView extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.mess.length === 0) {
+    if (nextProps.mess.length === 0 || nextProps.activeSlide === 'intensity') {
       this.resetState();
     }
   }
@@ -68,7 +68,8 @@ class LiveTextView extends React.Component {
                 data={channel}
                 onLetterIndexIncrement={this.incrementFontDivisor}
                 onSentenceFinish={this.incrementSentenceIndex}
-                showConfidence={this.props.activeSlide === 'confidence' || this.props.activeSlide === 'intensity'}
+                runAccumulation={this.props.activeSlide === 'intensity' && index === 0 && sentenceIndex === 1}
+                showConfidence={this.props.activeSlide === 'confidence' }
                 showIntensity={this.props.activeSlide === 'intensity' || this.props.activeSlide.includes('topword')}
                 searchTopWord={this.props.activeSlide.includes('topword')}
                 topWord={this.props.topWord}

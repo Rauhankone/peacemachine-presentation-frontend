@@ -10,10 +10,10 @@ const axios = Axios.create({
 export const useMediaStream = mediaStream => {
   return new Promise(async (resolve, reject) => {
     if (!mediaStream) return reject(new Error('No mediaStream provided!'));
-
+    console.log('mo');
     try {
       const { data: { token } } = await axios.get('/token');
-
+      console.log(token);
       resolve(
         watsonSpeech.SpeechToText.recognizeMicrophone({
           token,

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AnalyzedToneTooltip from './AnalyzedToneTooltip';
+import RecordingButton from './RecordingButton';
 import '../styles/InputView.css';
 
 import socketService from '../services/socket-service';
@@ -47,6 +48,7 @@ export default class InputView extends React.Component {
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {
       if (data.id === this.state.channel.id) {
         this.setState({ candidate: data.candidate });
+        this.changeRecordingState('appointed');
       }
     });
 
@@ -77,6 +79,7 @@ export default class InputView extends React.Component {
 
     switch (this.state.recording) {
       case 'ready':
+        this.changeRecordingState('loading');
         useMediaStream(this.state.mediaStream).then(stream => {
           this.setState({ stream });
           this.changeRecordingState(recState[1]);
@@ -156,6 +159,7 @@ export default class InputView extends React.Component {
     });
     this.setState({ recording });
   };
+
   render() {
     return (
       <div className="input-view">
@@ -174,22 +178,19 @@ export default class InputView extends React.Component {
               <h3>Channel ID</h3>
               <span>{this.state.channel.id}</span>
             </div>
-            {this.state.candidate &&
-            this.state.recording !== 'finished' &&
-            this.state.mediaStream ? (
-              <button
-                className={
-                  'recordBtn ' + (this.state.recording ? 'recording' : '')
-                }
-                onClick={this.handleRecClick}
-              >
-                {this.state.recording === 'recording'
-                  ? 'Stop Speech Transcription'
-                  : 'Start Speech Transcription'}
-              </button>
-            ) : (
-              <span className="not-candidate">Start Speech Transcription</span>
-            )}
+            <RecordingButton
+              conditions={{
+                disabled:
+                  this.state.recording !== 'finished' &&
+                  this.state.candidate &&
+                  this.state.mediaStream
+                    ? false
+                    : true,
+
+                recordingState: this.state.recording
+              }}
+              onButtonClick={this.handleRecClick}
+            />
             <button
               disabled={
                 this.state.candidate && this.state.recording !== 'finished'

@@ -113,7 +113,7 @@ export default class DirectorView extends React.Component {
   };
 
   handleFinalizeTonesClick = () => {
-    socketService.emitEvent('mergeTonesToMess');
+    socketService.emitEvent('finalizeMess');
   };
 
   get someChannelAnalyzed() {
