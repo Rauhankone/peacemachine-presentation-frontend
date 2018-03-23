@@ -3,12 +3,23 @@ import SentenceSpan from './SentenceSpan';
 import '../../styles/LiveTextView.css';
 
 class LiveTextView extends React.Component {
+
   static DEFAULT_FONT_SIZE_PIXELS = 1000;
 
-  state = {
+  static initialState = {
     fontDivisor: 1,
     sentenceIndex: 1
   };
+
+  state = {
+    ...this.constructor.initialState
+  };
+
+  resetState = () => {
+    this.setState((prevState, props) => ({
+      ...this.constructor.initialState
+    }));
+  }
 
   incrementFontDivisor = () => {
     if (this.isTextOverflowing()) {
@@ -29,9 +40,17 @@ class LiveTextView extends React.Component {
     return clientHeight < scrollHeight;
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.mess.length === 0) {
+      this.resetState();
+    }
+  }
+
   render() {
     const { fontDivisor, sentenceIndex } = this.state;
-    const fontSizePixels = LiveTextView.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
+    const fontSizePixels = (
+      this.constructor.DEFAULT_FONT_SIZE_PIXELS / fontDivisor
+    );
     return (
       <section className="live-text-view">
         <div
