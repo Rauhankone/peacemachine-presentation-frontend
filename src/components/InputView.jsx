@@ -28,7 +28,6 @@ export default class InputView extends React.Component {
       mediaStream: null
     };
     this.inputSocket();
-    this.initUserMedia();
   }
 
   inputSocket = () => {
@@ -49,6 +48,7 @@ export default class InputView extends React.Component {
       if (data.id === this.state.channel.id) {
         this.setState({ candidate: data.candidate });
         this.changeRecordingState('appointed');
+        this.initUserMedia();
       }
     });
 
