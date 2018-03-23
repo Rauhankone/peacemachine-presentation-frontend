@@ -16,7 +16,6 @@ import socketService from '../services/socket-service';
 import '../styles/Overlay.css';
 
 export default class PresentationView extends React.Component {
-
   static loopSlides = [
     'live text',
     'confidence',
@@ -55,8 +54,7 @@ export default class PresentationView extends React.Component {
   get visibleSlide() {
     if (this.state.activeSlide === 'loop') {
       return PresentationView.loopSlides[this.state.loopSlideIndex];
-    }
-    else {
+    } else {
       return this.state.activeSlide;
     }
   }
@@ -68,8 +66,7 @@ export default class PresentationView extends React.Component {
           this.moveToNextLoopSlide,
           PresentationView.loopSlideTransitionMilliseconds
         );
-      }
-      else {
+      } else {
         clearInterval(this.moveToNextLoopSlideIntervalId);
       }
     }
@@ -161,7 +158,7 @@ export default class PresentationView extends React.Component {
     let fullText = _.lowerCase(
       _.join(_.map(this.state.mess, x => x.transcript), ' ')
     );
-    const words = _.words(fullText);
+    const words = _.words(fullText, /[^,. ]+/g);
     const keywords = KeywordExtractor.extract(fullText, {
       language: 'english',
       remove_digits: true,
@@ -205,7 +202,7 @@ export default class PresentationView extends React.Component {
 
   renderOverlay() {
     const slideViews = {
-      'intensity': (
+      intensity: (
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       'word cloud': <WordCloudView />,
@@ -221,7 +218,6 @@ export default class PresentationView extends React.Component {
     };
     return slideViews[this.visibleSlide];
   }
-
 
   render() {
     return (
