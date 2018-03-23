@@ -6,13 +6,30 @@ export default class SentenceSpan extends React.Component {
   static OPACITY_TRANSITION_SECONDS = 1;
   static BACKGROUND_TRANSITION_SECONDS = 1;
 
-  state = {
+  static initialState = {
     letterIndex: 0,
     finished: false
   };
 
+  state = {
+    ...this.constructor.initialState
+  };
+
+  resetState = () => {
+    this.setState((prevState, props) => ({
+      ...this.constructor.initialState
+    }));
+  }
+
   componentDidMount() {
     this.accumulateLetters();
+  }
+
+  componentDidUpdate() {
+    if (this.props.runAccumulation && this.state.finished) {
+      this.resetState();
+      this.accumulateLetters();
+    }
   }
 
   accumulateLetters = () => {
