@@ -1,4 +1,5 @@
 import * as Sentencer from 'sentencer';
+import KeywordExtractor from 'keyword-extractor';
 import _ from 'lodash';
 
 /* eslint-disable */
@@ -104,3 +105,35 @@ export const stringifyToneScore = score => {
 
   return 'N/A';
 };
+
+export function genTopWords(transcripts) {
+  let fullText = _.lowerCase(
+    _.join(_.map(transcripts, x => x.transcript), ' ')
+  );
+  const words = _.words(fullText, /[^,. ]+/g);
+  const keywords = KeywordExtractor.extract(fullText, {
+    language: 'english',
+    remove_digits: true,
+    return_changed_case: true,
+    remove_duplicates: true
+  });
+  const freqs = _.map(keywords, kw =>
+    _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
+  );
+  let topWords = _.reverse(
+    _.slice(
+      _.map(
+        _.sortBy(
+          _.map(keywords, (w, i) => ({
+            word: w,
+            freq: freqs[i]
+          })),
+          'freq'
+        ),
+        wf => wf.word
+      ),
+      -5
+    )
+  );
+  return topWords;
+}
