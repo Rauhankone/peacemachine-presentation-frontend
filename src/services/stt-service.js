@@ -1,11 +1,5 @@
-import Axios from 'axios';
 import watsonSpeech from 'watson-speech';
-
-const axios = Axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_HOST}:${
-    process.env.REACT_APP_SERVER_PORT
-  }`
-});
+import axios from './axios';
 
 export const useMediaStream = mediaStream => {
   return new Promise(async (resolve, reject) => {
