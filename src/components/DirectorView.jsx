@@ -104,11 +104,10 @@ export default class DirectorView extends React.Component {
     socketService.emitEvent('changeSlide', { slideName: slide });
   };
 
-  handleChannelClick = channel => event => {
-    console.log(this.state.appointedChannels);
+  handleChannelClick = channelId => event => {
     socketService.emitEvent('channelCandidacyChanged', {
-      id: channel,
-      candidate: !this.state.appointedChannels.includes(channel)
+      id: channelId,
+      candidate: !this.state.appointedChannels.includes(channelId)
     });
   };
 

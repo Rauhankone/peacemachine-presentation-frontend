@@ -45,10 +45,16 @@ export default class InputView extends React.Component {
     });
 
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {
+      console.log(data);
       if (data.id === this.state.channel.id) {
         this.setState({ candidate: data.candidate });
-        this.changeRecordingState('appointed');
-        this.initUserMedia();
+        if (data.candidate) {
+          this.changeRecordingState('appointed');
+          this.initUserMedia();
+        } else {
+          this.changeRecordingState(null);
+          if (this.state.stream) this.state.stream.stop();
+        }
       }
     });
 
