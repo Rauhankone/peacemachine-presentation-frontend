@@ -155,9 +155,10 @@ export default class PresentationView extends React.Component {
   }
 
   updateTopWords() {
-    let fullText = _.lowerCase(
-      _.join(_.map(this.state.mess, x => x.transcript), ' ')
+    const sentenceTranscripts = _.map(
+      this.state.mess, sentence => sentence.transcript
     );
+    const fullText = _.join(sentenceTranscripts, ' ').toLowerCase();
     const words = _.words(fullText, /[^,. ]+/g);
     const keywords = KeywordExtractor.extract(fullText, {
       language: 'english',
