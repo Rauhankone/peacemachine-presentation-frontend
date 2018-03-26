@@ -91,6 +91,7 @@ export default class InputView extends React.Component {
 
     switch (this.state.recording) {
       case 'ready':
+        console.log('ready');
         this.changeRecordingState('loading');
         useMediaStream(this.state.mediaStream).then(stream => {
           this.setState({ stream });
@@ -120,6 +121,7 @@ export default class InputView extends React.Component {
         this.changeRecordingState(recState[2]);
         break;
       default:
+        break;
       // eslint wants default
     }
   };
@@ -166,7 +168,11 @@ export default class InputView extends React.Component {
   };
 
   changeRecordingState = recording => {
-    if (this.state.candidate && this.state.mediaStream) {
+    if (
+      this.state.candidate &&
+      this.state.mediaStream &&
+      (this.state.recording === 'appointed' || this.state.recording === 'media')
+    ) {
       socketService.emitEvent('channelRecordingState', {
         recording: 'ready'
       });
