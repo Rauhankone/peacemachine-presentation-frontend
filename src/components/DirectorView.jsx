@@ -115,6 +115,21 @@ export default class DirectorView extends React.Component {
     socketService.emitEvent('finalizeMess');
   };
 
+  getChannelHighlight = channel => {
+    const appointed = this.state.appointedChannels.includes(channel.id);
+    const analyzed = channel.recording === 'analyzed';
+
+    return {
+      highlight: {
+        backgroundColor: appointed ? 'rgba(59, 153, 252, 0.15)' : null
+      },
+      label: {
+        color: analyzed ? 'white' : appointed ? 'rgba(59, 153, 252, 1)' : null,
+        backgroundColor: analyzed ? 'rgba(59, 153, 252, 1)' : 'initial'
+      }
+    };
+  };
+
   get someChannelAnalyzed() {
     return this.state.channels
       .map(ch => ch.recording)
@@ -169,13 +184,8 @@ export default class DirectorView extends React.Component {
                 <li
                   key={channel.id}
                   style={{
-                    background: this.state.appointedChannels.includes(
-                      channel.id
-                    )
-                      ? channel.recording === 'finished'
-                        ? 'rgba(59, 153, 252, .15)'
-                        : 'rgba(87, 170, 84, .15)'
-                      : null
+                    background: this.getChannelHighlight(channel).highlight
+                      .backgroundColor
                   }}
                 >
                   <div className="channel-control">
@@ -191,13 +201,9 @@ export default class DirectorView extends React.Component {
                     <span
                       className="channel-recording-state"
                       style={{
-                        color: channel.recording
-                          ? channel.recording === 'finished'
-                            ? '#3B99FC'
-                            : channel.recording === 'analyzed'
-                              ? '#3B99FC'
-                              : '#dadada'
-                          : '#dadada'
+                        color: this.getChannelHighlight(channel).label.color,
+                        background: this.getChannelHighlight(channel).label
+                          .backgroundColor
                       }}
                     >
                       {channel.recording ? channel.recording : 'idle'}
