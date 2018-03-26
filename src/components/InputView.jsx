@@ -76,10 +76,12 @@ export default class InputView extends React.Component {
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: false })
         .then(mediaStream => {
-          this.changeRecordingState('ready');
           this.setState({ mediaStream });
+          this.changeRecordingState('media');
         })
-        .catch(console.error);
+        .catch(e => {
+          this.changeRecordingState('error');
+        });
     }
   };
 
@@ -164,6 +166,13 @@ export default class InputView extends React.Component {
   };
 
   changeRecordingState = recording => {
+    if (this.state.candidate && this.state.mediaStream) {
+      socketService.emitEvent('channelRecordingState', {
+        recording: 'ready'
+      });
+      this.setState({ recording: 'ready' });
+      return;
+    }
     socketService.emitEvent('channelRecordingState', {
       recording
     });
@@ -197,12 +206,7 @@ export default class InputView extends React.Component {
                     ? false
                     : true,
 
-                recordingState:
-                  this.state.mediaStream && this.state.candidate
-                    ? 'ready'
-                    : this.state.recording === 'ready' && this.state.candidate
-                      ? 'ready'
-                      : 'waiting'
+                recordingState: this.state.recording
               }}
               onButtonClick={this.handleRecClick}
             />
