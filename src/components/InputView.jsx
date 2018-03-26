@@ -48,12 +48,14 @@ export default class InputView extends React.Component {
       console.log(data);
       if (data.id === this.state.channel.id) {
         this.setState({ candidate: data.candidate });
-        if (data.candidate) {
+        if (data.candidate && !this.state.mediaStream) {
           this.changeRecordingState('appointed');
           this.initUserMedia();
+        } else if (data.candidate && this.state.mediaStream) {
+          this.changeRecordingState('ready');
         } else {
+          this.setState({ mediaStream: null });
           this.changeRecordingState(null);
-          if (this.state.stream) this.state.stream.stop();
         }
       }
     });
@@ -70,13 +72,15 @@ export default class InputView extends React.Component {
   };
 
   initUserMedia = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: false })
-      .then(mediaStream => {
-        this.changeRecordingState('ready');
-        this.setState({ mediaStream });
-      })
-      .catch(console.error);
+    if (!this.state.mediaStream) {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then(mediaStream => {
+          this.changeRecordingState('ready');
+          this.setState({ mediaStream });
+        })
+        .catch(console.error);
+    }
   };
 
   handleRecClick = () => {
@@ -193,7 +197,12 @@ export default class InputView extends React.Component {
                     ? false
                     : true,
 
-                recordingState: this.state.recording
+                recordingState:
+                  this.state.mediaStream && this.state.candidate
+                    ? 'ready'
+                    : this.state.recording === 'ready' && this.state.candidate
+                      ? 'ready'
+                      : 'waiting'
               }}
               onButtonClick={this.handleRecClick}
             />
