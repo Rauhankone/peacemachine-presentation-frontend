@@ -82,10 +82,9 @@ export default class SentenceSpan extends React.Component {
             SentenceSpan.OPACITY_TRANSITION_SECONDS
           }s, background ${SentenceSpan.BACKGROUND_TRANSITION_SECONDS}s`,
           opacity: this.getOpacity(),
-          background:
-            this.props.showIntensity && this.state.finished
-              ? this.getBackgroundColor(this.props.data)
-              : 'none'
+          background: this.props.showIntensity
+            ? this.getBackgroundColor(this.props.data)
+            : 'none'
         }}
       >
         <span
@@ -94,10 +93,9 @@ export default class SentenceSpan extends React.Component {
             this.state.finished ? 'sentence-finished' : null
           }`}
           style={{
-            color:
-              this.props.showIntensity && this.state.finished
-                ? this.getTextColor(this.getBackgroundColor(this.props.data))
-                : '#EEFFFF'
+            color: this.props.showIntensity
+              ? this.getTextColor(this.getBackgroundColor(this.props.data))
+              : '#EEFFFF'
           }}
         >
           {this.props.data.transcript.substring(0, this.state.letterIndex)}
