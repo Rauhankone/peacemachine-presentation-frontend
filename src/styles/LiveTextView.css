@@ -49,13 +49,29 @@ body {
   width: auto;
 }
 
-.sentence-span-wrapper {
-}
+.sentence-span-wrapper {}
 
 .sentence-span {
   color: #eeffff;
   line-height: 1.01;
   animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) forwards;
+  overflow: hidden;
+  position: relative;
+}
+
+.sentence-span:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  width: 0.5em;
+  background-color: white;
+  color: white;
+  box-shadow: 0 0 18px 8px;
+  transform-origin: left;
+  animation: sentenceFlash 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
 @keyframes sentenceEnter {
@@ -64,6 +80,15 @@ body {
   }
   to {
     background-color: rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes sentenceFlash {
+  0% {
+    transform: scale(1, 1.5);
+  }
+  100% {
+    transform: scale(0, 1);
   }
 }
 
