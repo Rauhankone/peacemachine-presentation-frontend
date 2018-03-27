@@ -279,12 +279,19 @@
 }
 
 
-/* Word zoom tool on the right */
+/* Top words on the right */
 
-.zoom-tool {
-  background: white;
+.top-words h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem 0;
 }
 
+.top-words ol,
+.top-words li {
+    list-style: decimal outside;
+    text-transform: capitalize;
+}
 
 /* connected channels */
 

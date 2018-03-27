@@ -10,9 +10,9 @@ import WordZoom from './PresentationView/Overlay/WordZoom';
 import TopWord from './PresentationView/Overlay/TopWord';
 
 import _ from 'lodash';
-import KeywordExtractor from 'keyword-extractor';
 
 import socketService from '../services/socket-service';
+import { genTopWords } from '../utils';
 import '../styles/Overlay.css';
 
 export default class PresentationView extends React.Component {
@@ -24,7 +24,12 @@ export default class PresentationView extends React.Component {
     'topword 2',
     'topword 3',
     'topword 4',
-    'topword 5'
+    'topword 5',
+    'topword 6',
+    'topword 7',
+    'topword 8',
+    'topword 9',
+    'topword 10'
   ];
 
   static loopSlideTransitionMilliseconds = 5000;
@@ -85,6 +90,7 @@ export default class PresentationView extends React.Component {
 
   presentationSocketSetup() {
     socketService.subscribeToEvent('channelUpdated', data => {
+      //console.log('channelUpdated', data);
       this.setState(prevState => {
         const id = prevState.channels.findIndex(ch => ch.id === data.id);
         if (prevState.channels[id]) prevState.channels[id] = data;
@@ -101,7 +107,6 @@ export default class PresentationView extends React.Component {
           ]
         };
       });
-      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('slideUpdated', data => {
@@ -139,7 +144,6 @@ export default class PresentationView extends React.Component {
         loopSlideIndex: 0,
         mess: data.mess
       });
-      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('messFinalized', data => {
@@ -155,42 +159,13 @@ export default class PresentationView extends React.Component {
   }
 
   updateTopWords() {
-    const sentenceTranscripts = _.map(
-      this.state.mess, sentence => sentence.transcript
-    );
-    const fullText = _.join(sentenceTranscripts, ' ').toLowerCase();
-    const words = _.words(fullText, /[^,. ]+/g);
-    const keywords = KeywordExtractor.extract(fullText, {
-      language: 'english',
-      remove_digits: true,
-      return_changed_case: true,
-      remove_duplicates: true
-    });
-    const freqs = _.map(keywords, kw =>
-      _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
-    );
-    let topWords = _.reverse(
-      _.slice(
-        _.map(
-          _.sortBy(
-            _.map(keywords, (w, i) => ({
-              word: w,
-              freq: freqs[i]
-            })),
-            'freq'
-          ),
-          wf => wf.word
-        ),
-        -5
-      )
-    );
-    this.setState((prevState, props) => ({
-      topWords: topWords
+    this.setState(prevState => ({
+      topWords: genTopWords(this.state.mess)
     }));
   }
 
   getTopWord() {
-    let topWordRegex = /topword ([0-9]{1})/;
+    let topWordRegex = /topword (\d+)/;
     let parts = topWordRegex.exec(this.visibleSlide);
     if (!!parts) {
       let index = parseInt(parts[1]) - 1;
