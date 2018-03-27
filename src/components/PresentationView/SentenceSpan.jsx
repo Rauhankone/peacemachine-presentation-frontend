@@ -52,9 +52,19 @@ export default class SentenceSpan extends React.Component {
       : 'rgb(100,100,100)';
   }
 
-  getTextColor(backgroundColor) {
-    const isBright = Color(backgroundColor).luminosity() >= 0.5;
-    return isBright ? '#853875' : '#EEFFFF';
+  getTextColor(color) {
+    const bgColor = Color(color);
+    const luminosity = bgColor.luminosity();
+    const contrastTreshold = t => luminosity >= t;
+
+    if (contrastTreshold(0.6)) {
+      return bgColor.darken(luminosity);
+    } else {
+      return luminosity < 0.2
+        ? bgColor.lighten(_.clamp(luminosity, 0.2, 0.4))
+        : bgColor.lighten(_.clamp(luminosity, 0.4, 1));
+    }
+    // return isBright ? '#853875' : '#EEFFFF';
   }
 
   getOpacity() {

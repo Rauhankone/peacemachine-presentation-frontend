@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Router from './components/Router';
 
 import fontawesome from '@fortawesome/fontawesome';
-import faRegular from '@fortawesome/fontawesome-pro-regular';
+import faRegular from '@fortawesome/fontawesome-free-regular';
 
 fontawesome.library.add(faRegular);
 
