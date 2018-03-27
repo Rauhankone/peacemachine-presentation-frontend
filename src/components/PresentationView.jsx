@@ -24,7 +24,12 @@ export default class PresentationView extends React.Component {
     'topword 2',
     'topword 3',
     'topword 4',
-    'topword 5'
+    'topword 5',
+    'topword 6',
+    'topword 7',
+    'topword 8',
+    'topword 9',
+    'topword 10'
   ];
 
   static loopSlideTransitionMilliseconds = 5000;
