@@ -201,6 +201,7 @@ export default class PresentationView extends React.Component {
         <ActiveSlideHeader slideName={this.visibleSlide} />
         <LiveTextView
           mess={this.state.mess}
+          isLooping={this.state.activeSlide === 'loop'}
           activeSlide={this.visibleSlide}
           topWord={this.getTopWord()}
         />
