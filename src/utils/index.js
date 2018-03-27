@@ -122,7 +122,7 @@ export function genTopWords(transcripts) {
   const freqs = _.map(keywords, kw =>
     _.reduce(words, (freq, w) => (w === kw ? freq + 1 : freq), 0)
   );
-  let topWords = _.reverse(
+  const topWords = _.reverse(
     _.slice(
       _.map(
         _.sortBy(
@@ -134,8 +134,12 @@ export function genTopWords(transcripts) {
         ),
         wf => wf.word
       ),
-      -5
+      -10
     )
   );
   return topWords;
 }
+
+// export function genTopWordsFullTranscript(fullTranscript) {
+//   const words = _.words(fullTranscript, /[^,. ]+/g);
+//   const keywords = KeywordExtractor.extract(fullTranscript, {

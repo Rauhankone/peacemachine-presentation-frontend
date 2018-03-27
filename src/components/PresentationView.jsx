@@ -150,18 +150,17 @@ export default class PresentationView extends React.Component {
           mess
         };
       });
-      this.updateTopWords();
     });
   }
 
   updateTopWords() {
-    this.setState((prevState, props) => ({
+    this.setState(prevState => ({
       topWords: genTopWords(this.state.mess)
     }));
   }
 
   getTopWord() {
-    let topWordRegex = /topword ([0-9]{1})/;
+    let topWordRegex = /topword (\d+)/;
     let parts = topWordRegex.exec(this.visibleSlide);
     if (!!parts) {
       let index = parseInt(parts[1]) - 1;

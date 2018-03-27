@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { slugify, capitalize } from '../utils';
+import {
+  slugify,
+  capitalize,
+  genTopWords,
+  genTopWordsFullTranscript
+} from '../utils';
 
 import axios from '../services/axios';
 import socketService from '../services/socket-service';
@@ -24,6 +29,7 @@ export default class DirectorView extends React.Component {
     activeSlide: null,
     appointedChannels: [],
     maxCandidateChannels: 3,
+    topWords: [],
     markdownDoc: ''
   };
 
@@ -71,6 +77,9 @@ export default class DirectorView extends React.Component {
           appointedChannels
         };
       });
+      this.setState(prevState => ({
+        topWords: genTopWords(data.mess)
+      }));
     });
 
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {
@@ -98,6 +107,13 @@ export default class DirectorView extends React.Component {
           channels: [...prevState.channels]
         };
       });
+    });
+
+    socketService.subscribeToEvent('channelUpdated', data => {
+      console.log('channelUpdated', data);
+      this.setState(prevState => ({
+        topWords: genTopWordsFullTranscript(data.fullTranscript)
+      }));
     });
   };
 
