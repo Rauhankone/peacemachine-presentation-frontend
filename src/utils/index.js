@@ -139,7 +139,3 @@ export function genTopWords(transcripts) {
   );
   return topWords;
 }
-
-// export function genTopWordsFullTranscript(fullTranscript) {
-//   const words = _.words(fullTranscript, /[^,. ]+/g);
-//   const keywords = KeywordExtractor.extract(fullTranscript, {

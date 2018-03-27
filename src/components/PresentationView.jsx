@@ -85,6 +85,7 @@ export default class PresentationView extends React.Component {
 
   presentationSocketSetup() {
     socketService.subscribeToEvent('channelUpdated', data => {
+      //console.log('channelUpdated', data);
       this.setState(prevState => {
         const id = prevState.channels.findIndex(ch => ch.id === data.id);
         if (prevState.channels[id]) prevState.channels[id] = data;
@@ -101,7 +102,6 @@ export default class PresentationView extends React.Component {
           ]
         };
       });
-      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('slideUpdated', data => {
@@ -139,7 +139,6 @@ export default class PresentationView extends React.Component {
         loopSlideIndex: 0,
         mess: data.mess
       });
-      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('messFinalized', data => {
@@ -150,6 +149,7 @@ export default class PresentationView extends React.Component {
           mess
         };
       });
+      this.updateTopWords();
     });
   }
 

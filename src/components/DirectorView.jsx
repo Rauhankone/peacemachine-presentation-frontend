@@ -3,8 +3,8 @@ import React from 'react';
 import {
   slugify,
   capitalize,
-  genTopWords,
-  genTopWordsFullTranscript
+  genTopWords
+  // genTopWordsFullTranscript
 } from '../utils';
 
 import axios from '../services/axios';
@@ -12,6 +12,7 @@ import socketService from '../services/socket-service';
 import DocumentPanel from './DocumentPanel';
 import '../styles/DirectorView.css';
 import Icon from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
@@ -42,6 +43,12 @@ export default class DirectorView extends React.Component {
       console.error(error);
     }
   };
+
+  updateTopWords() {
+    this.setState(prevState => ({
+      topWords: genTopWords(this.state.mess)
+    }));
+  }
 
   directorSocket = () => {
     socketService.subscribeToEvent('channelInitialized', data => {
@@ -77,9 +84,17 @@ export default class DirectorView extends React.Component {
           appointedChannels
         };
       });
-      this.setState(prevState => ({
-        topWords: genTopWords(data.mess)
-      }));
+    });
+
+    socketService.subscribeToEvent('messFinalized', data => {
+      const { mess } = data;
+      this.setState((prevState, props) => {
+        return {
+          ...prevState,
+          mess
+        };
+      });
+      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {
@@ -107,13 +122,6 @@ export default class DirectorView extends React.Component {
           channels: [...prevState.channels]
         };
       });
-    });
-
-    socketService.subscribeToEvent('channelUpdated', data => {
-      console.log('channelUpdated', data);
-      this.setState(prevState => ({
-        topWords: genTopWordsFullTranscript(data.fullTranscript)
-      }));
     });
   };
 
@@ -256,6 +264,18 @@ export default class DirectorView extends React.Component {
             </ul>
             <div className="grid-sub-item markdown-container">
               <DocumentPanel input={this.state.markdownDoc} />
+            </div>
+            <div className="top-words">
+              <h2>Top words</h2>
+              {this.state.topWords.length <= 0 ? (
+                <p>Press Finalize Tones for top words!</p>
+              ) : (
+                <ol>
+                  {_.map(this.state.topWords, (tw, id) => (
+                    <li key={id}>{tw}</li>
+                  ))}
+                </ol>
+              )}
             </div>
           </div>
         </div>
