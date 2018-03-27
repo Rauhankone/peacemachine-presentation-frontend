@@ -211,7 +211,32 @@ export default class DirectorView extends React.Component {
                       onChange={this.handleSlideClick(slide.name)}
                     />
                     <i />
-                    <span className="stage-name">{capitalize(slide.name)}</span>
+                    {(() => {
+                      let topWordRegex = /^topword (\d+)$/;
+                      let parts = topWordRegex.exec(slide.name);
+                      let topWordIndex = parseInt(parts ? parts[1] : -1) - 1;
+                      if (
+                        !topWordRegex.test(slide.name) ||
+                        this.state.topWords.length <= topWordIndex
+                      ) {
+                        return (
+                          <span className="stage-name">
+                            {capitalize(slide.name)}
+                          </span>
+                        );
+                      }
+                      return (
+                        <div>
+                          <span className="stage-name">
+                            {capitalize(slide.name)}
+                          </span>
+                          <br />
+                          <span className="top-word-slide-name">
+                            {capitalize(this.state.topWords[topWordIndex])}
+                          </span>
+                        </div>
+                      );
+                    })()}
                   </label>
                 </li>
               ))}
@@ -264,18 +289,6 @@ export default class DirectorView extends React.Component {
             </ul>
             <div className="grid-sub-item markdown-container">
               <DocumentPanel input={this.state.markdownDoc} />
-            </div>
-            <div className="top-words">
-              <h2>Top words</h2>
-              {this.state.topWords.length <= 0 ? (
-                <p>Press Finalize Tones for top words!</p>
-              ) : (
-                <ol>
-                  {_.map(this.state.topWords, (tw, id) => (
-                    <li key={id}>{tw}</li>
-                  ))}
-                </ol>
-              )}
             </div>
           </div>
         </div>
