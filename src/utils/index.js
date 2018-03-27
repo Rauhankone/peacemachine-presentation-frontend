@@ -107,9 +107,11 @@ export const stringifyToneScore = score => {
 };
 
 export function genTopWords(transcripts) {
-  let fullText = _.lowerCase(
-    _.join(_.map(transcripts, x => x.transcript), ' ')
+  const sentenceTranscripts = _.map(
+    transcripts,
+    sentence => sentence.transcript
   );
+  const fullText = _.join(sentenceTranscripts, ' ').toLowerCase();
   const words = _.words(fullText, /[^,. ]+/g);
   const keywords = KeywordExtractor.extract(fullText, {
     language: 'english',

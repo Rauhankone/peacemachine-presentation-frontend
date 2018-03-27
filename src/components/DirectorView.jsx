@@ -2,7 +2,9 @@ import React from 'react';
 
 import { slugify, capitalize } from '../utils';
 
+import axios from '../services/axios';
 import socketService from '../services/socket-service';
+import DocumentPanel from './DocumentPanel';
 import '../styles/DirectorView.css';
 import Icon from '@fortawesome/react-fontawesome';
 
@@ -12,6 +14,8 @@ export default class DirectorView extends React.Component {
     socketService.initSocket('director');
 
     this.directorSocket();
+
+    this.getUserDocumentation();
   }
 
   state = {
@@ -19,7 +23,18 @@ export default class DirectorView extends React.Component {
     slides: [],
     activeSlide: null,
     appointedChannels: [],
-    maxCandidateChannels: 3
+    maxCandidateChannels: 3,
+    markdownDoc: ''
+  };
+
+  getUserDocumentation = async () => {
+    try {
+      const { data } = await axios.get('/doc');
+
+      this.setState({ markdownDoc: data });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   directorSocket = () => {
@@ -104,16 +119,30 @@ export default class DirectorView extends React.Component {
     socketService.emitEvent('changeSlide', { slideName: slide });
   };
 
-  handleChannelClick = channel => event => {
-    console.log(this.state.appointedChannels);
+  handleChannelClick = channelId => event => {
     socketService.emitEvent('channelCandidacyChanged', {
-      id: channel,
-      candidate: !this.state.appointedChannels.includes(channel)
+      id: channelId,
+      candidate: !this.state.appointedChannels.includes(channelId)
     });
   };
 
   handleFinalizeTonesClick = () => {
     socketService.emitEvent('finalizeMess');
+  };
+
+  getChannelHighlight = channel => {
+    const appointed = this.state.appointedChannels.includes(channel.id);
+    const analyzed = channel.recording === 'analyzed';
+
+    return {
+      highlight: {
+        backgroundColor: appointed ? 'rgba(59, 153, 252, 0.15)' : null
+      },
+      label: {
+        color: analyzed ? 'white' : appointed ? 'rgba(59, 153, 252, 1)' : null,
+        backgroundColor: analyzed ? 'rgba(59, 153, 252, 1)' : 'initial'
+      }
+    };
   };
 
   get someChannelAnalyzed() {
@@ -170,13 +199,8 @@ export default class DirectorView extends React.Component {
                 <li
                   key={channel.id}
                   style={{
-                    background: this.state.appointedChannels.includes(
-                      channel.id
-                    )
-                      ? channel.recording === 'finished'
-                        ? 'rgba(59, 153, 252, .15)'
-                        : 'rgba(87, 170, 84, .15)'
-                      : null
+                    background: this.getChannelHighlight(channel).highlight
+                      .backgroundColor
                   }}
                 >
                   <div className="channel-control">
@@ -192,13 +216,9 @@ export default class DirectorView extends React.Component {
                     <span
                       className="channel-recording-state"
                       style={{
-                        color: channel.recording
-                          ? channel.recording === 'finished'
-                            ? '#3B99FC'
-                            : channel.recording === 'analyzed'
-                              ? '#3B99FC'
-                              : '#dadada'
-                          : '#dadada'
+                        color: this.getChannelHighlight(channel).label.color,
+                        background: this.getChannelHighlight(channel).label
+                          .backgroundColor
                       }}
                     >
                       {channel.recording ? channel.recording : 'idle'}
@@ -218,7 +238,9 @@ export default class DirectorView extends React.Component {
                 </div>
               </div>
             </ul>
-            <div className="grid-sub-item zoom-tool" />
+            <div className="grid-sub-item markdown-container">
+              <DocumentPanel input={this.state.markdownDoc} />
+            </div>
           </div>
         </div>
       </div>

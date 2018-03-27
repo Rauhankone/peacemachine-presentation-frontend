@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import Color from 'color';
 import { tonesToColor, extractEmotionTones } from './SentimentView';
 
 export default class SentenceSpan extends React.Component {
@@ -19,7 +20,7 @@ export default class SentenceSpan extends React.Component {
     this.setState((prevState, props) => ({
       ...this.constructor.initialState
     }));
-  }
+  };
 
   componentDidMount() {
     this.accumulateLetters();
@@ -49,6 +50,11 @@ export default class SentenceSpan extends React.Component {
     return !!data.tones
       ? tonesToColor(extractEmotionTones(data))
       : 'rgb(100,100,100)';
+  }
+
+  getTextColor(backgroundColor) {
+    const isBright = Color(backgroundColor).luminosity() >= 0.5;
+    return isBright ? '#853875' : '#EEFFFF';
   }
 
   getOpacity() {
@@ -86,6 +92,11 @@ export default class SentenceSpan extends React.Component {
           className={`sentence-span ${
             this.state.finished ? 'sentence-finished' : null
           }`}
+          style={{
+            color: this.props.showIntensity
+              ? this.getTextColor(this.getBackgroundColor(this.props.data))
+              : '#EEFFFF'
+          }}
         >
           {this.props.data.transcript.substring(0, this.state.letterIndex)}
         </span>

@@ -15,6 +15,8 @@ export default class RecordingButton extends React.Component {
       case 'finished':
       case 'analyzed':
         return 'All Done!';
+      case 'waiting':
+        return 'Waiting for Director';
       default:
         return 'Waiting for Director';
     }
