@@ -1,0 +1,35 @@
+.title-view-container {
+  background-color: rgba(19, 13, 34, 0.9);
+  width: 100%;
+  height: 100%;
+}
+
+.header-url-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  animation: titleEnterZoom 3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.title-view-header {
+  font-size: 7rem;
+  color: white;
+}
+
+.title-view-url {
+  font-size: 5rem;
+  color: rgba(255, 200, 200, 0.8);
+}
+
+@keyframes titleEnterZoom {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
