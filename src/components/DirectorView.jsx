@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  slugify,
-  capitalize,
-  genTopWords
-  // genTopWordsFullTranscript
-} from '../utils';
+import { slugify, capitalize, genTopWords } from '../utils';
 
 import axios from '../services/axios';
 import socketService from '../services/socket-service';
@@ -231,8 +226,11 @@ export default class DirectorView extends React.Component {
                             {capitalize(slide.name)}
                           </span>
                           <br />
-                          <span className="top-word-slide-name">
-                            {capitalize(this.state.topWords[topWordIndex])}
+                          <span className="top-word-slide-word">
+                            {capitalize(this.state.topWords[topWordIndex].word)}
+                          </span>{' '}
+                          <span className="top-word-slide-freq">
+                            ({this.state.topWords[topWordIndex].freq})
                           </span>
                         </div>
                       );

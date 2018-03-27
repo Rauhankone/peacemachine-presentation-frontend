@@ -124,15 +124,12 @@ export function genTopWords(transcripts) {
   );
   const topWords = _.reverse(
     _.slice(
-      _.map(
-        _.sortBy(
-          _.map(keywords, (w, i) => ({
-            word: w,
-            freq: freqs[i]
-          })),
-          'freq'
-        ),
-        wf => wf.word
+      _.sortBy(
+        _.map(keywords, (w, i) => ({
+          word: w,
+          freq: freqs[i]
+        })),
+        'freq'
       ),
       -10
     )

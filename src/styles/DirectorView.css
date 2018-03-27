@@ -129,8 +129,13 @@
   width: 1rem;
 }
 
-.control-radio span.top-word-slide-name {
+.control-radio span.top-word-slide-word {
     color: black;
+}
+
+.control-radio span.top-word-slide-freq {
+    margin-left: 0;
+    color: grey;
 }
 
 .control-radio input:checked~i {

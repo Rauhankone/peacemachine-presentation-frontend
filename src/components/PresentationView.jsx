@@ -170,7 +170,7 @@ export default class PresentationView extends React.Component {
     if (!!parts) {
       let index = parseInt(parts[1], 10) - 1;
       if (this.state.topWords.length > index) {
-        return this.state.topWords[index];
+        return this.state.topWords[index].word;
       }
     }
     return '';
@@ -187,7 +187,7 @@ export default class PresentationView extends React.Component {
         {},
         ..._.map(this.state.topWords, (word, index) => ({
           [`topword ${index + 1}`]: (
-            <TopWord word={this.state.topWords[index]} />
+            <TopWord word={this.state.topWords[index].word} />
           )
         }))
       )
