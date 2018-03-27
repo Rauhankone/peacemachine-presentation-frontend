@@ -2,6 +2,7 @@ import React from 'react';
 
 import ActiveSlideHeader from './PresentationView/ActiveSlideHeader';
 
+import TitleView from './PresentationView/TitleView';
 import LiveTextView from './PresentationView/LiveTextView';
 import WordCloudView from './PresentationView/WordCloudView';
 import SentimentView from './PresentationView/SentimentView';
@@ -17,6 +18,7 @@ import '../styles/Overlay.css';
 
 export default class PresentationView extends React.Component {
   static loopSlides = [
+    'title',
     'live text',
     'confidence',
     'intensity',
@@ -181,6 +183,7 @@ export default class PresentationView extends React.Component {
       intensity: (
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
+      'title': <TitleView />,
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />,
       ...Object.assign(
