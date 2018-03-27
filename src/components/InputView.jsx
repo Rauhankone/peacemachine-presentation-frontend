@@ -86,7 +86,7 @@ export default class InputView extends React.Component {
   };
 
   handleRecClick = () => {
-    let stream;
+    //let stream;
     let recState = [null, 'recording', 'finished'];
 
     switch (this.state.recording) {
@@ -141,7 +141,7 @@ export default class InputView extends React.Component {
 
   handleSentenceMouseHover = e => {
     console.log(e);
-    let i = Number.parseInt(e.target.getAttribute('index'));
+    let i = Number.parseInt(e.target.getAttribute('index'), 10);
     this.toggleSentenceHoverState(i);
   };
 

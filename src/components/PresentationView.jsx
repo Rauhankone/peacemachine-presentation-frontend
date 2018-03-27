@@ -168,7 +168,7 @@ export default class PresentationView extends React.Component {
     let topWordRegex = /^topword (\d+)$/;
     let parts = topWordRegex.exec(this.visibleSlide);
     if (!!parts) {
-      let index = parseInt(parts[1]) - 1;
+      let index = parseInt(parts[1], 10) - 1;
       if (this.state.topWords.length > index) {
         return this.state.topWords[index];
       }

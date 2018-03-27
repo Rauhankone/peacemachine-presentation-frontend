@@ -12,7 +12,6 @@ import socketService from '../services/socket-service';
 import DocumentPanel from './DocumentPanel';
 import '../styles/DirectorView.css';
 import Icon from '@fortawesome/react-fontawesome';
-import _ from 'lodash';
 
 export default class DirectorView extends React.Component {
   constructor(props) {
@@ -214,7 +213,8 @@ export default class DirectorView extends React.Component {
                     {(() => {
                       let topWordRegex = /^topword (\d+)$/;
                       let parts = topWordRegex.exec(slide.name);
-                      let topWordIndex = parseInt(parts ? parts[1] : -1) - 1;
+                      let topWordIndex =
+                        parseInt(parts ? parts[1] : -1, 10) - 1;
                       if (
                         !topWordRegex.test(slide.name) ||
                         this.state.topWords.length <= topWordIndex

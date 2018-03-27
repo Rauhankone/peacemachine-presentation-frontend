@@ -3,7 +3,6 @@ import SentenceSpan from './SentenceSpan';
 import '../../styles/LiveTextView.css';
 
 class LiveTextView extends React.Component {
-
   static DEFAULT_FONT_SIZE_PIXELS = 1000;
 
   static initialState = {
@@ -19,7 +18,7 @@ class LiveTextView extends React.Component {
     this.setState((prevState, props) => ({
       ...this.constructor.initialState
     }));
-  }
+  };
 
   incrementFontDivisor = () => {
     if (this.isTextOverflowing()) {
@@ -42,8 +41,8 @@ class LiveTextView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.mess.length === 0
-      || nextProps.activeSlide === 'intensity' && !nextProps.isLooping
+      nextProps.mess.length === 0 ||
+      (nextProps.activeSlide === 'intensity' && !nextProps.isLooping)
     ) {
       this.resetState();
     }
@@ -51,9 +50,8 @@ class LiveTextView extends React.Component {
 
   render() {
     const { fontDivisor, sentenceIndex } = this.state;
-    const fontSizePixels = (
-      this.constructor.DEFAULT_FONT_SIZE_PIXELS / fontDivisor
-    );
+    const fontSizePixels =
+      this.constructor.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
     return (
       <section className="live-text-view">
         <div
@@ -71,9 +69,16 @@ class LiveTextView extends React.Component {
                 data={channel}
                 onLetterIndexIncrement={this.incrementFontDivisor}
                 onSentenceFinish={this.incrementSentenceIndex}
-                runAccumulation={this.props.activeSlide === 'intensity' && index === 0 && sentenceIndex === 1}
-                showConfidence={this.props.activeSlide === 'confidence' }
-                showIntensity={this.props.activeSlide === 'intensity' || this.props.activeSlide.includes('topword')}
+                runAccumulation={
+                  this.props.activeSlide === 'intensity' &&
+                  index === 0 &&
+                  sentenceIndex === 1
+                }
+                showConfidence={this.props.activeSlide === 'confidence'}
+                showIntensity={
+                  this.props.activeSlide === 'intensity' ||
+                  this.props.activeSlide.includes('topword')
+                }
                 searchTopWord={this.props.activeSlide.includes('topword')}
                 topWord={this.props.topWord}
               />
