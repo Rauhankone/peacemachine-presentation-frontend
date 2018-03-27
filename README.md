@@ -9,9 +9,8 @@ This application handles all frontend functionality of the Peace Machine Presena
 1. Set up the backend.
 2. Make a copy of `.env.example` with name: `.env`.
 3. Fill in the host and port to it.
-4. Configure Font Awesome Pro license.
-5. Run `npm install` or `yarn`.
-6. Run `npm start` or `yarn start`.
+4. Run `npm install` or `yarn`.
+5. Run `npm start` or `yarn start`.
 
 # Create-react-app stuff --- TO BE REMOVED
 

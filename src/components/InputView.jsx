@@ -191,7 +191,7 @@ export default class InputView extends React.Component {
         <div className="input-view-content">
           <div className="voice-controls">
             <FontAwesomeIcon
-              icon={['far', 'microphone']}
+              icon={['far', 'user']}
               className="rec-icon"
               size="lg"
               style={{

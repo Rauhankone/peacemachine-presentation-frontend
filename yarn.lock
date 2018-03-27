@@ -6,9 +6,9 @@
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.3.tgz#8475e0f2d1ad1f858c4ec2e76ed9a2456a09ad83"
 
-"@fortawesome/fontawesome-pro-regular@^5.0.7":
-  version "5.0.7"
-  resolved "https://npm.fontawesome.com/0DAC73E4-4E44-4928-B8CC-A207E87953BE/@fortawesome/fontawesome-pro-regular/-/fontawesome-pro-regular-5.0.7.tgz#c8918ca542644a26cf035e196b07c097abbc20e7"
+"@fortawesome/fontawesome-free-regular@^5.0.8":
+  version "5.0.8"
+  resolved "https://npm.fontawesome.com/0DAC73E4-4E44-4928-B8CC-A207E87953BE/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.8.tgz#feaa96ee230e7f0d685ede3ae512aa6a1dca2480"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.1.3"
 
