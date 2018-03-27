@@ -13,7 +13,6 @@
   justify-self: stretch;
 }
 
-
 /* Header */
 
 .grid-header {
@@ -26,7 +25,6 @@
 .grid-header h1 {
   margin-top: 45px;
 }
-
 
 /* Left-hand side panel and subgrid */
 
@@ -41,7 +39,6 @@
   grid-template-rows: 1fr 3fr;
   grid-gap: 0rem;
 }
-
 
 /* Left hans side buttons */
 
@@ -104,6 +101,10 @@
   margin-left: 1.5rem;
 }
 
+.select-child .control-radio span.stage-name {
+  font-weight: bold;
+}
+
 .control-radio input {
   position: absolute;
   opacity: 0;
@@ -130,15 +131,15 @@
 }
 
 .control-radio span.top-word-slide-word {
-    color: black;
+  color: black;
 }
 
 .control-radio span.top-word-slide-freq {
-    margin-left: 0;
-    color: grey;
+  margin-left: 0;
+  color: grey;
 }
 
-.control-radio input:checked~i {
+.control-radio input:checked ~ i {
   animation: checked 0.2s cubic-bezier(0, 0, 0.57, 1.72) forwards;
   box-shadow: inset 0 0 0 1.5rem #414288;
 }
@@ -182,12 +183,12 @@
   left: 0.35em;
 }
 
-.control-radio input:checked~i:after {
+.control-radio input:checked ~ i:after {
   animation: checkedIcon 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
   display: block;
 }
 
-.select-child .control-radio input:checked~i:after {
+.select-child .control-radio input:checked ~ i:after {
   animation: checkedIconChild 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
   display: block;
 }
@@ -222,7 +223,6 @@
   background: #ccd;
   cursor: pointer;
 }
-
 
 /* Stage view */
 
@@ -264,7 +264,6 @@
   margin: 1.5rem 0;
 }
 
-
 /* Right-hand side of the grid */
 
 .grid-rightSide {
@@ -278,7 +277,6 @@
   grid-template-rows: 2fr 5fr;
   grid-gap: 1rem;
 }
-
 
 /* List of connected clients on the right */
 

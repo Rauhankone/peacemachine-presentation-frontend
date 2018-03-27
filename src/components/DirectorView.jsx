@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { slugify, capitalize, genTopWords } from '../utils';
+import { slugify, capitalize } from '../utils';
 
 import axios from '../services/axios';
 import socketService from '../services/socket-service';
@@ -38,12 +38,6 @@ export default class DirectorView extends React.Component {
     }
   };
 
-  updateTopWords() {
-    this.setState(prevState => ({
-      topWords: genTopWords(this.state.mess)
-    }));
-  }
-
   directorSocket = () => {
     socketService.subscribeToEvent('channelInitialized', data => {
       this.setState(prevState => ({
@@ -75,20 +69,21 @@ export default class DirectorView extends React.Component {
           slides: data.slides.allSlides,
           activeSlide: data.slides.activeSlide,
           channels: data.channels,
+          topWords: data.topWords,
           appointedChannels
         };
       });
     });
 
-    socketService.subscribeToEvent('messFinalized', data => {
-      const { mess } = data;
+    socketService.subscribeToEvent('messFinalized', ({ mess, topWords }) => {
+      console.log(topWords)
       this.setState((prevState, props) => {
         return {
           ...prevState,
-          mess
+          mess,
+          topWords
         };
       });
-      this.updateTopWords();
     });
 
     socketService.subscribeToEvent('channelCandidacyUpdated', data => {

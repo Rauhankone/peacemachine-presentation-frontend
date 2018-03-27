@@ -64,7 +64,6 @@ export default class SentenceSpan extends React.Component {
         ? bgColor.lighten(_.clamp(luminosity, 0.2, 0.4))
         : bgColor.lighten(_.clamp(luminosity, 0.4, 1));
     }
-    // return isBright ? '#853875' : '#EEFFFF';
   }
 
   getOpacity() {
