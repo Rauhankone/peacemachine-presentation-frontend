@@ -29,12 +29,12 @@ body {
 }
 
 .live-text-view {
-  padding: 0;
+  padding: 3rem;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
-  background-color: rgb(19,13,34);
+  background-color: rgb(19, 13, 34);
 }
 
 .live-text-view .live-text-col {
@@ -50,14 +50,12 @@ body {
 }
 
 .sentence-span-wrapper {
-
 }
 
 .sentence-span {
   color: #eeffff;
-  line-height: 1.2;
+  line-height: 1.01;
   animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) forwards;
-  filter: blur(0);
 }
 
 @keyframes sentenceEnter {
