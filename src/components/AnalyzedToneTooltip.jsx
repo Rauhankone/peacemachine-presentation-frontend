@@ -33,6 +33,9 @@ export default class AnalyzedToneTooltip extends React.Component {
   };
 
   render() {
+    if (this.props.analyzeObj.tone_categories.length < 1) {
+      return null;
+    }
     let tone_categories = this.props.analyzeObj.tone_categories;
     let styleObj = {
       position: 'absolute',

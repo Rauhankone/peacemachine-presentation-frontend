@@ -85,7 +85,8 @@ export const generateFakeChannelData = numOfData =>
           'The {{ nouns }} create {{ an_adjective }} {{ noun }}. ',
           'We must use {{ adjective }} {{ nouns }}. ',
           'Turn off that {{ adjective }} racket right now. ',
-          "We can't idle while the {{ nouns }} are attacking the {{ nouns }}. "
+          "We can't idle while the {{ nouns }} are attacking the {{ nouns }}. ",
+          "****. "
         ])
       ),
       confidence: Math.random()

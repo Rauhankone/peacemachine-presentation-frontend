@@ -47,7 +47,7 @@ export default class SentenceSpan extends React.Component {
   };
 
   getBackgroundColor(data) {
-    return !!data.tones
+    return !!data.tones && data.tones.tone_categories.length > 0
       ? tonesToColor(extractEmotionTones(data))
       : 'rgb(100,100,100)';
   }
