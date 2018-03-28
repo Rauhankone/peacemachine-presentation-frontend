@@ -53,7 +53,7 @@ class LiveTextView extends React.Component {
     const fontSizePixels =
       this.constructor.DEFAULT_FONT_SIZE_PIXELS / fontDivisor;
     return (
-      <section className="live-text-view">
+      <section className={`live-text-view`}>
         <div
           className="sentences-container"
           style={{ fontSize: `${fontSizePixels}px` }}

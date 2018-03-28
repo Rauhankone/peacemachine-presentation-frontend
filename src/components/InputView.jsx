@@ -98,7 +98,9 @@ export default class InputView extends React.Component {
           this.changeRecordingState(recState[1]);
 
           stream.on('data', data => {
-            this.handleStreamInput(outputFinal(data));
+            if (this.state.recording === 'recording') {
+              this.handleStreamInput(outputFinal(data));
+            }
           });
         });
         break;

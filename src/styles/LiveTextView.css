@@ -55,7 +55,6 @@ body {
   color: #eeffff;
   line-height: 1.01;
   animation: sentenceEnter 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22) forwards;
-  overflow: hidden;
   position: relative;
 }
 
