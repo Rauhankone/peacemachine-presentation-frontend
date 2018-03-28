@@ -144,7 +144,8 @@ export default class PresentationView extends React.Component {
         channels: appointedChannels,
         activeSlide: data.slides.activeSlide,
         loopSlideIndex: 0,
-        mess: data.mess
+        mess: data.mess,
+        topWords: data.topWords
       });
     });
 
@@ -183,7 +184,7 @@ export default class PresentationView extends React.Component {
       intensity: (
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
-      'title': <TitleView />,
+      title: <TitleView />,
       'word cloud': <WordCloudView />,
       'zoom tool': <WordZoom />,
       ...Object.assign(
