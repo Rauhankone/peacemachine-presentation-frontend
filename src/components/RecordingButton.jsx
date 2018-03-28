@@ -44,7 +44,7 @@ export default class RecordingButton extends React.Component {
           {this.recordingStateContext(recordingState) ? (
             this.recordingStateContext(recordingState)
           ) : (
-            <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
+            <FontAwesomeIcon icon={['far', 'hourglass']} spin />
           )}
         </span>
       </button>
