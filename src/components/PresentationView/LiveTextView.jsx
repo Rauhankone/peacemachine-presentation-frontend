@@ -41,8 +41,11 @@ class LiveTextView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.mess.length === 0 ||
-      (nextProps.activeSlide === 'intensity' && !nextProps.isLooping)
+      nextProps.mess.length === 0 || (
+        this.props.activeSlide !== nextProps.activeSlide &&
+        nextProps.activeSlide === 'intensity' &&
+        !nextProps.isLooping
+      )
     ) {
       this.resetState();
     }
