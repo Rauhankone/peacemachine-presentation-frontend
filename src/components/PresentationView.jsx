@@ -4,10 +4,8 @@ import ActiveSlideHeader from './PresentationView/ActiveSlideHeader';
 
 import TitleView from './PresentationView/TitleView';
 import LiveTextView from './PresentationView/LiveTextView';
-import WordCloudView from './PresentationView/WordCloudView';
 import SentimentView from './PresentationView/SentimentView';
 
-import WordZoom from './PresentationView/Overlay/WordZoom';
 import TopWord from './PresentationView/Overlay/TopWord';
 
 import _ from 'lodash';
@@ -150,21 +148,15 @@ export default class PresentationView extends React.Component {
     });
 
     socketService.subscribeToEvent('messFinalized', data => {
-      const { mess } = data;
+      const { mess, topWords } = data;
       this.setState((prevState, props) => {
         return {
           ...prevState,
-          mess
+          mess,
+          topWords
         };
       });
-      this.updateTopWords();
     });
-  }
-
-  updateTopWords() {
-    this.setState(prevState => ({
-      topWords: genTopWords(this.state.mess)
-    }));
   }
 
   getTopWord() {
@@ -185,8 +177,6 @@ export default class PresentationView extends React.Component {
         <SentimentView title="Sentiment View" data={this.state.mess} />
       ),
       title: <TitleView />,
-      'word cloud': <WordCloudView />,
-      'zoom tool': <WordZoom />,
       ...Object.assign(
         {},
         ..._.map(this.state.topWords, (word, index) => ({
