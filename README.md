@@ -6,10 +6,10 @@
 
 <https://github.com/Rauhankone/peacemachine-presentation-backend/>
 
-This application handles all frontend functionality of the Peace Machine
-Presentation.
+This project handles frontend functionality of the Peace Machine
+presentation.
 
-It is dependent of peacemachine-prensentation-backend.
+It depends on the peacemachine-presentation-backend backend.
 
 ## Setup
 
