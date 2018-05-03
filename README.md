@@ -18,3 +18,13 @@ It depends on the peacemachine-presentation-backend backend.
 3. Fill in the host and port to it.
 4. Run `npm install` or `yarn`.
 5. Run `npm start` or `yarn start`.
+
+## Contributors
+
+Contributors are listed in the CONTRIBUTORS.md file.
+
+Made by Digitalents with help from Futurice.
+
+<http://digitalents.munstadi.fi/en/>
+
+<https://futurice.com/>
