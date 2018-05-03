@@ -25,3 +25,6 @@ yarn-error.log*
 
 .env
 tocopy.ts
+
+# Ignore package-lock.json, favor yarn.lock
+package-lock.json
