@@ -225,7 +225,7 @@ export default class InputView extends React.Component {
                   : true
               }
               onClick={this.genFakeChannelDataStream}
-              style={{ marginLeft: '0.5rem', padding: '.3rem 1rem' }}
+              style={{ display: 'none', marginLeft: '0.5rem', padding: '.3rem 1rem' }}
             >
               fake
             </button>
